@@ -45,9 +45,9 @@ const PostAReview = ({isModalOpen,handleClose}) => {
   <h2 className='text-lg  font-medium mb-4'>Post A Review</h2>
   <div className='flex items-center mb-4'>
 {
-    [1, 2, 3, 4, 5].map((star)=>(
+    [1, 2, 3, 4, 5].map((star,index)=>(
         <span 
-        // key={star}
+        key={index}
         onClick={()=>handleRating(star)}
         className='cursor-pointer text-yellow-500 text-xl'>
      {

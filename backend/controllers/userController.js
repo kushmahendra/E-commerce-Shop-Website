@@ -40,6 +40,7 @@ const handleLogin=async(req,res)=>
          {
              return res.status(401).send({ message: 'Invalid password' }); 
          }
+         
 
          const token=await generateToken(user._id)
          console.log('token',token)

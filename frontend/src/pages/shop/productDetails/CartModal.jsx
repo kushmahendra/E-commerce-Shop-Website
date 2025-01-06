@@ -34,6 +34,7 @@ const CartModal = ({products,isOpen,onClose}) => {
 </button>
    </div>
    {/* cart details */}
+
       <div className='cart-items'>
         {products.length === 0 ? (<div>Your cart is empty</div>):(
           

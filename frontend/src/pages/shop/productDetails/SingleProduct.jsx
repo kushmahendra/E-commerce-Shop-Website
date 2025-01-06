@@ -8,17 +8,16 @@ import ReviewsCard from '../reviews/ReviewsCard';
 
 const SingleProduct = () => {
     const {id}=useParams();
-    console.log('id22',id);
     const dispatch =useDispatch();
     const { data, error, isLoading } = useFetchProductByIdQuery(id);
-    console.log('first',data)
 
     const singleProduct =data?.product || {};
     const productReviews =data?.reviews || [];
 
 const  handleAddToCart=(product)=>
 {
-  dispatch(addToCart(product));
+  console.log('my pr',product)
+  dispatch(addToCart(product.singleProduct));
 }
   
   return (

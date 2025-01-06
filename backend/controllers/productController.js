@@ -2,36 +2,107 @@ import express from 'express'
 import Product from '../models/productModel.js';
 import Reviews from '../models/reviewsModel.js';
 
+//create products
+
 const handleProduct = async (req, res) => {
+//     try {
+//         // Create a new product instance using the Product model
+//         console.log('fghh',req.body)
+//         const newProduct = new Product({ 
+//             ...req.body 
+//         });
+
+//         // Save the new product to the database
+//         const savedProduct = await newProduct.save();
+// // const reviews=await Reviews.find({productId: savedProduct._id});
+// // if(reviews.length >0)
+// // {
+// //     const totalRating=reviews.reduce((acc,review)=> acc + review.rating,0); 
+// //     const averageRating=totalRating =reviews.length;
+
+// //     savedProduct.rating = averageRating;
+// //     await savedProduct.save();
+// // }
+//         // Return a success response
+//         res.status(201).json({
+//             success: true,
+//             message: 'Product created successfully',
+//             data: savedProduct,
+//         });
+//     } catch (error) {
+//         console.error('Error while creating product:', error.message);
+//         res.status(500).json({
+//             success: false,
+//             message: 'Failed to create product',
+//             error: error.message,
+//         });
+//     }
+
     try {
-        // Create a new product instance using the Product model
-        const newProduct = new Product({ 
-            ...req.body 
+        // Destructure and validate request body
+        const {
+            name,
+            category,
+            description,
+            price,
+            oldPrice,
+            image,
+            color,
+            rating,
+            author
+        } = req.body;
+
+        // Validate required fields
+        if (!name || !price || !author) {
+            return res.status(400).json({
+                success: false,
+                message: 'Name, price, and author are required fields.'
+            });
+        }
+
+        // Ensure numeric fields are properly cast
+        const parsedPrice = parseFloat(price);
+        const parsedOldPrice = oldPrice ? parseFloat(oldPrice) : undefined;
+        const parsedRating = rating ? parseFloat(rating) : 0;
+
+        // Handle image field appropriately
+        let imageField;
+        if (typeof image === 'string') {
+            imageField = image;
+        } else if (typeof image === 'object') {
+            imageField = image; // Accept objects for mixed type
+        } else {
+            imageField = null; // Default fallback
+        }
+
+        // Create a new product instance
+        const newProduct = new Product({
+            name,
+            category,
+            description,
+            price: parsedPrice,
+            oldPrice: parsedOldPrice,
+            image: imageField,
+            color,
+            rating: parsedRating,
+            author
         });
 
-        // Save the new product to the database
+        // Save the product to the database
         const savedProduct = await newProduct.save();
-const reviews=await Reviews.find({productId: savedProduct._id});
-if(reviews.length >0)
-{
-    const totalRating=reviews.reduce((acc,review)=> acc + review.rating,0); 
-    const averageRating=totalRating =reviews.length;
 
-    savedProduct.rating = averageRating;
-    await savedProduct.save();
-}
-        // Return a success response
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
-            message: 'Product created successfully',
-            data: savedProduct,
+            message: 'Product created successfully.',
+            data: savedProduct
         });
     } catch (error) {
         console.error('Error while creating product:', error.message);
-        res.status(500).json({
+
+        return res.status(500).json({
             success: false,
-            message: 'Failed to create product',
-            error: error.message,
+            message: 'Failed to create product.',
+            error: error.message
         });
     }
 };
@@ -79,6 +150,30 @@ const handleAllProducts=async(req,res)=>
     }
 };
 
+
+//get all products
+const getAllProducts = async (req, res) => {
+    try {
+        // Fetch all products from the database
+        const products = await Product.find();
+
+        return res.status(200).json({
+            success: true,
+            message: 'Products fetched successfully.',
+            data: products,
+        });
+    } catch (error) {
+        console.error('Error while fetching products:', error.message);
+
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to fetch products.',
+            error: error.message,
+        });
+    }
+};
+
+
 //single product
 const handleSingleProduct=async(req,res)=>
 {
@@ -105,6 +200,7 @@ const handleUpdateProduct=async(req,res)=>
     try {
         const productId=req.params.id;
         const upadateProduct= await Product.findByIdAndUpdate(productId,{...req.body},{new:true});
+        console.log('hi',upadateProduct);
         if(! upadateProduct)
         {
         return res.status(404).send({message:'Product not found'})
@@ -165,4 +261,4 @@ const handleRelatedProduct=async(req,res)=>
 }
 
 
-export { handleProduct,handleAllProducts,handleSingleProduct,handleUpdateProduct,handleDeleteProduct,handleRelatedProduct};
+export { handleProduct,handleAllProducts,handleSingleProduct,handleUpdateProduct,handleDeleteProduct,handleRelatedProduct,getAllProducts};

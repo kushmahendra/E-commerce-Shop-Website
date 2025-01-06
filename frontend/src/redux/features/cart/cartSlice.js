@@ -17,6 +17,8 @@ initialState,
 reducers:{
     addToCart:(state,action)=>{
         const isExist=state.products.find((product)=>product.id ===action.payload.id);
+        console.log('payload',action.payload)
+        console.log('state data',state.products)
         if(!isExist)
         {
             state.products.push({...action.payload,quantity:1})
@@ -25,7 +27,7 @@ reducers:{
         else{
             console.log("Items already added")
         }
-
+        console.log('ad',state)
         state.selectedItems= setSelectedItems(state);
         state.totalPrice=setTotalPrice(state);
         state.tax=setTax(state);

@@ -9,7 +9,7 @@ const ReviewsCard = ({productReviews}) => {
 
     const reviews=productReviews || []
 
-    console.log(reviews);
+    // console.log(reviews);
 
     const handleOpenReviewModal=()=>
     {
@@ -20,7 +20,7 @@ const ReviewsCard = ({productReviews}) => {
     {
         setIsModalOpen(false)
     }
-console.log('faf',reviews)
+// console.log('faf',reviews)
   return (
  <>
     <div className='my-6 bg-white p-8'>

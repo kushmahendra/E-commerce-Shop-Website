@@ -4,13 +4,16 @@ import { clearCart } from '../../../redux/features/cart/cartSlice';
 
 const OrderSummary = () => {
     const products=useSelector((store)=> store.cart.products);
-    const {selectedItems, totalPrice, tax, taxRate,grandTotal}=useSelector((store)=> store.cart);
+    console.log('prd',products)
+    const {selectedItems, totalPrice, tax, taxRate, grandTotal}=useSelector((store)=> store.cart);
+    console.log('tp',totalPrice);
     const dispatch=useDispatch()
 
     const handleClearCart= () =>
     {
       dispatch(clearCart())
     }
+    
 
   return (
     <>

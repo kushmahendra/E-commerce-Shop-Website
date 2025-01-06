@@ -6,6 +6,7 @@ import CartModal from '../pages/shop/productDetails/CartModal';
 import avatarImg from '../assets/avatar.png'
 import { useLogoutUserMutation } from '../redux/features/auth/authApi';
 import { logout } from '../redux/features/auth/authSlice';
+import logoImg from '../assets/shopping_logo_converted.jpg'
 
 
 
@@ -13,7 +14,6 @@ import { logout } from '../redux/features/auth/authSlice';
 
 const Navbar = () => {
   const products =useSelector((state)=>state.cart.products);
-  console.log('products',products )
   const [isCartOpen,setIsCartOpen]=useState(false);
   const handleCartToggle=()=>
   {
@@ -34,7 +34,7 @@ const handleDropDownToggle=()=>
 }
 //admin dropdown menus
 const adminDropDownMenus=[
-  {label:'Dashboard',path:'/dashboard/admin'},
+  {label:'Dashboard',path:'/adminDashboard'},
   {label:'Manage Items',path:'/dashboard/manage-products'},
   {label:'All Orders',path:'/dashboard/manage-orders'},
   {label:'Add New Post',path:'/dashboard/add-new-post'},
@@ -42,7 +42,7 @@ const adminDropDownMenus=[
 
 //user dropdown menus
 const userDropDownMenus=[
-  {label:'Dashboard',path:'/dashboard'},
+  {label:'Dashboard',path:'/adminDashboard'},
   {label:'profile',path:'/dashboard/profile'},
   {label:'Payments',path:'/dashboard/payments'},
   {label:'Orders',path:'/dashboard/orders'},
@@ -71,6 +71,7 @@ const handleLogout=async()=>
 </ul>
 <div className='nav__logo'>
    <Link to='/'>Mahendra</Link>
+   {/* <Link to='/' className='ml-12'><img src={logoImg} alt="logo" className='w-1/12 h-1/4 rounded-lg' /></Link> */}
 </div>
 {/* nav icons */}
 

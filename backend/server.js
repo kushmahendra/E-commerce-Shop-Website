@@ -7,6 +7,11 @@ import bodyParser from 'body-parser';
 import authRoute from './routes/userRoute.js';
 import productRoute from './routes/productRoute.js';
 import reviewRoute from './routes/reviewsRoute.js';
+import uploadRoutes from './routes/upload.js';
+import profileRoute from './routes/profileRoute.js';
+import adminRoute from './routes/adminRoute.js';
+import resetPasswordrRouter from './routes/resetPasswordRoute.js';
+
 
 dotenv.config();
 const app=express()
@@ -29,6 +34,11 @@ mongoDbConnect();
 app.use('/api/auth',authRoute)
 app.use('/api/products',productRoute)
 app.use('/api/reviews', reviewRoute)
+// Routes
+app.use('/api/upload', uploadRoutes);
+app.use('/api', profileRoute);
+app.use('/admin',adminRoute)
+app.use('/api',resetPasswordrRouter);
 
 const PORT=process.env.PORT
 
