@@ -14,32 +14,38 @@ import resetPasswordrRouter from './routes/resetPasswordRoute.js';
 
 
 dotenv.config();
-const app=express()
+const app = express()
 
-//middleware setup
-app.use(express.json({limit:'25mb'}))
-app.use(express.urlencoded({limit:'25mb'}))
-app.use(cookieParser())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended:true}))
+app.use(
+    cors({
+        origin:"*",
+        methods:["GET","POST","PUT","DELETE"],
+        credentials:true
+    })
+)
 
-app.use(cors({
-    origin: process.env.CLIENT_URL, // Fixed the typo in the environment variable
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-}));
- 
+
+app.use(express.json())
+
+
+
+
+
 mongoDbConnect();
 
 //All routes
-app.use('/api/auth',authRoute)
-app.use('/api/products',productRoute)
+app.get('/',(req,res)=>{
+    res.json({message:"hello"})
+})
+app.use('/api/auth', authRoute)
+app.use('/api/products', productRoute)
 app.use('/api/reviews', reviewRoute)
 // Routes
 app.use('/api/upload', uploadRoutes);
 app.use('/api', profileRoute);
-app.use('/admin',adminRoute)
-app.use('/api',resetPasswordrRouter);
+app.use('/admin', adminRoute)
+app.use('/api', resetPasswordrRouter);
 
-const PORT=process.env.PORT
+const PORT = process.env.PORT
 
-app.listen(PORT, ()=>{console.log(`Server is running on http://localhost:${PORT}`)})
+app.listen(PORT, () => { console.log(`Server is running on http://localhost:${PORT}`) })

@@ -1,6 +1,7 @@
 import { Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-export default function ProductList({ products, onRemoveProduct }) {
+export default function ProductList({ products, onRemoveProduct,onUpdateProduct }) {
 
   return (
     <div>
@@ -67,7 +68,14 @@ export default function ProductList({ products, onRemoveProduct }) {
 
                 {/* Product Rating*/}
               <div>{product.rating}</div>
-
+{/* 
+              <button
+            //   onClick={() => onUpdateProduct(product._id)}
+            //   className="p-2 text-gray-500 hover:text-red-500 transition-colors"
+            // > */}
+           <Link to='/UpdateProduct' className='text-blue-400 font-bold'>Edit</Link>
+            {/* </button> */}
+            
             {/* Remove Button */}
             <button
               onClick={() => onRemoveProduct(product._id)}
@@ -75,7 +83,7 @@ export default function ProductList({ products, onRemoveProduct }) {
             >
               <Trash2 className="w-5 h-5" />
             </button>
-          
+      
           </div>
           <div className=''> <span className='text-grey-600'>Descriptions : </span>
                

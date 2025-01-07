@@ -5,7 +5,7 @@ const authApi=createApi({
     reducerPath:'authApi',
     baseQuery: fetchBaseQuery({
         baseUrl: `${getBaseUrl()}/api/auth`,
-        credentials: 'include',
+        // credentials: 'include',
     }),
     tagTypes:['User'],
     

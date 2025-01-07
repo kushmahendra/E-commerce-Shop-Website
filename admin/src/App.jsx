@@ -1,30 +1,32 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AdminLogin from './adminLogin/AdminLogin';
-import Page from './page/Page';
+import Dashboard from './page/Dashboard';
 import ProtectedRoute from './page/ProtectedRoute';
+import UpdateProductUpload from './components/UpdateProductUpload';
 
 const App = () => {
- 
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route path='/' element={<AdminLogin />} />
-       
-          <Route
-          path="/dashboard"
+    <Router>
+      <Routes>
+        {/* Public Route */}
+        <Route path='/' element={<AdminLogin />} />
+        
+        {/* Protected Route */}
+        <Route
+          path='/dashboard'
           element={
             <ProtectedRoute>
-              <Page />
+              <Dashboard />
             </ProtectedRoute>
           }
-        />
-        </Routes>
-      </Router>
-    </>
+       />
+          {/* Nested Route (Removed the leading slash) */}
+          <Route path='/UpdateProduct' element={<UpdateProductUpload />} />
+      
+      </Routes>
+    </Router>
   );
 };
 
 export default App;
-

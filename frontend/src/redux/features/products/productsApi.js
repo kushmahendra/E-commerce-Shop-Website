@@ -5,7 +5,7 @@ const productsApi=createApi({
     reducerPath:'productsApi',
     baseQuery:fetchBaseQuery({
         baseUrl:`${getBaseUrl()}/api/products`,
-        credentials:'include'
+        // credentials:'include'
     }),
     tagTypes:["Product"],
     endpoints:(builder)=>({
@@ -36,7 +36,7 @@ const productsApi=createApi({
                 url:'/create-product',
                 method:"POST",
                 body:newProduct,
-                credentials:'include'
+                // credentials:'include'
             }),
             invalidatesTags:["Product"]
         }),
@@ -46,14 +46,14 @@ const productsApi=createApi({
                 url:`/update-product/${id}`,
                 method:'PATCH',
                 body:rest,
-                credentials:['Product'],
+                // credentials:['Product'],
             })
         }),
         deleteProduct:builder.mutation({
             query:(id)=>({
                 url:`/${id}`,
                 method:"DELETE",
-                credentials:'include'
+                // credentials:'include'
             }),
             invalidatesTags: (result,error,id)=>[{type:"Product",id}]
         }),

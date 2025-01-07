@@ -1,4 +1,6 @@
+import { API_BASE_URL } from "../../constants/constant";
+
 export const getBaseUrl=()=>
 {
-    return "http://localhost:8080";
+    return API_BASE_URL;
 }

@@ -1,4 +1,4 @@
-import { Plus, List, ShoppingCart,LogOut } from 'lucide-react'
+import { Plus,List, ShoppingCart,LogOut } from 'lucide-react'
 
 export default function Sidebar({ activeTab, onTabChange }) {
   const tabs = [

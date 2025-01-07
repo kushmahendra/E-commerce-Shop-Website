@@ -20,45 +20,31 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-// const handleForgotPassword = async (req, res) => {
-//     const { email } = req.body;
-//     try {
-//         const user = await ResetUserPassword.findOne({ email });
-//         if (!user) {
-//             return res.status(404).json({ message: 'User not found' });
-//         }
-
-//         user.resetToken = crypto.randomBytes(32).toString('hex');
-//         user.resetTokenExpiry = Date.now() + 3600000;
-//         await user.save();
-
-//         const resetLink = `http://localhost:8080/api/reset-password/${user.resetToken}`;
-//         await sendEmail(user.email, 'Password Reset', `Click here: ${resetLink}`);
-
-//         res.status(200).json({ message: 'Reset link sent successfully' });
-//     } catch (error) {
-//         console.error('Failed to send reset link', error);
-//         res.status(500).json({ message: 'Internal server error' });
-//     }
-// };
-
 const handleForgetPassword = async (req,res)=>{
     try {
         const {email} = req.body;
+        if(email ==='')
+        {
+            return res.json({message:"Invalid request"})
+        }
         const user = await Admin.findOne({email});
         if(!user){
             res.status(404).json({message:'user not found'})
         }
-        const newOtp = await OTP.create({
-            otp:5555,
-            adminId:user._id
-        })
+        const otp=crypto.randomInt(1000, 9999).toString();
+        const options = {upsert:true,new:true};
+
+        const newOtp = await OTP.findOneAndUpdate(
+            {adminId:user._id},
+            { $set: { otp: otp, createdAt: new Date() } },
+            options)
+
         if(newOtp){
             await transporter.sendMail({
                 from:EMAIL_USER,
                 to:email,
                 subject:"Reset your password",
-                text:"Your OTP is 5555"
+                text: `Your OTP is ${otp}.It will expire in 1 minutes.`
             })
             res.status(200).json({message:'OTP generated successfully'})
         }
@@ -69,27 +55,6 @@ const handleForgetPassword = async (req,res)=>{
     }
 }
 
-// const handleResetPassword = async (req, res) => {
-//     const { token } = req.params;
-//     const { password } = req.body;
-//     try {
-//         const user = await ResetUserPassword.findOne({ resetToken: token, resetTokenExpiry: { $gt: Date.now() } });
-//         if (!user) {
-//             return res.status(400).json({ message: 'Invalid or expired token' });
-//         }
-
-//         // user.password = await user.hashPassword(password);
-//         user.password = await bcrypt.hash(password, 10);
-//         user.resetToken = undefined;
-//         user.resetTokenExpiry = undefined;
-//         await user.save();
-
-//         res.status(200).json({ message: 'Password updated successfully' });
-//     } catch (error) {
-//         console.error('Failed to reset password', error);
-//         res.status(500).json({ message: 'Internal server error' });
-//     }
-// };
 
 const handleResetPassword = async (req,res)=>{
     try {
@@ -97,32 +62,53 @@ const handleResetPassword = async (req,res)=>{
         const user = await Admin.findOne({email});
         console.log('my user is',user)
         if(!user){
-            res.status(404).json({message:"User not found"});
+            return res.status(404).json({message:"User not found"});
         }
         const enteredOtp = await OTP.findOne({
             otp:otp,
             adminId:user._id
         })
+        console.log('efsaf',enteredOtp)
         if(!enteredOtp){
-            res.status(400).json({message:"Invalid OTP"});
+           return res.status(400).json({message:"Invalid OTP"});
         }
+       
+         // Optionally, check the expiration manually
+         const expirationTime = 60 * 1000; // 1 minute in milliseconds
+         console.log('expt',expirationTime)
+         const currentTime = new Date().getTime();
+         console.log('ctt',currentTime)
+         const otpTime = new Date(enteredOtp.createdAt).getTime();
+         console.log('ctt',otpTime )
+         const tt=currentTime - otpTime > expirationTime;
+         console.log(tt);
+         if (tt) {
+             // OTP has expired
+             await OTP.deleteOne({ otp: enteredOtp.otp }); // Delete expired OTP
+             return res.status(400).json({ message: "OTP has expired" });
+         }
+
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const newAdminDetails = await Admin.findByIdAndUpdate(
             user._id,
             { password: hashedPassword },
             { new: true } // Returns the updated document
         );
+
         console.log('result after',newAdminDetails);
         if(newAdminDetails){
-            res.status(201).json({message:"Password changed successfully"});
+            return res.status(201).json({message:"Password changed successfully"});
         }
+
+        // Optionally, delete OTP after successful reset
+        await OTP.deleteOne({ adminId: user._id });
+
     } catch (error) {
         console.error("Error",error);
-        res.status(500).json({message:"Internal Server Error"})
+        return res.status(500).json({message:"Internal Server Error"})
     }
 }
-
-
 
 
 export { handleForgetPassword, handleResetPassword };

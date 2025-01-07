@@ -5,7 +5,7 @@ export const reviewsApi=createApi({
     reducerPath:' reviewsApi',
     baseQuery:fetchBaseQuery({
         baseUrl:`${getBaseUrl()}/api/reviews`,
-        credentials:'include'
+        // credentials:'include'
     }),
     tagTypes:["Reviews"],
     endpoints:(builder)=>({

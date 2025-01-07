@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { forgotPassword, resetPassword } from '../services/emailService';
+import { API_BASE_URL } from '../../constants/constant';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -30,7 +31,7 @@ export default function AdminLogin() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/admin/login', { email, password });
+      const response = await axios.post(API_BASE_URL+'/admin/login', { email, password });
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("userId", response.data.id);
@@ -56,14 +57,41 @@ export default function AdminLogin() {
   };
 
   // Handle Reset Password
-  const handleResetPassword = async (e) => {
-    e.preventDefault();
-    await resetPassword(resetEmail, newPassword,otp);
-    alert('Password reset successful');
+  // const handleResetPassword = async (e) => {
+  //   e.preventDefault();
+  //   await resetPassword(resetEmail, newPassword,otp);
+  //   alert('Password reset successful');
   
-    setResetMode(false)
+  //   setResetMode(false)
+  // };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();  
+    
+    try {
+      const response = await resetPassword(resetEmail, newPassword, otp);
+      console.log('kkk',response);
+      
+  
+      // Check if the response status is 400, which indicates an expired OTP
+      if (response.status === 400) {
+        alert("The OTP has expired. Please request a new one.");
+        setOtp('');  // Clear the password input field
+        return;  // Return early if OTP has expired
+      }
+  
+      // If no error, proceed with success
+      alert('Password reset successful');
+      setResetMode(false);  // Hide the reset form
+  
+    } catch (error) {
+      // Log the error and show a generic error message
+      console.error("Reset Password Error:", error);
+      alert("An error occurred during the password reset process.");
+    }
   };
 
+  
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -190,164 +218,4 @@ export default function AdminLogin() {
 
 
 
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
 
-// export default function AdminLogin() {
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [showForgotPassword, setShowForgotPassword] = useState(false);
-//   const [resetEmail, setResetEmail] = useState('');
-
-//   const navigate = useNavigate();
-
-
-//   const token = localStorage.getItem('token')
-//   useEffect(()=>{
-//     if(token){
-
-//       navigate('/dashboard')
-//     }
-   
-//   },[])
-
-//   // Handle Login
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
-
-//     try {
-//       const response = await axios.post('http://localhost:8080/admin/login', {
-//         email,
-//         password,
-//       });
-
-//       if (response.status === 200) {
-//         console.log('Login successful!',response);
-//          localStorage.setItem("token",response.data.token)
-//          localStorage.setItem("userId",response.data.id)
-//          localStorage.setItem("profile_img",response.data.profile_img)
-//         navigate('/dashboard'); // Redirect to Dashboard
-//       } else {
-//         console.error('Login failed:', response.data);
-//         alert('Invalid credentials. Please try again.');
-//       }
-//     } catch (error) {
-//       console.error('Login error:', error);
-//       alert('Login failed. Please check your credentials and try again.');
-//     }
-
-//     setEmail('');
-//     setPassword('');
-//   };
-
-//   // Handle Reset Password
-//   const handleResetPassword = (e) => {
-//     e.preventDefault();
-//     console.log('Password reset requested for:', resetEmail);
-//     setResetEmail('');
-//     setShowForgotPassword(false);
-//     alert('If an account exists for ' + resetEmail + ', a password reset link will be sent.');
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-//       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-//         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-//           Admin Login
-//         </h2>
-//       </div>
-
-//       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-//         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-//           {!showForgotPassword ? (
-//             <form className="space-y-6" onSubmit={handleLogin}>
-//               <div>
-//                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-//                   Email address
-//                 </label>
-//                 <div className="mt-1">
-//                   <input
-//                     id="email"
-//                     name="email"
-//                     type="email"
-//                     autoComplete="email"
-//                     required
-//                     value={email}
-//                     onChange={(e) => setEmail(e.target.value)}
-//                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//                   />
-//                 </div>
-//               </div>
-
-//               <div>
-//                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-//                   Password
-//                 </label>
-//                 <div className="mt-1">
-//                   <input
-//                     id="password"
-//                     name="password"
-//                     type="password"
-//                     autoComplete="current-password"
-//                     required
-//                     value={password}
-//                     onChange={(e) => setPassword(e.target.value)}
-//                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//                   />
-//                 </div>
-//               </div>
-
-//               <div>
-//                 <button
-//                   type="submit"
-//                   className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-//                 >
-//                   Sign in
-//                 </button>
-//               </div>
-//             </form>
-//           ) : (
-//             <form className="space-y-6" onSubmit={handleResetPassword}>
-//               <div>
-//                 <label htmlFor="reset-email" className="block text-sm font-medium text-gray-700">
-//                   Email address
-//                 </label>
-//                 <div className="mt-1">
-//                   <input
-//                     id="reset-email"
-//                     name="email"
-//                     type="email"
-//                     autoComplete="email"
-//                     required
-//                     value={resetEmail}
-//                     onChange={(e) => setResetEmail(e.target.value)}
-//                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//                   />
-//                 </div>
-//               </div>
-
-//               <div>
-//                 <button
-//                   type="submit"
-//                   className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-//                 >
-//                   Reset Password
-//                 </button>
-//               </div>
-//             </form>
-//           )}
-
-//           <div className="mt-6 text-center">
-//             <button
-//               onClick={() => setShowForgotPassword(!showForgotPassword)}
-//               className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-//             >
-//               {showForgotPassword ? 'Back to Login' : 'Forgot Password?'}
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }

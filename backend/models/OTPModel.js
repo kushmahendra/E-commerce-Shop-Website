@@ -12,9 +12,12 @@ const OTPSchema = new mongoose.Schema({
     },
     adminId:{
         type: mongoose.Types.ObjectId, ref: 'Admin', required: false 
-    }
+    },
+    createdAt: { type: Date, default: Date.now, expires: 60 } ,
 
 })
+// Manually create TTL index
+// OTPSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 });
 
 const OTP = mongoose.model('OTP',OTPSchema);
 export default OTP;

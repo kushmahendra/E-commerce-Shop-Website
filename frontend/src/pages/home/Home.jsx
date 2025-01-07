@@ -5,7 +5,7 @@ import HeroSection from './HeroSection'
 import TrendingProducts from '../shop/TrendingProducts'
 import ProductCards from '../shop/ProductCards'
 import DealsSection from './DealsSection'
-import PromoBanner from './Promobanner'
+import PromoBanner from './PromoBanner'
 import Blogs from '../blogs/Blogs'
 
 const Home = () => {

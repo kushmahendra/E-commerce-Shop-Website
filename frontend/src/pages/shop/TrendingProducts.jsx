@@ -9,7 +9,7 @@ const TrendingProducts = () => {
 
     const fetchAllProducts = async ()=>{
       try {
-        const response = await fetch(getBaseUrl()+'/api/products',{
+        const response = await fetch(getBaseUrl()+'/api/products/products',{
           method:'GET',
           headers:{
             'Content-Type':'application/json'
@@ -17,8 +17,8 @@ const TrendingProducts = () => {
         });
         const data = await response.json();
         if(response.ok){
-          console.log('products data',data.products);
-          setProducts(data.products);
+          // console.log('products data',data);
+          setProducts(data.data);
         }
         else{
           console.warn('failed to fetch products');
