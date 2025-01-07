@@ -4,6 +4,8 @@ import {Link, useLocation} from 'react-router-dom';
 import axios from 'axios';
 import { uploadProfileImage } from '../services/services';
 import {API_BASE_URL} from '../../constants/constant'
+import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
 export default function UpdateProductUpload({  productId }) {
   const location = useLocation();
@@ -47,11 +49,16 @@ const handleImageUpload = async (e) => {
         image: result,
       }));
       setImagePreview(result)
-
-      alert('Image uploaded successfully!');
+      toast.success('Image uploaded successfully!', {
+        autoClose: 5000,
+        hideProgressBar: false,
+      }); // Success toast
     } catch (error) {
       console.error('Error uploading image:', error);
-      alert('Failed to upload image');
+      toast.error('Failed to upload image', {
+        autoClose: 5000,
+        hideProgressBar: false,
+      }); // Error toast
     } finally {
       setUploading(false); // End upload state
     }
@@ -65,7 +72,10 @@ const handleSubmit = async(e) => {
   
     // Validate Required Fields
     if (!formData.name || !formData.price || !formData.image) {
-      alert('Please fill out all required fields and upload an image.');
+      toast.error('Please fill out all required fields and upload an image.', {
+        autoClose: 5000,
+        hideProgressBar: false,
+      }); // Error toast
       return;
     }
   
@@ -81,17 +91,26 @@ const handleSubmit = async(e) => {
       if (response.status===200) {
         // Call the update handler
         console.log(['data is',data])
-        alert('Product updated successfully!');
+        toast.success('Product updated successfully!', {
+          autoClose: 5000,
+          hideProgressBar: false,
+        }); // Success toast
   
         // Reset Form State
       } else {
         console.warn(['error',data])
 
-        alert('Failed to update product. Please try again.');
+        toast.error('Failed to update product. Please try again.', {
+          autoClose: 5000,
+          hideProgressBar: false,
+        }); // Error toast
       }
     } catch (error) {
       console.error('Error while updating product:', error);
-      alert('An error occurred while updating the product. Please try again.');
+      toast.error('An error occurred while updating the product. Please try again.', {
+        autoClose: 5000,
+        hideProgressBar: false,
+      }); // Error toast
     }
   };
   
@@ -271,6 +290,7 @@ const handleSubmit = async(e) => {
         </button>
       </form>
     </div>
+    <ToastContainer />
     </div>
   );
 }

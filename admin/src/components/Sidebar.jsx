@@ -33,7 +33,7 @@ export default function Sidebar({ activeTab, onTabChange }) {
         ))}
       </nav>
       <footer className="absolute bottom-4 w-full text-center text-sm text-white/70">
-        © 2024 Your App
+        © 2025 Shop Website
       </footer>
     </aside>
   );

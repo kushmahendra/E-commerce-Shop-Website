@@ -7,7 +7,8 @@ import OrderList from '../components/OrderList';
 import { uploadProfileImage } from '../services/services';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../constants/constant';
-import UpdateProductUpload from '../components/UpdateProductUpload';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';  // Import toast CSS
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('add');
@@ -43,16 +44,26 @@ export default function Dashboard() {
             })
             if(response.ok){
               setAvatar(result)
-              alert('Avatar uploaded successfully!');
+              toast.success('Avatar uploaded successfully!', {
+                autoClose: 5000,
+                hideProgressBar: false,
+              });
               localStorage.setItem("profile_img",result)
 
             }
             else{
-              alert('Failed to update profile image')
+              toast.error('Failed to update profile image', {
+                autoClose: 5000,
+                hideProgressBar: false,
+              });
             }
     } catch (error) {
+    
       console.error('Error uploading avatar:', error);
-      alert('Failed to upload avatar.');
+      toast.error('Failed to upload avatar.', {
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
     } finally {
       setUploading(false);
     }
@@ -77,7 +88,10 @@ export default function Dashboard() {
         setProducts(response.data.data || response.data);
       } catch (error) {
         console.error('Failed to fetch products:', error);
-        alert('Failed to fetch products.');
+        toast.error('Failed to fetch products.', {
+          autoClose: 5000,
+          hideProgressBar: false,
+        });
       }
     };
     fetchProducts();
@@ -93,51 +107,27 @@ export default function Dashboard() {
       setProducts([...products, response.data]);
     } catch (error) {
       console.error('Failed to add product:', error);
-      alert('Failed to add product.');
+      toast.error('Failed to add product.', {
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
     }
   };
-
- 
-  // Update Product
-  const handleUpdateProduct = async (id, updatedProductData) => {
-    try {
-      const response = await axios.put(
-        `${API_BASE_URL}/api/products/product/${id}`,
-        updatedProductData
-      );
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product._id === id ? response.data : product
-        )
-      );
-      alert('Product updated successfully!');
-    } catch (error) {
-      console.error('Failed to update product:', error);
-      alert('Failed to update product.');
-    }
-  };
-  
-  // const handleUpdateProduct = async (id) => {
-  //   try {
-  //     const response = await axios.put(
-  //       API_BASE_URL+`/api/products/product/${id}`,
-  //       product
-  //     );
-  //     setProducts([...products, response.data]);
-  //   } catch (error) {
-  //     console.error('Failed to add product:', error);
-  //     alert('Failed to add product.');
-  //   }
-  // };
 
   const handleRemoveProduct = async (id) => {
     try {
       await axios.delete(API_BASE_URL+`/api/products/${id}`);
       setProducts(products.filter((product) => product._id !== id));
-      alert('Product deleted successfully');
+      toast.success('Product deleted successfully', {
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
     } catch (error) {
       console.error('Failed to delete product:', error);
-      alert('Failed to delete product.');
+      toast.error('Failed to delete product.', {
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
     }
   };
 
@@ -174,11 +164,12 @@ export default function Dashboard() {
 
         {activeTab === 'add' && <ProductUpload onAddProduct={handleAddProduct} />}
         {activeTab === 'list' && (
-          <ProductList products={products} onRemoveProduct={handleRemoveProduct}  onUpdateProduct={handleUpdateProduct} />
+          <ProductList products={products} onRemoveProduct={handleRemoveProduct}   />
         )}
         {activeTab === 'orders' && <OrderList />}
         {activeTab === 'logout' &&  handleLogout() }
       </main>
+      <ToastContainer />
     </div>
   );
 }
