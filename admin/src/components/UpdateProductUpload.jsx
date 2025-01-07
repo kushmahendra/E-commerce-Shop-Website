@@ -1,23 +1,28 @@
 import { useState } from 'react';
 import { Upload } from 'lucide-react';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import axios from 'axios';
 import { uploadProfileImage } from '../services/services';
+import {API_BASE_URL} from '../../constants/constant'
 
-export default function UpdateProductUpload({ onUpdateProduct, productId }) {
+export default function UpdateProductUpload({  productId }) {
+  const location = useLocation();
+  const productDetails = location.state;
+
+  // console.log('details',onUpdateProduct)
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    category: '',
-    price: '',
-    oldPrice: '',
-    color: '',
-    rating: '',
-    image: null,
-    author: '',
+    name: productDetails?.name,
+    description: productDetails?.description,
+    category: productDetails?.category,
+    price: productDetails?.price,
+    oldPrice: productDetails?.oldPrice,
+    color: productDetails?.color,
+    rating: productDetails?.rating,
+    image: productDetails?.image,
+    author: productDetails?.author,
   });
 
-  const [imagePreview, setImagePreview] = useState(null); // Store image preview
+  const [imagePreview, setImagePreview] = useState(productDetails?.image); // Store image preview
   const [uploading, setUploading] = useState(false); // Upload state
 
  // Handle Image Upload
@@ -41,6 +46,7 @@ const handleImageUpload = async (e) => {
         ...prevData,
         image: result,
       }));
+      setImagePreview(result)
 
       alert('Image uploaded successfully!');
     } catch (error) {
@@ -54,7 +60,7 @@ const handleImageUpload = async (e) => {
 
 
 // // Handle Form Submission
-const handleSubmit = (e) => {
+const handleSubmit = async(e) => {
     e.preventDefault();
   
     // Validate Required Fields
@@ -64,25 +70,23 @@ const handleSubmit = (e) => {
     }
   
     try {
-      if (onUpdateProduct) {
+      const response = await fetch(API_BASE_URL+`/api/products/product/${productDetails?._id}`,{
+        method:"PUT",
+        headers:{
+          'Content-Type':'application/json'
+        },body:JSON.stringify(formData)
+      }
+      )
+      const data = await response.json();
+      if (response.status===200) {
         // Call the update handler
-        onUpdateProduct(productId, formData);
+        console.log(['data is',data])
         alert('Product updated successfully!');
   
         // Reset Form State
-        setFormData({
-          name: '',
-          description: '',
-          category: '',
-          price: '',
-          oldPrice: '',
-          color: '',
-          rating: '',
-          image: null,
-          author: '',
-        });
-        setImagePreview(null);
       } else {
+        console.warn(['error',data])
+
         alert('Failed to update product. Please try again.');
       }
     } catch (error) {
@@ -213,18 +217,18 @@ const handleSubmit = (e) => {
                 className="w-full p-2 border rounded-lg"
               >
                 <option value="">Select color</option>
-                <option value="Red">Red</option>
-                <option value="Blue">Blue</option>
-                <option value="Green">Green</option>
-                <option value="Yellow">Yellow</option>
-                <option value="Black">Black</option>
-                <option value="White">White</option>
-                <option value="Pink">Pink</option>
-                <option value="Voilet">Voilet</option>
-                <option value="Orange">Orange</option>
-                <option value="Golden">Golden</option>
-                <option value="Brown">Brown</option>
-                <option value="Sky">Sky</option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+                <option value="pink">Pink</option>
+                <option value="voilet">Voilet</option>
+                <option value="orange">Orange</option>
+                <option value="golden">Golden</option>
+                <option value="brown">Brown</option>
+                <option value="sky">Sky</option>
               </select>
             </div>
 
@@ -263,7 +267,7 @@ const handleSubmit = (e) => {
           type="submit"
           className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-colors"
         >
-          + Edit Product
+           Update Product
         </button>
       </form>
     </div>

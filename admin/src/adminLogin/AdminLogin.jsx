@@ -3,6 +3,10 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { forgotPassword, resetPassword } from '../services/emailService';
 import { API_BASE_URL } from '../../constants/constant';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';  // Don't forget to import the CSS!
+
+
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -47,14 +51,44 @@ export default function AdminLogin() {
   };
 
   // Handle Forgot Password
+  // const handleForgotPassword = async (e) => {
+  //   e.preventDefault();
+  //   await forgotPassword(resetEmail);
+  //   // toast.success('Reset link sent to your email.');
+  //   toast.success('Reset link sent to your email!', {
+  //     position: toast.POSITION.TOP_RIGHT,  // Optional: Position of the toast
+  //     autoClose: 5000,                    // Optional: Toast auto-close time in ms
+  //     hideProgressBar: false,             // Optional: To show the progress bar
+  
+  //   });
+  
+  //   setShowForgotPassword(false);setResetMode(true)
+    
+  // };
   const handleForgotPassword = async (e) => {
     e.preventDefault();
-    await forgotPassword(resetEmail);
-    alert('Reset link sent to your email.');
     
-    setShowForgotPassword(false);setResetMode(true)
-    
+    try {
+      await forgotPassword(resetEmail);
+      
+      toast.success('Reset link sent to your email!', {
+        // position: toast.POSITION.TOP_RIGHT,  // Optional: Position of the toast
+        autoClose: 5000,                    // Optional: Toast auto-close time in ms
+        hideProgressBar: false,             // Optional: To show the progress bar
+      });
+  
+      setShowForgotPassword(false);
+      setResetMode(true);
+  
+    } catch (error) {
+      toast.error('Failed to send reset link. Please try again.', {
+        // position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
+    }
   };
+  
 
   // Handle Reset Password
   // const handleResetPassword = async (e) => {
@@ -94,6 +128,7 @@ export default function AdminLogin() {
   
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+       <ToastContainer /> 
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           {resetMode ? 'Reset Password' : showForgotPassword ? 'Forgot Password' : 'Admin Login'}
