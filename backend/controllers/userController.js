@@ -1,5 +1,5 @@
 import express from 'express'
-import User from '../models/User.js'
+import ShopUser from '../models/User.js'
 import bcrypt from 'bcrypt';
 import { generateToken } from '../middlewares/userMiddleWare.js';
 
@@ -12,7 +12,7 @@ const handleUserRegister=async(req,res)=>
 
        const hashPassword=await bcrypt.hash(password,10)
 
-       const user=await User.create({userName,email,password:hashPassword})
+       const user=await ShopUser.create({userName,email,password:hashPassword})
       res.status(201).send({message :"User created successfully",user})
 
     }
@@ -29,7 +29,7 @@ const handleLogin=async(req,res)=>
     try{
         const {email,password}=req.body;
 
-        const user=await User.findOne({email})
+        const user=await ShopUser.findOne({email})
         if(!user)
         {
            return  res.status(404).send({message:'User not found'})
@@ -77,7 +77,7 @@ const handleDeleteUser=async(req,res)=>
    {
     const {id}=req.params;
     console.log("id",id);
-    const user=await User.findByIdAndDelete(id);
+    const user=await ShopUser.findByIdAndDelete(id);
     if(!user)
     {
       return res.status(404).send({message:'User not found'})
@@ -95,7 +95,7 @@ const handleDeleteUser=async(req,res)=>
 const handleAllUsers=async(req,res)=>
 {
     try{
-        const users=await User.find({})
+        const users=await ShopUser.find({})
         res.status(200).send({message:"Get all users successfully",users})
     }
     catch(error)
@@ -111,7 +111,7 @@ const handleUpdateUser=async(req,res)=>
     try
     {const {id}=req.params;
     const {role}=req.body;
-    const user=await User.findByIdAndUpdate(id,{role},{new:true});
+    const user=await ShopUser.findByIdAndUpdate(id,{role},{new:true});
     if(!user)
     {
         return res.status(404).send({message:"User not found"})
@@ -134,7 +134,7 @@ const handleProfile=async(req,res)=>
   {
     return res.status(400).send({message:'User ID is required'})
   }
-  const user=await User.findById(userId);
+  const user=await ShopUser.findById(userId);
   console.log(user)
   if(!user)
   {

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const userSchema=new mongoose.Schema({
+const shopUserSchema=new mongoose.Schema({
 
 userName:{type:String,require:true},
 
@@ -23,6 +23,6 @@ createdAt:{
 
 })
 
-const User=new mongoose.model('User',userSchema);
+const ShopUser=new mongoose.model('ShopUser',shopUserSchema);
 
-export default User;
+export default ShopUser;

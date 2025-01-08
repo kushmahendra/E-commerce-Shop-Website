@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
     // image: { type: mongoose.Schema.Types.Mixed },
     color: { type: String },
     rating: { type: Number, default: 0 },
-    author: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
+    author: { type: mongoose.Types.ObjectId, ref: 'ShopUser', required: true },
 });
 
 

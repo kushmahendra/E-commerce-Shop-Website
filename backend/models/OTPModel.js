@@ -8,16 +8,15 @@ const OTPSchema = new mongoose.Schema({
         default:null
     },
     userId:{
-        type: mongoose.Types.ObjectId, ref: 'User', required: false
+        type: mongoose.Types.ObjectId, ref: 'ShopUser', required: false
     },
     adminId:{
         type: mongoose.Types.ObjectId, ref: 'Admin', required: false 
     },
-    createdAt: { type: Date, default: Date.now, expires: 60 } ,
+    createdAt: { type: Date, default: Date.now, expires: 120 } ,
 
 })
-// Manually create TTL index
-// OTPSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 });
+
 
 const OTP = mongoose.model('OTP',OTPSchema);
 export default OTP;

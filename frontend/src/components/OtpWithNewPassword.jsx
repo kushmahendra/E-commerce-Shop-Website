@@ -7,7 +7,7 @@ const OtpWithNewPassword = () => {
     const [password, setPassword] = useState('');
     const [otp, setOtp] = useState('');
     const [email, setEmail] = useState('');
-    
+
 
     const [resetUserPassword, { isLoading }] = useResetUserPasswordMutation();
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ const OtpWithNewPassword = () => {
         e.preventDefault();
 
         try {
-            await resetUserPassword({ otp, password }).unwrap();
+            await resetUserPassword({ email,otp, password }).unwrap();
             alert('Password reset successfully');
             navigate('/login');
         } catch (error) {
@@ -29,7 +29,7 @@ const OtpWithNewPassword = () => {
             <div className='max-w-sm border shadow bg-white mx-auto p-8'>
                 <h2 className='text-2xl font-semibold pt-5'>Reset Your Password</h2>
                 <form onSubmit={handleResetPassword} className='space-y-5 pt-8'>
-                    {/* <input
+                    <input
                         type='email'
                         name='email'
                         id='email'
@@ -37,7 +37,7 @@ const OtpWithNewPassword = () => {
                         placeholder='Enter your email'
                         required
                         className='w-full bg-gray-100 focus:outline-none px-5 py-3'
-                    /> */}
+                    />
                     <input
                         type='password'
                         name='password'

@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
-import User from '../models/User.js';
+import ShopUser from '../models/User.js';
 import OTP from '../models/OTPModel.js';
 import nodemailer from 'nodemailer'
 
@@ -24,7 +24,7 @@ const handleForgetPassword = async (req,res)=>{
         {
             return res.json({message:"Invalid request"})
         }
-        const user = await User.findOne({email});
+        const user = await ShopUser.findOne({email});
         if(!user){
             res.status(404).json({message:'user not found'})
         }
@@ -41,7 +41,7 @@ const handleForgetPassword = async (req,res)=>{
                 from:EMAIL_USER,
                 to:email,
                 subject:"Reset your password",
-                text: `Your OTP is ${otp}.It will expire in 1 minutes.`
+                text: `Your OTP is ${otp}.It will expire in 2 minutes.`
             })
             res.status(200).json({message:'OTP generated successfully'})
         }
@@ -56,7 +56,7 @@ const handleForgetPassword = async (req,res)=>{
 const handleResetPassword = async (req,res)=>{
     try {
         const {email,password,otp}=req.body;
-        const user = await User.findOne({email});
+        const user = await ShopUser.findOne({email});
         console.log('my user is',user)
         if(!user){
             return res.status(404).json({message:"User not found"});
@@ -87,7 +87,7 @@ const handleResetPassword = async (req,res)=>{
 
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newAdminDetails = await User.findByIdAndUpdate(
+        const newAdminDetails = await ShopUser.findByIdAndUpdate(
             user._id,
             { password: hashedPassword },
             { new: true } // Returns the updated document

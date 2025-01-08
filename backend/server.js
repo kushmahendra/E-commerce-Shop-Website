@@ -29,9 +29,6 @@ app.use(
 app.use(express.json())
 
 
-
-
-
 mongoDbConnect();
 
 //All routes

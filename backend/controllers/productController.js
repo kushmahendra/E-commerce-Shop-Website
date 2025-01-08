@@ -5,39 +5,6 @@ import Reviews from '../models/reviewsModel.js';
 //create products
 
 const handleProduct = async (req, res) => {
-//     try {
-//         // Create a new product instance using the Product model
-//         console.log('fghh',req.body)
-//         const newProduct = new Product({ 
-//             ...req.body 
-//         });
-
-//         // Save the new product to the database
-//         const savedProduct = await newProduct.save();
-// // const reviews=await Reviews.find({productId: savedProduct._id});
-// // if(reviews.length >0)
-// // {
-// //     const totalRating=reviews.reduce((acc,review)=> acc + review.rating,0); 
-// //     const averageRating=totalRating =reviews.length;
-
-// //     savedProduct.rating = averageRating;
-// //     await savedProduct.save();
-// // }
-//         // Return a success response
-//         res.status(201).json({
-//             success: true,
-//             message: 'Product created successfully',
-//             data: savedProduct,
-//         });
-//     } catch (error) {
-//         console.error('Error while creating product:', error.message);
-//         res.status(500).json({
-//             success: false,
-//             message: 'Failed to create product',
-//             error: error.message,
-//         });
-//     }
-
     try {
         // Destructure and validate request body
         const {

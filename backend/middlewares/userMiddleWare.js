@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
-import User from '../models/User.js'
+import ShopUser from '../models/User.js'
 
 dotenv.config();
 const  JWT_SECRET=process.env.JWT_SECRET_KEY
@@ -8,7 +8,7 @@ const  JWT_SECRET=process.env.JWT_SECRET_KEY
 const generateToken=async(userId)=>
 {
    try{
-    const user=await User.findById(userId)
+    const user=await ShopUser.findById(userId)
     if(!user)
     {
         throw new Error('User not found')
