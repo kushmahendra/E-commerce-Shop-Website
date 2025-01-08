@@ -32,6 +32,9 @@ const authApi=createApi({
                 ({
                     url:'/logout',
                     method:'POST',
+                    headers:{
+                        'Authorization':`Bearer ${localStorage.getItem("token")}`
+                    }
                 })
             }),
             getUser:builder.mutation({

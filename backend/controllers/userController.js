@@ -67,8 +67,10 @@ const handleLogin=async(req,res)=>
 const handleLogout=async(req,res)=>
 {
     res.clearCookie('token');
-    res.status(200).send({message:"Logged out successfully"})
+    res.status(200).json({message:"Logged out successfully"})
 };
+
+
 const handleDeleteUser=async(req,res)=>
 {
    try

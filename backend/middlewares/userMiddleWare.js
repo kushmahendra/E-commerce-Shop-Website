@@ -34,11 +34,17 @@ const generateToken=async(userId)=>
 
 const verifyToken=async(req,res,next)=>
 {
-    try{
-        //  Get the token from cookies
-        const token=req.cookies.token ||"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcyODA2YzAzNjFhN2YxMTNlZjBmZDEiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNTU3MzA0NiwiZXhwIjoxNzM2MTc3ODQ2fQ.TvsLaXl-vXnHKkkgPpFaJZWCY4QSsoIvH8b3wMs00zs"  // Optional chaining to prevent errors if cookies are undefined;
-        // const token =req.headers['authorization'].split(" ")[1] || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcyODA2YzAzNjFhN2YxMTNlZjBmZDEiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNTU3MzA0NiwiZXhwIjoxNzM2MTc3ODQ2fQ.TvsLaXl-vXnHKkkgPpFaJZWCY4QSsoIvH8b3wMs00zs"  // Optional chaining to prevent errors if cookies are undefined
     
+    try{
+
+        const token =req.headers['authorization'].split(" ")[1]
+        //  Get the token from cookies
+        // const token=req.cookies?.token ||"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcyODA2YzAzNjFhN2YxMTNlZjBmZDEiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNTU3MzA0NiwiZXhwIjoxNzM2MTc3ODQ2fQ.TvsLaXl-vXnHKkkgPpFaJZWCY4QSsoIvH8b3wMs00zs"  // Optional chaining to prevent errors if cookies are undefined;
+        // const token =req.headers['authorization'].split(" ")[1] || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcyODA2YzAzNjFhN2YxMTNlZjBmZDEiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNTU3MzA0NiwiZXhwIjoxNzM2MTc3ODQ2fQ.TvsLaXl-vXnHKkkgPpFaJZWCY4QSsoIvH8b3wMs00zs"  // Optional chaining to prevent errors if cookies are undefined
+      // Check token in cookies
+    //   if (req.cookies?.token) {
+    //     token = req.cookies.token;
+    // }
        
         console.log('Token:', token);
 
@@ -53,7 +59,7 @@ const verifyToken=async(req,res,next)=>
         }
 
         // Attach decoded data to req for further use
-        req.userId = decoded.userId;
+        req.userId = decoded.userAdmin;
         req.role = decoded.role;
 
         next(); // Proceed to the next middleware or route handler

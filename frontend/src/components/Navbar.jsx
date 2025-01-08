@@ -9,7 +9,6 @@ import { logout } from '../redux/features/auth/authSlice';
 import logoImg from '../assets/shopping_logo_converted.jpg'
 
 
-
 // import '../App.css'
 
 const Navbar = () => {
@@ -53,9 +52,11 @@ const dropdownmenus=user ?.role === 'admin' ? [...adminDropDownMenus]:[...userDr
 const handleLogout=async()=>
 {
   try {
-    await logoutUser().unwrap();
-    dispatch(logout());
-  navigate('/')
+    // const result = await logoutUser().unwrap();
+    // console.log('hfds',result)
+    // dispatch(logout());
+    localStorage.clear();
+  navigate('/login')
   } catch (error) {
     console.error("Failed to log out",error)
   }

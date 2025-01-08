@@ -5,4 +5,5 @@ const resetPasswordrRouter = express.Router();
 resetPasswordrRouter.post('/forgot-password', handleForgetPassword);
 resetPasswordrRouter.put('/reset-password', handleResetPassword);
 
+
 export default resetPasswordrRouter;

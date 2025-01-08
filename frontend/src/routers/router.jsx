@@ -8,7 +8,9 @@ import ShopPage from "../pages/shop/ShopPage";
 import SingleProduct from "../pages/shop/productDetails/SingleProduct";
 import Login from "../components/Login";
 import Register from "../components/Register";
-import AdminDashboard from "../user/AdminDashboard";
+
+import ForgetPassword from "../components/ForgetPassword";
+import OtpWithNewPassword from "../components/OtpWithNewPassword";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -19,7 +21,7 @@ const router = createBrowserRouter([
         {path:'/search',element:<Search/>},
         {path:"/shop",element:<ShopPage/>},
         {path:'/shop/:id', element:<SingleProduct/>},
-        {path:'/adminDashboard', element:<AdminDashboard/>},
+     
       ] 
     },
     {
@@ -27,6 +29,8 @@ const router = createBrowserRouter([
     },
     {
       path:'/register',element:<Register/>
-    }
+    },
+    {path:'/forget', element:<ForgetPassword/>},
+    {path:'/Otp', element:<OtpWithNewPassword/>},
   ]);
   export default router

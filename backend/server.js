@@ -11,6 +11,7 @@ import uploadRoutes from './routes/upload.js';
 import profileRoute from './routes/profileRoute.js';
 import adminRoute from './routes/adminRoute.js';
 import resetPasswordrRouter from './routes/resetPasswordRoute.js';
+import userOtpRoute from './routes/userOtpRoute.js';
 
 
 dotenv.config();
@@ -45,6 +46,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api', profileRoute);
 app.use('/admin', adminRoute)
 app.use('/api', resetPasswordrRouter);
+app.use('/user',userOtpRoute);
 
 const PORT = process.env.PORT
 

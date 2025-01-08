@@ -8,7 +8,6 @@ const authRoute=express.Router();
 //Register endpoint
 authRoute.post('/register',handleUserRegister)
 authRoute.post('/login',handleLogin)
-
 authRoute.post('/logout',verifyToken,handleLogout)
 authRoute.delete('/users/:id',handleDeleteUser)
 authRoute.put('/users/:id',handleUpdateUser)
