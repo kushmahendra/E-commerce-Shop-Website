@@ -23,7 +23,7 @@ export default function Profile() {
              </label>
              <input
                type="text"
-               placeholder='Enter your first name'
+               placeholder='Enter first name'
                value={formData.firstName}
                onChange={(e) => setFormData({...formData, firstName: e.target.value})}
                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -35,7 +35,7 @@ export default function Profile() {
              </label>
              <input
                type="text"
-               placeholder='Enter your last name'
+               placeholder='Enter last name'
                value={formData.lastName}
                onChange={(e) => setFormData({...formData, lastName: e.target.value})}
                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -47,7 +47,7 @@ export default function Profile() {
              </label>
              <input
                type="email"
-                placeholder='Enter your email eg. john32@example.com'
+                placeholder='Enter email eg. john32@example.com'
                value={formData.email}
                onChange={(e) => setFormData({...formData, email: e.target.value})}
                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -59,7 +59,7 @@ export default function Profile() {
              </label>
              <input
                type="tel"
-                placeholder='Enter your phone number +91 234 567 8902'
+                placeholder='Enter phone number +91 234 567 8902'
                value={formData.phone}
                onChange={(e) => setFormData({...formData, phone: e.target.value})}
                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"

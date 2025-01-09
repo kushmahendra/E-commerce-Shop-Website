@@ -28,7 +28,6 @@ const handleImageUpload = async (e) => {
     setUploading(true); // Start upload state
 
     
-
     // const uploadData = new FormData();
     // uploadData.append('image', file);
 

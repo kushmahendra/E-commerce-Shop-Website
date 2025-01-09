@@ -8,11 +8,12 @@ import { generateToken } from '../middlewares/authMiddleware.js';
 const handleUserRegister=async(req,res)=>
 {
     try{
-       const  {userName,email,password} = req.body;
+       const  {firstName, lastName,email,password, phoneNumber} = req.body;
+
 
        const hashPassword=await bcrypt.hash(password,10)
 
-       const user=await ShopUser.create({userName,email,password:hashPassword})
+       const user=await ShopUser.create({firstName, lastName,email,password:hashPassword,phoneNumber})
       res.status(201).send({message :"User created successfully",user})
 
     }
@@ -96,8 +97,9 @@ const handleUpdateUser=async(req,res)=>
 {
     try
     {const {id}=req.params;
-    const {role}=req.body;
-    const user=await ShopUser.findByIdAndUpdate(id,{role},{new:true});
+    // const {role}=req.body;
+   const  {profileImage,bio,profession,firstName, lastName,email,password, phoneNumber}=req.body;
+    const user=await ShopUser.findByIdAndUpdate(id,{profileImage,bio,profession,firstName, lastName,email,password, phoneNumber},{new:true});
     if(!user)
     {
         return res.status(404).send({message:"User not found"})
@@ -115,7 +117,7 @@ const handleUpdateUser=async(req,res)=>
 const handleProfile=async(req,res)=>
 {
    try{
-  const {userId,userName,profileImage,bio,profession}=req.body
+  const {userId,firstName,profileImage,bio,profession}=req.body
   if(!userId)
   {
     return res.status(400).send({message:'User ID is required'})
@@ -127,7 +129,7 @@ const handleProfile=async(req,res)=>
     return res.status(404).send({message:"User not found"})
   }
 
-if(userName !==undefined)user.userName=userName;
+if(firstName!==undefined)user.firstName=firstName;
 if(profileImage !==undefined)user.profileImage=profileImage;
 if(bio !==undefined)user.bio=bio;
 if(profession !==undefined)user.profession =profession;
@@ -138,7 +140,7 @@ res.status(200).send({
     user:{
         _id: user._id,
         email: user.email,
-        userName: user.userName,
+        userName: user.firstName,
         role: user.role,
         profileImage: user.profileImage,
         bio: user.bio,

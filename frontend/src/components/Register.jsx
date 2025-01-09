@@ -1,71 +1,119 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useRegisterUserMutation } from '../redux/features/auth/authApi'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegisterUserMutation } from "../redux/features/auth/authApi";
 
 const Register = () => {
-    const [message,setMessage]=useState('')
-    const [email,setEmail]=useState('')
-    const [password,setPassword]=useState('')
-    const [userName,setUserName]=useState('')
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+  });
+  const [message, setMessage] = useState("");
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
+  const navigate = useNavigate();
 
-    const[registerUser,{isLoading}]= useRegisterUserMutation();
-    const navigate=useNavigate();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-    const handleRegister=async (e)=> {
-        e.preventDefault();
-        const data={
-            userName,
-            email,
-            password
-        }
-
-       try {
-       const response= await registerUser(data).unwrap();
-        console.log('uu',response)
-        alert("Registration successful!")
-        navigate('/login');
-
-       } catch (error) 
-       {
-        setMessage("Registration failed")
-       }
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await registerUser(formData).unwrap();
+      console.log("Registration successful:", response);
+      alert("Registration successful!");
+      navigate("/login");
+    } catch (error) {
+      console.error("Registration error:", error);
+      setMessage("Registration failed. Please try again.");
     }
+  };
 
   return (
-    <>
-    <section className='h-screen flex items-center justify-center'>
-        <div className='max-w-sm border shadow bg-white mx-auto p-8'>
-            <h2 className='text-2xl font-semibold pt-5'>Please Register</h2>
-            <form onSubmit={handleRegister} className='space-y-5 max-w-sm max-auto pt-8' >
-
-            <input type="text"   name="userName" id="userName"
-                onChange={(e)=>setUserName(e.target.value)}
-                placeholder="Enter User name" required
-                className='w-full bg-gray-100 focus:outline-none px-5 py-3'
-                />
-              
-                <input type="email"   name="email" id="email"
-                onChange={(e)=>setEmail(e.target.value)}
-                placeholder="Email Address" required
-                className='w-full bg-gray-100 focus:outline-none px-5 py-3'
-                />
-
-              <input type="password"   name="password" id="password"
-                 onChange={(e)=>setPassword(e.target.value)}
-                placeholder="Enter password" required
-                className='w-full bg-gray-100 focus:outline-none px-5 py-3'
-                />
-                {
-                    message && <p className='text-red-500'>{message}</p>
-                }
-                <button type='submit'
-                className='w-full mt-5 bg-primary text-white hover:bg-indigo-500 font-medium py-3 rounded-md'>Register</button>
-            </form>
-            <p className='my-5 italic text-sm text-center'>Already have an account ? Please<Link to='/login' className='text-red-700 px-1 underline'>Login</Link></p>
-        </div>
+    <section className="h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md border shadow bg-white rounded-lg p-8">
+        <h2 className="text-2xl font-semibold text-center">Create an Account</h2>
+        <form onSubmit={handleRegister} className="space-y-5 mt-6">
+          <input
+            type="text"
+            name="firstName"
+            id="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            placeholder="First Name"
+            required
+            className="w-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 px-5 py-3 rounded-md"
+            aria-label="First Name"
+          />
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            placeholder="Last Name"
+            className="w-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 px-5 py-3 rounded-md"
+            aria-label="Last Name"
+          />
+          <input
+            type="email"
+            name="email"
+            id="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email Address eg. john3@gmail.com"
+            required
+            className="w-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 px-5 py-3 rounded-md"
+            aria-label="Email Address"
+          />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password ...."
+            required
+            className="w-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 px-5 py-3 rounded-md"
+            aria-label="Password"
+          />
+          <input
+            type="tel"
+            name="phoneNumber"
+            id="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            placeholder="Phone Number +91 "
+            required
+            className="w-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 px-5 py-3 rounded-md"
+            aria-label="Phone Number"
+          />
+          {message && <p className="text-red-500 text-sm">{message}</p>}
+          <button
+            type="submit"
+            className={`w-full mt-5 bg-red-500 text-white font-medium py-3 rounded-md hover:bg-indigo-700 transition ${
+              isLoading ? "cursor-not-allowed opacity-50" : ""
+            }`}
+            disabled={isLoading}
+          >
+            {isLoading ? "Registering..." : "Register"}
+          </button>
+        </form>
+        <p className="text-sm text-center mt-5">
+          Already have an account?{" "}
+          <Link to="/login" className="text-red-500 hover:underline">
+            Login
+          </Link>
+        </p>
+      </div>
     </section>
-    </>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

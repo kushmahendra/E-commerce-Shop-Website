@@ -53,10 +53,9 @@ const dropdownmenus=user ?.role === 'admin' ? [...adminDropDownMenus]:[...userDr
 const handleLogout=async()=>
 {
   try {
-    // const result = await logoutUser().unwrap();
-    // console.log('hfds',result)
-    // dispatch(logout());
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
   navigate('/login')
   } catch (error) {
     console.error("Failed to log out",error)
