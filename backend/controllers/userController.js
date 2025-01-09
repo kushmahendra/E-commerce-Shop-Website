@@ -47,14 +47,6 @@ const handleLogin=async(req,res)=>
         const token=await generateToken(user)
          console.log('generated token',token)
        
-        //  res.cookie('token',token,
-        //     {
-        //         httpOnly:true,
-        //         secure:true,
-        //         sameSite:'None',
-        //     }
-        //  )
-
       res.status(200).json({ message: 'User login successful',token,user });
 
     }
@@ -64,14 +56,6 @@ const handleLogin=async(req,res)=>
         res.status(500).send({message:'Internal Server error'})
     }
 };
-
-// //All user endpoint
-// const handleLogout=async(req,res)=>
-// {
-//     res.clearCookie('token');
-//     res.status(200).json({message:"Logged out successfully"})
-// };
-
 
 const handleDeleteUser=async(req,res)=>
 {

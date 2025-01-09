@@ -19,18 +19,7 @@ const authApi=createApi({
                     body:newUser
                 })
             }),
-            // loginUser:builder.mutation({
-            //     query:(credentials)=>
-            //     ({
-            //         url:'/login',
-            //         method:'POST',
-            //         headers: {
-            //             Authorization: `Bearer ${token}`, // Correct format
-            //         },
-            //         body:credentials,
-                    
-            //     })
-            // }),
+           
             loginUser: builder.mutation({
                 query: (credentials) => {
                     const token = localStorage.getItem('token'); // Retrieve token

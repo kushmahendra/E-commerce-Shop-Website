@@ -11,7 +11,8 @@ import Register from "../components/Register";
 
 import ForgetPassword from "../components/ForgetPassword";
 import OtpWithNewPassword from "../components/OtpWithNewPassword";
-import UserProfile from "../components/UserProfile";
+import UserProfile from "../userProfile/UserProfile";
+
 
 const router = createBrowserRouter([
     {
