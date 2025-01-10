@@ -19,6 +19,7 @@ export default function UserProfile() {
     image: null,
   });
   const [activeComponent, setActiveComponent] = useState(''); 
+  const [other,setOther]=useState(true)
 
     const [imagePreview, setImagePreview] = useState(null); // Store image preview
     const [uploading, setUploading] = useState(false); // Upload state
@@ -171,29 +172,32 @@ const handleImageUpload = async (e) => {
 
         {/* Main */}
             <nav className="space-y-2 grid grid-cols-1 gap-4">
-              <button onClick={() => setActiveComponent('profile')}  className="flex items-center px-4 py-2 text-gray-600 
+              {/* <button onClick={() => setActiveComponent('profile')}  className="flex items-center px-4 py-2 text-gray-600  */}
+            <button onClick={()=> setOther(true)}   className="flex items-center px-4 py-2 text-gray-600 
               hover:text-green-800 hover:bg-yellow-100  rounded-md">
                     <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                    </svg>
                     Profile
                  </button>
-          
-               <button onClick={() => setActiveComponent('orders')} className="flex items-center px-4 py-2 text-gray-600   hover:text-green-800 hover:bg-yellow-100 rounded-md">
+               {/* <button onClick={()=> setOther(!other)}  className="flex items-center px-4 py-2 text-gray-600   hover:text-green-800 hover:bg-yellow-100 rounded-md" >
+                  Other
+               </button> */}
+               <button  onClick={() => {setActiveComponent('orders'); setOther(false)}} className="flex items-center px-4 py-2 text-gray-600   hover:text-green-800 hover:bg-yellow-100 rounded-md">
                  <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                    </svg> 
                     Orders
                </button>
                 
-               <button onClick={() => setActiveComponent('wishList')}  className="flex items-center px-4 py-2 text-gray-600  hover:text-green-800 hover:bg-yellow-100  rounded-md">
+               <button onClick={() =>{ setActiveComponent('wishList');setOther(false)}}  className="flex items-center px-4 py-2 text-gray-600  hover:text-green-800 hover:bg-yellow-100  rounded-md">
                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
                Wishlist
                  </button>
                
-                 <button onClick={() => setActiveComponent('addresses')} className="flex items-center px-4 py-2 text-gray-600  hover:text-green-800 hover:bg-yellow-100 rounded-md">
+                 <button onClick={() =>{ setActiveComponent('addresses');setOther(false)}} className="flex items-center px-4 py-2 text-gray-600  hover:text-green-800 hover:bg-yellow-100 rounded-md">
                  <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -203,6 +207,8 @@ const handleImageUpload = async (e) => {
             </nav>
           </div>
          {/* //my profile */}
+
+         { other ? (
          <div className="flex-1 bg-white rounded-lg shadow-sm p-6">
       <h1 className="text-2xl font-semibold mb-6">My Profile</h1>
       <form className="space-y-6"  onSubmit={handleSubmit}>
@@ -275,8 +281,7 @@ const handleImageUpload = async (e) => {
             rows={4}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
-        </div>
-        <div className="flex justify-end">
+          <div className="flex justify-end">
         <button
                   type="submit"
                   className={`px-6 py-2 ${isUpdating ? 'bg-gray-400' : 'bg-blue-500'} text-white rounded-md`}
@@ -285,10 +290,15 @@ const handleImageUpload = async (e) => {
                   {isUpdating ? 'Updating...' : 'Update Profile'}
                 </button>
                 </div>
+        </div>
+      
       </form>
-    </div>
-   
-        {renderComponent()}
+  
+    </div>) :(
+    renderComponent()
+    )
+  }
+       
         </div>
       </div>
     </div>

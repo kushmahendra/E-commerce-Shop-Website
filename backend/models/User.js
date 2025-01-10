@@ -17,6 +17,10 @@ const shopUserSchema=new mongoose.Schema({
     bio: { type: String, default: "", maxlength: 200 },
   
     profession: { type: String, default: "" },
+    orders: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Order',
+    },
   
     createdAt: {
       type: Date,

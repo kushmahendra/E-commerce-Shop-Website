@@ -12,6 +12,7 @@ import profileRoute from './routes/profileRoute.js';
 import adminRoute from './routes/adminRoute.js';
 import resetPasswordrRouter from './routes/resetPasswordRoute.js';
 import userOtpRoute from './routes/userOtpRoute.js';
+import orderRoute from './routes/ordersRoute.js';
 
 
 dotenv.config();
@@ -25,7 +26,6 @@ app.use(
         credentials:true
     })
 )
-
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
@@ -48,6 +48,7 @@ app.use('/api', profileRoute);
 app.use('/admin', adminRoute)
 app.use('/api', resetPasswordrRouter);
 app.use('/user',userOtpRoute);
+app.use('/api',orderRoute);
 
 const PORT = process.env.PORT
 
