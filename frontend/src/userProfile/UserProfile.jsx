@@ -1,11 +1,10 @@
-"use client"
-
-import { useState } from "react"
+import { useEffect, useState } from "react";
+import { useGetUserMutation ,useUpdateUserInfoMutation } from "../redux/features/auth/authApi";
 
 import Orders from "./Orders";
 import WishList from "./WishList";
 import Addresses from "./Addresses";
-import Profile from "./Profile";
+
 import { Upload } from 'lucide-react';
 
 import { uploadProfileImage } from '../services/services';
@@ -15,16 +14,59 @@ export default function UserProfile() {
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     bio: "",
-    image:null
-  })
-  const [activeComponent, setActiveComponent] = useState('profile'); 
+    image: null,
+  });
+  const [activeComponent, setActiveComponent] = useState(''); 
 
     const [imagePreview, setImagePreview] = useState(null); // Store image preview
     const [uploading, setUploading] = useState(false); // Upload state
+    const [getUser, { data, isLoading, isError, error }] = useGetUserMutation();
+    const [updateUserInfo, { isLoading: isUpdating, isSuccess, isError: isUpdateError }] = useUpdateUserInfoMutation();
+ 
+    // Retrieve the user ID from localStorage
+    const userString = localStorage.getItem("user");
+    const localUser = userString ? JSON.parse(userString) : null;
+    const userId = localUser?._id;
+    console.log("User ID:", userId);
   
-// Handle Image Upload
+    // Initialize the mutation hook
+  
+  
+    // Fetch user data on component mount
+    useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          const response = await getUser(userId).unwrap();
+          console.log('response',response);
+          setFormData({
+            firstName: response?.user?.firstName || "",
+            lastName: response?.user?.lastName || "",
+            email: response?.user?.email || "",
+            phoneNumber: response?.user?.phoneNumber || "",
+            bio: response?.user?.bio || "",
+            image: response?.user?.profileImage || null,
+          });
+        } catch (err) {
+          console.error("Error fetching user:", err);
+        }
+      };
+  
+      if (userId) {
+        fetchUser();
+      }
+    }, [userId, getUser]);
+  
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+  
+    if (isError) {
+      return <div>Error fetching user data: {error?.data?.message || error.message}</div>;
+    }
+    
+    // Handle Image Upload
 const handleImageUpload = async (e) => {
   const file = e.target.files?.[0];
   if (file) {
@@ -48,6 +90,28 @@ const handleImageUpload = async (e) => {
   }
 };
 
+  // Update User Profile Logic
+ 
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await updateUserInfo({
+        userId,
+        profileImage: formData?.image,
+        bio: formData?.bio,
+        profession: formData?.profession,
+        firstName: formData?.firstName,
+        lastName: formData?.lastName,
+        phoneNumber: formData?.phoneNumber,
+      }).unwrap();
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile");
+    }
+  };
+
   const renderComponent = () => {
     switch (activeComponent) {
       case 'orders':
@@ -57,7 +121,7 @@ const handleImageUpload = async (e) => {
       case 'addresses':
         return <Addresses/>;
       default:
-        return <Profile/>;
+        return null; 
     }
   };
 
@@ -69,18 +133,15 @@ const handleImageUpload = async (e) => {
           {/* Sidebar */}
           <div className="w-full md:w-64 bg-white rounded-lg shadow-sm p-6">
             <div className="flex flex-col items-center">
-              <div className="w-24 h-24 bg-purple-200 rounded-full overflow-hidden mb-4">
-                {/* <img
-                  src="/avatar.png"
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                /> */}
-                 
+
+              
+              <div className="w-28 h-28 bg-purple-200 rounded-full overflow-hidden">
+               
                             <label htmlFor="file-upload" className="cursor-pointer">
-                              {imagePreview ? (
+                              {imagePreview || formData.image  ? (
                                 <div className="w-32 h-32 mx-auto mb-4 overflow-hidden rounded-lg border border-gray-200">
                                   <img
-                                    src={imagePreview}
+                                    src={imagePreview || formData.image }
                                     alt="Preview"
                                     className="object-cover w-full h-full"
                                   />
@@ -101,10 +162,11 @@ const handleImageUpload = async (e) => {
                               accept="image/*"
                               onChange={handleImageUpload}
                             />
-                  </div>
+                      </div>
           
-              <h2 className="text-xl font-semibold">John Doe</h2>
-              <p className="text-sm text-gray-500 mb-6">Member since 2024</p>
+                  <h2 className="text-xl font-semibold">
+                  {formData?.firstName  ? `${formData?.firstName} ${formData?.lastName || ""}` : "User Name"}
+                </h2>
             </div>
 
         {/* Main */}
@@ -140,7 +202,92 @@ const handleImageUpload = async (e) => {
                  </button>   
             </nav>
           </div>
-          
+         {/* //my profile */}
+         <div className="flex-1 bg-white rounded-lg shadow-sm p-6">
+      <h1 className="text-2xl font-semibold mb-6">My Profile</h1>
+      <form className="space-y-6"  onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              First Name
+            </label>
+            <input
+              type="text"
+              placeholder="Enter first name"
+              value={formData.firstName}
+              onChange={(e) =>
+                setFormData({ ...formData, firstName: e.target.value })
+              }
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Last Name
+            </label>
+            <input
+              type="text"
+              placeholder="Enter last name"
+              value={formData.lastName}
+              onChange={(e) =>
+                setFormData({ ...formData, lastName: e.target.value })
+              }
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              placeholder="Enter email e.g. john32@example.com"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Phone
+            </label>
+            <input
+              type="tel"
+              placeholder="Enter phone number +91 234 567 8902"
+              value={formData.phoneNumber}
+              onChange={(e) =>
+                setFormData({ ...formData, phoneNumber: e.target.value })
+              }
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Bio
+          </label>
+          <textarea
+            value={formData.bio}
+            placeholder="Write something!"
+            onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+            rows={4}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+          />
+        </div>
+        <div className="flex justify-end">
+        <button
+                  type="submit"
+                  className={`px-6 py-2 ${isUpdating ? 'bg-gray-400' : 'bg-blue-500'} text-white rounded-md`}
+                  disabled={isUpdating}
+                >
+                  {isUpdating ? 'Updating...' : 'Update Profile'}
+                </button>
+                </div>
+      </form>
+    </div>
+   
         {renderComponent()}
         </div>
       </div>

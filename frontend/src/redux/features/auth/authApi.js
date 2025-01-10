@@ -20,6 +20,7 @@ const authApi=createApi({
                 })
             }),
            
+            
             loginUser: builder.mutation({
                 query: (credentials) => {
                     const token = localStorage.getItem('token'); // Retrieve token
@@ -44,15 +45,21 @@ const authApi=createApi({
                     }
                 })
             }),
-            getUser:builder.mutation({
-                query:()=>
-                ({
-                    url:'/users',
-                    method:'GET',
-                }),
-                refetchOnMount:true,
-                invalidatesTags:['User'],
-            }),
+          
+            getUser: builder.mutation({
+                query: (userId) => {
+                  const token = localStorage.getItem("token");
+                  return {
+                    url: `/user/${userId}`,
+                    method: "GET",
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  };
+                },
+                invalidatesTags: ["User"],
+              }),
+              
             deleteUser:builder.mutation({
                 query:(userId)=>
                 ({
@@ -61,16 +68,32 @@ const authApi=createApi({
                 }),
                 invalidatesTags:['User'],
             }),
-            updateUserRole:builder.mutation({
-                query:({userId,role})=>
-                ({
-                    url:`/users/${userId}`,
-                    method:'PUT',
-                    body:{role}
-                }),
-                refetchOnMount:true,
-                invalidatesTags:['User'],
-            }),
+            // updateUserRole:builder.mutation({
+            //     query:({userId,profileImage,bio,profession,firstName, lastName,password, phoneNumber})=>
+            //     ({
+            //         url:`/users/${userId}`,
+            //         method:'PUT',
+            //         body:{profileImage,bio,profession,firstName, lastName,password, phoneNumber}
+            //     }),
+            //     refetchOnMount:true,
+            //     invalidatesTags:['User'],
+            // }),
+            updateUserInfo: builder.mutation({
+                query: ({ userId, profileImage, bio, profession, firstName, lastName, phoneNumber }) => {
+                  const token = localStorage.getItem("token");
+                  return {
+                    url: `/users/${userId}`,
+                    method: "PUT",
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                    body: { profileImage, bio, profession, firstName, lastName, phoneNumber },
+                  };
+                },
+                refetchOnMount: true,
+                invalidatesTags: ["User"],
+              }),
+              
             editProfile:builder.mutation({
                 query:(profileData)=>
                 ({
@@ -83,5 +106,5 @@ const authApi=createApi({
         })
 
 })
-export const {useRegisterUserMutation,useLoginUserMutation,useLogoutUserMutation,useDeleteUserMutation,useUpdateUserRoleMutation,useEditProfileMutation}=authApi;
+export const {useRegisterUserMutation,useGetUserMutation ,useGetUserQuery, useLoginUserMutation,useLogoutUserMutation,useDeleteUserMutation,useUpdateUserInfoMutation,useEditProfileMutation}=authApi;
 export default authApi;

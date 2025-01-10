@@ -8,7 +8,6 @@ import ShopPage from "../pages/shop/ShopPage";
 import SingleProduct from "../pages/shop/productDetails/SingleProduct";
 import Login from "../components/Login";
 import Register from "../components/Register";
-
 import ForgetPassword from "../components/ForgetPassword";
 import OtpWithNewPassword from "../components/OtpWithNewPassword";
 import UserProfile from "../userProfile/UserProfile";

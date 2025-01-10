@@ -92,14 +92,38 @@ const handleAllUsers=async(req,res)=>
     }
 };
 
+
+
+// Get single user info
+const handleGetUser = async (req, res) => {
+    try {
+      const { id } = req.params; // Use `req.params` for better RESTful API design
+      if (!id) {
+        return res.status(400).send({ message: "User ID is required" });
+      }
+  
+      const user = await ShopUser.findById(id);
+  
+      if (!user) {
+        return res.status(404).send({ message: "User not found" });
+      }
+  
+      res.status(200).send({ message: "User fetched successfully", user });
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).send({ message: "Error fetching user" });
+    }
+  };
+  
+
 //update user information
 const handleUpdateUser=async(req,res)=>
 {
     try
     {const {id}=req.params;
     // const {role}=req.body;
-   const  {profileImage,bio,profession,firstName, lastName,email,password, phoneNumber}=req.body;
-    const user=await ShopUser.findByIdAndUpdate(id,{profileImage,bio,profession,firstName, lastName,email,password, phoneNumber},{new:true});
+   const  {profileImage,bio,profession,firstName, lastName, phoneNumber}=req.body;
+    const user=await ShopUser.findByIdAndUpdate(id,{profileImage,bio,profession,firstName, lastName, phoneNumber},{new:true});
     if(!user)
     {
         return res.status(404).send({message:"User not found"})
@@ -157,4 +181,4 @@ res.status(200).send({
 
 
 
-export {handleUserRegister,handleLogin,handleDeleteUser,handleAllUsers,handleUpdateUser,handleProfile}
+export {handleUserRegister,handleLogin,handleDeleteUser,handleAllUsers,handleGetUser,handleUpdateUser,handleProfile}

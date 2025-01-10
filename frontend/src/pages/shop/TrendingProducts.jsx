@@ -32,9 +32,11 @@ const TrendingProducts = () => {
     {
         setVisibleProducts(prevCount=>prevCount + 4 )
     }
+
     useEffect(()=>{
      fetchAllProducts()
     },[])
+    
   return (
    <>
    <section className='section__container product__container'>
