@@ -208,18 +208,18 @@ const handleImageUpload = async (e) => {
                 className="w-full p-2 border rounded-lg"
               >
                 <option value="">Select color</option>
-                <option value="Red">Red</option>
-                <option value="Blue">Blue</option>
-                <option value="Green">Green</option>
-                <option value="Yellow">Yellow</option>
-                <option value="Black">Black</option>
-                <option value="White">White</option>
-                <option value="Pink">Pink</option>
-                <option value="Voilet">Voilet</option>
-                <option value="Orange">Orange</option>
-                <option value="Golden">Golden</option>
-                <option value="Brown">Brown</option>
-                <option value="Sky">Sky</option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+                <option value="pink">Pink</option>
+                <option value="purple">Purple</option>
+                <option value="orange">Orange</option>
+                <option value="golden">Golden</option>
+                <option value="brown">Brown</option>
+                <option value="gray">Gray</option>
               </select>
             </div>
 

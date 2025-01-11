@@ -6,11 +6,11 @@ const productSchema = new mongoose.Schema({
     description: { type: String },
     price: { type: Number, required: true }, 
     oldPrice: { type: Number },
-    image: { type: String },  // Image URL will be stored here
+    image: { type: String,default: "" },  // Image URL will be stored here
     // image: { type: mongoose.Schema.Types.Mixed },
     color: {
         type: String,
-        enum: ['red', 'blue', 'green', 'yellow', 'black', 'white',  'orange', 'purple', 'pink', 'brown',  'gray' ], // Allowed colors
+        enum: ['red', 'blue', 'green', 'yellow', 'black', 'white',  'orange', 'purple', 'pink', 'brown', 'golden', 'gray' ], // Allowed colors
         default: 'black', // Default color
       },
     rating: { type: Number, default: 0 },

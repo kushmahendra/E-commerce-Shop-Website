@@ -80,7 +80,7 @@ const handleSubmit = async(e) => {
     }
   
     try {
-      const response = await fetch(API_BASE_URL+`/api/products/product/${productDetails?._id}`,{
+      const response = await fetch(API_BASE_URL+`/api/product/${productDetails?._id}`,{
         method:"PUT",
         headers:{
           'Content-Type':'application/json'
@@ -235,7 +235,7 @@ const handleSubmit = async(e) => {
                 }
                 className="w-full p-2 border rounded-lg"
               >
-                <option value="">Select color</option>
+                 <option value="">Select color</option>
                 <option value="red">Red</option>
                 <option value="blue">Blue</option>
                 <option value="green">Green</option>
@@ -243,11 +243,11 @@ const handleSubmit = async(e) => {
                 <option value="black">Black</option>
                 <option value="white">White</option>
                 <option value="pink">Pink</option>
-                <option value="voilet">Voilet</option>
+                <option value="purple">Purple</option>
                 <option value="orange">Orange</option>
                 <option value="golden">Golden</option>
                 <option value="brown">Brown</option>
-                <option value="sky">Sky</option>
+                <option value="gray">gray</option>
               </select>
             </div>
 

@@ -3,6 +3,7 @@ import { handleCreateOrders,handleGetAllOrders,handleGetSingleOrder,handleUpdate
 
 const orderRoute=express.Router();
 
+
 orderRoute.post('/orders',handleCreateOrders)
 orderRoute.get('/orders',handleGetAllOrders)
 orderRoute.get('/orders/:id',handleGetSingleOrder)

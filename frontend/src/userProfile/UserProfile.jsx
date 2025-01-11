@@ -34,7 +34,6 @@ export default function UserProfile() {
   
     // Initialize the mutation hook
   
-  
     // Fetch user data on component mount
     useEffect(() => {
       const fetchUser = async () => {

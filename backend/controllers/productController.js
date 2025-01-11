@@ -4,7 +4,7 @@ import Reviews from '../models/reviewsModel.js';
 
 //create products
 
-const handleProduct = async (req, res) => {
+const handleCreateProduct = async (req, res) => {
     try {
         // Destructure and validate request body
         const {
@@ -74,8 +74,9 @@ const handleProduct = async (req, res) => {
     }
 };
 
+
 //get all products
-const handleAllProducts=async(req,res)=>
+const handleGetAllProducts=async(req,res)=>
 {
     try {
         const {category,color,minPrice,maxPrice,page=1,limit=10}=req.query
@@ -228,4 +229,4 @@ const handleRelatedProduct=async(req,res)=>
 }
 
 
-export { handleProduct,handleAllProducts,handleSingleProduct,handleUpdateProduct,handleDeleteProduct,handleRelatedProduct,getAllProducts};
+export { handleCreateProduct,handleGetAllProducts,handleSingleProduct,handleUpdateProduct,handleDeleteProduct,handleRelatedProduct,getAllProducts};

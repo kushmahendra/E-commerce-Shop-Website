@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 
 // Mock data based on the Mongoose schema
+
 const mockOrders = [
   {
     _id: '1',
@@ -76,7 +77,7 @@ export default function Orders() {
                   <td className="border border-gray-300 px-4 py-2">${order.totalAmount.toFixed(2)}</td>
                   <td className="border border-gray-300 px-4 py-2">
                     <span
-                      className={`px-2 py-1 rounded text-white ${statusColors[order.status]}`}
+                      className={`px-2 py-1 rounded-2xl text-white ${statusColors[order.status]}`}
                     >
                       {order.status}
                     </span>
@@ -116,7 +117,7 @@ export default function Orders() {
             <p>
               <strong>Status:</strong>{' '}
               <span
-                className={`px-2 py-1 rounded text-white ${statusColors[selectedOrder.status]}`}
+                className={`px-2 py-1 rounded-2xl text-white ${statusColors[selectedOrder.status]}`}
               >
                 {selectedOrder.status}
               </span>

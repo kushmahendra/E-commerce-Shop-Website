@@ -24,6 +24,7 @@ export default function ProductList({ products, onRemoveProduct, onUpdateProduct
         </div>
 
         {/* Product List */}
+        {/* {products.products.map((product) => ( */}
         {products.map((product) => (
           <div key={product.id} className="border-b last:border-none">
             <div className="grid grid-cols-[80px,1fr,1fr,1fr,1fr,1fr,1fr,80px,80px] gap-4 py-4 px-4 items-center text-center hover:bg-purple-50 transition-all duration-300">

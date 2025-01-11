@@ -13,6 +13,8 @@ import adminRoute from './routes/adminRoute.js';
 import resetPasswordrRouter from './routes/resetPasswordRoute.js';
 import userOtpRoute from './routes/userOtpRoute.js';
 import orderRoute from './routes/ordersRoute.js';
+import cartItemRoute from './routes/cartItemRoute.js';
+import cartRoute from './routes/cartRoute.js';
 
 
 dotenv.config();
@@ -35,12 +37,13 @@ app.use(bodyParser.json());
 
 mongoDbConnect();
 
+
 //All routes
 app.get('/',(req,res)=>{
     res.json({message:"hello"})
 })
 app.use('/api/auth', authRoute)
-app.use('/api/products', productRoute)
+app.use('/api', productRoute)
 app.use('/api/reviews', reviewRoute)
 // Routes
 app.use('/api/upload', uploadRoutes);
@@ -49,6 +52,8 @@ app.use('/admin', adminRoute)
 app.use('/api', resetPasswordrRouter);
 app.use('/user',userOtpRoute);
 app.use('/api',orderRoute);
+app.use('/api',cartItemRoute)
+app.use('/api',cartRoute)
 
 const PORT = process.env.PORT
 

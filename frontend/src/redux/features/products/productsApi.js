@@ -4,7 +4,7 @@ import {getBaseUrl} from '../../../utils/baseURL'
 const productsApi=createApi({
     reducerPath:'productsApi',
     baseQuery:fetchBaseQuery({
-        baseUrl:`${getBaseUrl()}/api/products`,
+        baseUrl:`${getBaseUrl()}/api`,
         // credentials:'include'
     }),
     tagTypes:["Product"],
@@ -19,21 +19,22 @@ const productsApi=createApi({
                     page:page.toString(),
                     limit:limit.toString(),
                 }).toString();
-                return `/?${queryParams}`
+                return `/products?${queryParams}`
             },
             providesTags:["Product"]
         }),
+
         // fetchProductById:(builder)=>({
         //     query:(id)=> `/${id}`,
         //     providesTags:(result,error,id)=>[{type:'Product',id}],
         // }),
         fetchProductById: builder.query({
-            query: (id) => `/${id}`,
+            query: (id) => `/product/${id}`,
             providesTags: (result, error, id) => [{ type: 'Product', id }],
         }),
         AddProduct:builder.mutation({
             query:(newProduct)=>({
-                url:'/create-product',
+                url:'/products',
                 method:"POST",
                 body:newProduct,
                 // credentials:'include'
@@ -51,19 +52,15 @@ const productsApi=createApi({
         }),
         deleteProduct:builder.mutation({
             query:(id)=>({
-                url:`/${id}`,
+                url:`/product/${id}`,
                 method:"DELETE",
                 // credentials:'include'
             }),
             invalidatesTags: (result,error,id)=>[{type:"Product",id}]
         }),
-
       
     }),
 });
-
-// export const {useFetchAllProductsQuery,useFetchAllProductByIdQuery,useAddProductMutation,useUpdateProductMutation,
-//     useDeleteProductMutation,useFetchRelatedProductsQuery} = productsApi;
 
 export const {
     useFetchAllProductsQuery,

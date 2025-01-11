@@ -84,7 +84,7 @@ export default function Dashboard() {
       }
 
       try {
-        const response = await axios.get(API_BASE_URL+'/api/products/products');
+        const response = await axios.get(API_BASE_URL+'/api/all');
         setProducts(response.data.data || response.data);
       } catch (error) {
         console.error('Failed to fetch products:', error);
@@ -101,10 +101,11 @@ export default function Dashboard() {
   const handleAddProduct = async (product) => {
     try {
       const response = await axios.post(
-        API_BASE_URL+'/api/products/create-product',
+        API_BASE_URL+'/api/products',
         product
       );
       setProducts([...products, response.data]);
+    
     } catch (error) {
       console.error('Failed to add product:', error);
       toast.error('Failed to add product.', {
@@ -115,8 +116,9 @@ export default function Dashboard() {
   };
 
   const handleRemoveProduct = async (id) => {
+    
     try {
-      await axios.delete(API_BASE_URL+`/api/products/${id}`);
+      await axios.delete(API_BASE_URL+`/api/product/${id}`);
       setProducts(products.filter((product) => product._id !== id));
       toast.success('Product deleted successfully', {
         autoClose: 5000,

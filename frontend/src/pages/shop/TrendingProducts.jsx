@@ -9,7 +9,7 @@ const TrendingProducts = () => {
 
     const fetchAllProducts = async ()=>{
       try {
-        const response = await fetch(getBaseUrl()+'/api/products/products',{
+        const response = await fetch(getBaseUrl()+'/api/products',{
           method:'GET',
           headers:{
             'Content-Type':'application/json'
