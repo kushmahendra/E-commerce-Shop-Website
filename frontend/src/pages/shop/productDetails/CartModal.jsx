@@ -1,81 +1,147 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import OrderSummary from './OrderSummary';
-import { useDispatch } from 'react-redux';
-import { updateQuantity, removeFromCart } from '../../../redux/features/cart/cartSlice';
+import { createDispatchHook, useDispatch, useSelector } from 'react-redux';
+import { updateQuantity, removeFromCart, addToCart, cartFetch,setProducts } from '../../../redux/features/cart/cartSlice';
+import { useGetSingleCartQuery, useUpdateCartMutation } from '../../../redux/features/cart/cartApi';
 
-const CartModal = ({products,isOpen,onClose}) => {
-  const dispatch=useDispatch();
+const CartModal = ({  isOpen, onClose }) => {
+  const dispatch = useDispatch();
+  const teno =JSON.parse(localStorage.getItem("user"))
+  const products = useSelector((state)=>state.cart.products)
+  const { data: cart, isLoading, isError } = useGetSingleCartQuery(teno._id);
 
-  const handleQuantity =(type, id)=> {
-    const payload= {type, id}
-    dispatch(updateQuantity(payload))
+  const [ updateCart] = useUpdateCartMutation();
+
+  // const handleQuantity= async (product) => {
+  //   try {
+  //     await addsToCart({...product,userId:teno._id}).unwrap();
+  //       dispatch(addToCart({...product,userId:teno._id}))
+  //     alert('Product added to cart successfully!');
+  //   } catch (error) {
+  //     console.error('Error adding product to cart:', error);
+  //     alert('Failed to add product to cart. Please try again.');
+  //   }
+  // };
+
+
+
+  useEffect(()=>{
+    if(cart){
+      dispatch(setProducts(cart.items))
+    }
+      },[cart])
+
+  const handleQuantity = async(type, id,quan) => {
+    const payload = { type, id }
+
+    try {
+      if(type==='decrement'){
+
+        await updateCart({productId:id,userId:teno._id,quantity:quan-1}).unwrap();
+      }
+      else{
+        await updateCart({productId:id,userId:teno._id,quantity:quan+1}).unwrap();
+
+      }
+      dispatch(updateQuantity(payload))
+      alert('Product quantity updated successfully!');
+    } catch (error) {
+      console.error('Error updating product quantity cart:', error);
+      alert('Failed to update product quantity in cart. Please try again.');
+    }
+
   }
-  const handleRemove=(e, id)=>
-  {
- e.preventDefault()
- dispatch( removeFromCart({id}))
+
+  // const fetchCart = async()=>{
+  //   try {
+  //     const response =await getSingleCart(teno._id)
+  //     console.log('fsf',response);
+  //   } catch (error) {
+  //     console.error('Error',error)
+  //   }
+  // }
+
+// useEffect(()=>{
+// fetchCart();
+// },[])
+
+  const handleRemove = (e, id) => {
+    e.preventDefault()
+    dispatch(removeFromCart({ id }))
   }
+
+  if (isLoading) {
+    return <p>Loading cart...</p>;
+}
+
+if (isError) {
+    return <p>Error fetching cart: {error?.data?.message || 'Something went wrong!'}</p>;
+}
+
+if (!products || products?.items?.length === 0) {
+    return <p>Your cart is empty.</p>;
+}
+// console.log('kuch to hua h',cart)
   return (
     <div
-      className={`fixed z-[1000] inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
-        isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      }`}
+      className={`fixed z-[1000] inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
     >
-    <div className={`fixed right-0 top-0 md:w-1/3 w-full bg-white h-full overflow-y-auto transition-transform duration-300 ${
-    isOpen ? 'translate-x-0' : 'translate-x-full'
-  }`}
-  // style={{ transition: 'transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}
->
-  <div className='p-4 mt-4'>
-   <div className='flex justify-between items-center mb-4'>
-   <h4 className='text-xl font-semibold'>Your Cart</h4>
-<button onClick={()=> onClose()} className='text-gray-600 hover:text-gray-900'>
-<i className="ri-xrp-fill bg-black p-1 text-white "></i>
-</button>
-   </div>
-   {/* cart details */}
+      <div className={`fixed right-0 top-0 md:w-1/3 w-full bg-white h-full overflow-y-auto transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      // style={{ transition: 'transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}
+      >
+        <div className='p-4 mt-4'>
+          <div className='flex justify-between items-center mb-4'>
+            <h4 className='text-xl font-semibold'>Your Cart</h4>
+            <button onClick={() => onClose()} className='text-gray-600 hover:text-gray-900'>
+              <i className="ri-xrp-fill bg-black p-1 text-white "></i>
+            </button>
+          </div>
 
-      <div className='cart-items'>
-        {products.length === 0 ? (<div>Your cart is empty</div>):(
-          
-         products.map((item, index)=> (
-          <div key={index} className='flex flex-col md:flex-row md:item-center md:justify-between shadow-md md:p-5 p-2 mb-4'>
-            <div className='flex items-center '>
+          {/* cart details */}
 
-              <span className='mr-4 px-1 bg-primary text-white rounded-full'>0 {index+1}</span>
-              <img src={item.image} alt="" className='size-12 object-cover mr-4' />
-              <div>
-                <h5 className='text-lg font-medium'>{item.name}</h5>
-                <p className='text-gray-600 text-sm'>${Number(item.price).toFixed(2)}</p>
-              </div>
-                  <div className='flex flex-row md:justify-start justify-end items-center mt-2'>
-                    <button onClick={()=> handleQuantity('decrement',item.id)} className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary 
-                     hover:text-white ml-8'>-</button>
-                    <span className='px-2  text-center mx-1'>{item.quantity}</span>
-                    <button onClick={()=> handleQuantity('increment',item.id)} className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary 
-                     hover:text-white '>+</button>
-                    <div className='ml-5'>
-                      <button onClick={(e)=>handleRemove(e,item.id)}
-                      className='text-red-500 hover:text-red-800 mr-4'>Remove</button>
+          <div className='cart-items'>
+            {products?.length === 0 ? (<div>Your cart is empty</div>) : (
+
+              products?.map((item, index) => (
+                <div key={index} className='flex flex-col md:flex-row md:item-center md:justify-between shadow-md md:p-5 p-2 mb-4'>
+                  <div className='flex items-center '>
+
+                    <span className='mr-4 px-1 bg-primary text-white rounded-full'>0 {index + 1}</span>
+                    <img src={item.product.image} alt="" className='size-12 object-cover mr-4' />
+                    <div>
+                      <h5 className='text-lg font-medium'>{item.product.name}</h5>
+                      <p className='text-gray-600 text-sm'>${Number(item.product.price).toFixed(2)}</p>
                     </div>
+                    <div className='flex flex-row md:justify-start justify-end items-center mt-2'>
+                      <button onClick={() => handleQuantity('decrement', item.product._id,item.quantity)} className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary 
+                     hover:text-white ml-8'>-</button>
+                      <span className='px-2  text-center mx-1'>{item.quantity}</span>
+                      <button onClick={() => handleQuantity('increment', item.product._id,item.quantity)} className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary 
+                     hover:text-white '>+</button>
+                      <div className='ml-5'>
+                        <button onClick={(e) => handleRemove(e, item.product._id)}
+                          className='text-red-500 hover:text-red-800 mr-4'>Remove</button>
+                      </div>
+                    </div>
+
                   </div>
+                </div>
+              ))
+            )}
+          </div>
 
-            </div>
-            </div>
-         ))
-        )}
+          {/* calculation */}
+          {
+            products?.length > 0 && (<OrderSummary />)
+          }
+        </div>
       </div>
-
-{/* calculation */}
-{
-  products.length > 0 && (<OrderSummary/>)
-}
-  </div>
-</div>
 
     </div>
   );
-  
+
 }
 
 export default CartModal

@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector,useDispatch } from 'react-redux'
 import { clearCart } from '../../../redux/features/cart/cartSlice';
 
+
 const OrderSummary = () => {
     const products=useSelector((store)=> store.cart.products);
     console.log('prd',products)

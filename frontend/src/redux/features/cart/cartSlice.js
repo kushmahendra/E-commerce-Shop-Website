@@ -16,56 +16,68 @@ name:'cart',
 initialState,
 reducers:{
     addToCart:(state,action)=>{
-        const isExist=state.products.find((product)=>product.id ===action.payload.id);
+        const isExist=state.products.find((product)=>product._id ===action.payload.id);
         console.log('payload',action.payload)
         console.log('state data',state.products)
         if(!isExist)
         {
-            state.products.push({...action.payload,quantity:1})
+            state.products.push({product:action.payload,quantity:1})
 
         }
         else{
             console.log("Items already added")
         }
-        console.log('ad',state)
-        state.selectedItems= setSelectedItems(state);
-        state.totalPrice=setTotalPrice(state);
-        state.tax=setTax(state);
-        state.grandTotal=setGrandTotal(state)
+        state.selectedItems=state.products.length
+        state.totalPrice=state.products.reduce((total,item)=>{ return Number(total + item.quantity * item.product.price)},0)
+        state.tax = state.taxRate*state.totalPrice
+        state.grandTotal = state.totalPrice+state.tax
+    },
+    setProducts: (state, action) => {
+        console.log('sfjshfja',action.payload)
+        state.products = action.payload; // This will set the products to the payload from the action
+        state.selectedItems = action.payload.length; // Set selected items count
+        state.totalPrice = action.payload.reduce((sum, item) => { return sum + (item.product.price * item.quantity)}, 0); // Calculate total price
+        state.tax = state.totalPrice * state.taxRate; // Calculate tax based on the total price
+        state.grandTotal = state.totalPrice + state.tax; // Calculate grand total
     },
     updateQuantity:(state,action)=>
-    {
-        const products = state.products.map((product)=>
+    {   console.log('hello world',action.payload)
+        const products = state.products.map((item)=>
         {
-            if(product.id==action.payload.id)
+            if(item.product._id==action.payload.id)
             {
                 if(action.payload.type ==='increment')
                 {
-                    product.quantity += 1;
+                    item.quantity += 1;
                 }
                 else if(action.payload.type ==='decrement')
                 {
-                    if(product.quantity > 1)
+                    if(item.quantity > 1)
                     {
-                        product.quantity -=1;
+                        item.quantity -=1;
                     }
                 }
             }
-            return product;
+            return item;
         });
-
-        state.selectedItems= setSelectedItems(state);
-        state.totalPrice=setTotalPrice(state);
-        state.tax=setTax(state);
-        state.grandTotal=setGrandTotal(state)
+        console.log('hellsofasofasofosaf',products)
+        state.products=products;
+        state.selectedItems=products.length
+        state.totalPrice = products.reduce((total, item) => {
+            return total + (item.quantity * item.product.price); // Make sure to return the accumulated total
+        }, 0); 
+        state.tax = state.taxRate*state.totalPrice
+        state.grandTotal = state.totalPrice+state.tax
     },
     removeFromCart:(state,action)=>
-    {
-        state.products =state.products.filter((product)=> product.id !== action.payload.id);
-        state.selectedItems= setSelectedItems(state);
-        state.totalPrice=setTotalPrice(state);
-        state.tax=setTax(state);
-        state.grandTotal=setGrandTotal(state)
+    { 
+        state.products =state.products.filter((item)=> item.product._id !== action.payload.id);
+        state.selectedItems=state.products.length
+        state.totalPrice = state.products.reduce((total, item) => {
+            return total + (item.quantity * item.product.price); // Make sure to return the accumulated total
+        }, 0); 
+        state.tax = state.taxRate*state.totalPrice
+        state.grandTotal = state.totalPrice+state.tax
     },
     clearCart:(state) => 
         {
@@ -94,7 +106,8 @@ export const setGrandTotal=(state)=> {
 }
 
 
-export const {addToCart, updateQuantity, removeFromCart,clearCart}=cartSlice.actions;
+
+export const {addToCart, updateQuantity,cartFetch, removeFromCart,clearCart,setProducts}=cartSlice.actions;
 export default cartSlice.reducer    
 
 

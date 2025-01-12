@@ -30,7 +30,6 @@ const  handleAddToCart=(product)=>
         <span className='hover:text-primary'><Link to='/shop'>shop</Link></span>
         <i className="ri-arrow-right-s-line"></i>
         <span className='hover:text-primary'>{singleProduct.name}</span>
-
         </div>         
  </section>
  <section className='section__container mt-8'>

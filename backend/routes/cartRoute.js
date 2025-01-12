@@ -4,7 +4,7 @@ import { handleAddCart, handleClearCart, handleGetSingleCart, handleRemoveCart, 
 
 const cartRoute=express.Router();
 
-cartRoute.post('/add-to-cart',handleAddCart);
+cartRoute.post('/add-to-carts',handleAddCart);
 cartRoute.get('/:userId', handleGetSingleCart);
 cartRoute.put('/update-cart',handleUpdateCart);
 cartRoute.delete('/remove-cart',handleRemoveCart);

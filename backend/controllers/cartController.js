@@ -4,10 +4,14 @@ import { Cart } from '../models/cartAndCartItemModel.js';
 
 
 
+
 // Add an item to the cart
 const handleAddCart=async (req, res) => {
   try {
-    const { userId, productId, quantity } = req.body;
+    const { userId, _id:productId, quantity=1 } = req.body;
+    console.log('id',userId)
+    console.log('Pid',productId)
+    console.log('q',quantity)
 
     if (!userId || !productId || !quantity || quantity <= 0) {
       return res.status(400).json({ message: 'Invalid input data' });
@@ -60,7 +64,7 @@ const handleGetSingleCart=async (req, res) => {
     const cart = await Cart.findOne({ user: userId }).populate({
       path: 'items.product',
       model: 'Product',
-      select: 'name price',
+      select: 'name price category description image color rating stock oldPrice',
     });
 
     if (!cart) {
@@ -122,6 +126,7 @@ const handleUpdateCart = async (req, res) => {
     }
   };
   
+
 
 // Remove an item from the cart
 const handleRemoveCart = async (req, res) => {

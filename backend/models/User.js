@@ -21,6 +21,7 @@ const shopUserSchema=new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Order',
     },
+    
 
     cart: [{   //square bracket represents cart array
       type: mongoose.Schema.Types.ObjectId,
