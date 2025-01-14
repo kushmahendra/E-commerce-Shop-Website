@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import OrderSummary from './OrderSummary';
 import { createDispatchHook, useDispatch, useSelector } from 'react-redux';
 import { updateQuantity, removeFromCart, addToCart, cartFetch,setProducts } from '../../../redux/features/cart/cartSlice';
-import { useGetSingleCartQuery, useUpdateCartMutation } from '../../../redux/features/cart/cartApi';
+import { useGetSingleCartQuery, useUpdateCartMutation, useRemoveCartItemMutation } from '../../../redux/features/cart/cartApi';
 
 const CartModal = ({  isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -11,6 +11,7 @@ const CartModal = ({  isOpen, onClose }) => {
   const { data: cart, isLoading, isError } = useGetSingleCartQuery(teno._id);
 
   const [ updateCart] = useUpdateCartMutation();
+ const  [ removeCartItem]= useRemoveCartItemMutation();
 
   // const handleQuantity= async (product) => {
   //   try {
@@ -65,9 +66,19 @@ const CartModal = ({  isOpen, onClose }) => {
 // fetchCart();
 // },[])
 
-  const handleRemove = (e, id) => {
+  const handleRemove =async(e, id) => {
     e.preventDefault()
+   try
+   {
+
+    await removeCartItem({productId:id,userId:teno._id}).unwrap();
+
     dispatch(removeFromCart({ id }))
+    alert('Product removed successfully!');
+  } catch (error) {
+    console.error('Error removed product:', error);
+    alert('Failed to remove product. Please try again.');
+  }
   }
 
   if (isLoading) {

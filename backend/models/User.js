@@ -27,6 +27,7 @@ const shopUserSchema=new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'CartItem', // Reference to CartItem model
     }],
+    addresses:[],
   
     createdAt: {
       type: Date,

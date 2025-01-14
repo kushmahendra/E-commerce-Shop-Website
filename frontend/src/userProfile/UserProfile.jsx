@@ -8,8 +8,10 @@ import Addresses from "./Addresses";
 import { Upload } from 'lucide-react';
 
 import { uploadProfileImage } from '../services/services';
+import { useNavigate } from "react-router-dom";
 
 export default function UserProfile() {
+  const navigate=useNavigate()
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -32,9 +34,8 @@ export default function UserProfile() {
     const userId = localUser?._id;
     console.log("User ID:", userId);
   
-    // Initialize the mutation hook
-  
     // Fetch user data on component mount
+
     useEffect(() => {
       const fetchUser = async () => {
         try {
@@ -125,6 +126,11 @@ const handleImageUpload = async (e) => {
     }
   };
 
+  const handleLogout=()=>
+  {
+    navigate('/')
+  }
+
   return (<>
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 py-8">
@@ -203,6 +209,23 @@ const handleImageUpload = async (e) => {
                 </svg>
                  Addresses
                  </button>   
+
+                 <button onClick={handleLogout} className="flex items-center px-4 py-2 text-gray-600  hover:text-green-800 hover:bg-yellow-100 rounded-md" >
+                 <svg
+                  className="w-5 h-5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7"
+                  />
+                </svg>
+                  Logout
+                 </button>
             </nav>
           </div>
          {/* //my profile */}

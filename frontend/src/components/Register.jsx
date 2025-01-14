@@ -10,6 +10,7 @@ const Register = () => {
     password: "",
     phoneNumber: "",
   });
+  
   const [message, setMessage] = useState("");
   const [registerUser, { isLoading }] = useRegisterUserMutation();
   const navigate = useNavigate();

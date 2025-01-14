@@ -37,7 +37,7 @@ const cartApi = createApi({
             query: (cartItemId) => ({
                 url: '/remove-cart',
                 method: 'DELETE',
-                body: { cartItemId },
+                body:  cartItemId ,
             }),
             invalidatesTags: ['Cart'],
         }),

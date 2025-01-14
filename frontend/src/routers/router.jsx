@@ -11,6 +11,8 @@ import Register from "../components/Register";
 import ForgetPassword from "../components/ForgetPassword";
 import OtpWithNewPassword from "../components/OtpWithNewPassword";
 import UserProfile from "../userProfile/UserProfile";
+import Checkout from "../pages/shop/productDetails/CheckOut";
+import ConfirmPage from "../pages/shop/productDetails/ConfirmPage";
 
 
 const router = createBrowserRouter([
@@ -23,6 +25,7 @@ const router = createBrowserRouter([
         {path:'/search',element:<Search/>},
         {path:"/shop",element:<ShopPage/>},
         {path:'/shop/:id', element:<SingleProduct/>},
+
      
       ] 
     },
@@ -35,5 +38,7 @@ const router = createBrowserRouter([
     {path:'/forget', element:<ForgetPassword/>},
     {path:'/Otp', element:<OtpWithNewPassword/>},
     {path:'/profile', element:<UserProfile/>},
+    {path:'/checkout',element:<Checkout/>},
+    {path:'/order-confirmation', element:<ConfirmPage/>},
   ]);
   export default router

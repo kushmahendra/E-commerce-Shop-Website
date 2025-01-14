@@ -3,9 +3,14 @@ import ProductCards from './ProductCards'
 // import products  from '../../data/products.json'
 import { getBaseUrl } from '../../utils/baseURL'
 
+
 const TrendingProducts = () => {
-    const [visibleProducts,setVisibleProducts]=useState(10)
-    const [products,setProducts] = useState(null);
+    const [visibleProducts,setVisibleProducts]=useState(8)
+    const [products,setProducts] = useState([]);
+
+    useEffect(()=>{
+      fetchAllProducts()
+     },[])
 
     const fetchAllProducts = async ()=>{
       try {
@@ -17,8 +22,8 @@ const TrendingProducts = () => {
         });
         const data = await response.json();
         if(response.ok){
-          // console.log('products data',data);
-          setProducts(data.data);
+          console.log('products data',data);
+          setProducts(data.products );
         }
         else{
           console.warn('failed to fetch products');
@@ -30,12 +35,12 @@ const TrendingProducts = () => {
 
     const loadMoreProducts=()=>
     {
-        setVisibleProducts(prevCount=>prevCount + 4 )
+        setVisibleProducts((prevCount)=> prevCount + 8 )
     }
 
-    useEffect(()=>{
-     fetchAllProducts()
-    },[])
+    // useEffect(()=>{
+    //  fetchAllProducts()
+    // },[])
     
   return (
    <>
@@ -46,15 +51,13 @@ const TrendingProducts = () => {
 
 {/* products card */}
 <div className='m-12'>
-<ProductCards products={products &&products.slice(0,visibleProducts)}/>
+<ProductCards products={products && products.slice(0,visibleProducts)}/>
 </div>
 
 {/* load more products btn */}
 <div className='product__btn'>
   {
-    visibleProducts<products && products.length && (
-    <button className='btn' onClick={loadMoreProducts}>Load More</button>
-    )
+    visibleProducts < products.length && ( <button className='btn' onClick={loadMoreProducts}>Load More</button> )
   }
 </div>
    </section>

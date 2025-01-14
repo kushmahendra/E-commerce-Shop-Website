@@ -122,8 +122,8 @@ const handleUpdateUser=async(req,res)=>
     try
     {const {id}=req.params;
     // const {role}=req.body;
-   const  {profileImage,bio,profession,firstName, lastName, phoneNumber}=req.body;
-    const user=await ShopUser.findByIdAndUpdate(id,{profileImage,bio,profession,firstName, lastName, phoneNumber},{new:true});
+   const  {profileImage,bio,profession,firstName, lastName, phoneNumber,addresses}=req.body;
+    const user=await ShopUser.findByIdAndUpdate(id,{profileImage,bio,profession,firstName, lastName, phoneNumber,  addresses},{new:true});
     if(!user)
     {
         return res.status(404).send({message:"User not found"})

@@ -1,20 +1,48 @@
 import React from 'react'
 import { useSelector,useDispatch } from 'react-redux'
-import { clearCart } from '../../../redux/features/cart/cartSlice';
+// import { clearCart } from '../../../redux/features/cart/cartSlice';
+import { useClearCartMutation } from '../../../redux/features/cart/cartApi';
+import {useNavigate} from 'react-router-dom';
 
 
 const OrderSummary = () => {
-    const products=useSelector((store)=> store.cart.products);
-    console.log('prd',products)
+    // const products=useSelector((store)=> store.cart.products);
+    // console.log('prd',products)
+
+    const navigate = useNavigate();
+    
     const {selectedItems, totalPrice, tax, taxRate, grandTotal}=useSelector((store)=> store.cart);
     console.log('tp',totalPrice);
-    const dispatch=useDispatch()
+    // const dispatch=useDispatch()
 
-    const handleClearCart= () =>
+     
+      const teno =JSON.parse(localStorage.getItem("user"))
+      console.log('User:', teno);
+      console.log('ajjj',teno._id)
+     
+      const [ clearCart,{ isLoading, isError }] = useClearCartMutation();
+
+    const handleClearCart= async() =>
     {
-      dispatch(clearCart())
-    }
+      if (!teno || !teno._id) {
+        console.error('User not found or invalid ID');
+        return;
+      }
+  
+      try {
+        await clearCart(teno._id).unwrap(); // Unwrap the result to handle errors explicitly
+        // dispatch(clearCart())
     
+      } catch (error) {
+        console.error('Failed to clear the cart:', error);
+      }
+     
+    }
+  
+
+  const handleProceedCheckout = () => {
+    navigate('/checkout'); // Replace with your actual checkout route
+  };
 
   return (
     <>
@@ -29,11 +57,15 @@ const OrderSummary = () => {
             <button onClick={(e)=> {
               e.stopPropagation();
               handleClearCart();
-            }} className='bg-red-500 px-3 py-1.5 text-white mt-2 rounded-md flex justify-between items-center  mb-4'>
+            }}
+            disabled={isLoading}
+             className='bg-red-500 px-3 py-1.5 text-white mt-2 rounded-md flex justify-between items-center  mb-4'>
               <span className='mr-2'>Clear Cart</span>
              <i className="ri-delete-bin-7-fill"></i>
              </button>
-            <button className='bg-green-600 px-3 py-1.5 text-white mt-2 rounded-md flex justify-between items-center  '> 
+            <button 
+              onClick={handleProceedCheckout}
+            className='bg-green-600 px-3 py-1.5 text-white mt-2 rounded-md flex justify-between items-center  '> 
               <span className='mr-2'> Proceed Checkout</span>
             <i className="ri-bank-card-line"></i>
              </button>

@@ -14,7 +14,11 @@ const loadUserFromLocalStorage=() => {
 const initialState= loadUserFromLocalStorage();
 const authSlice=createSlice({
     name:'auth',
-    initialState,
+    initialState:{
+        user:{...initialState.user},
+        addresses:initialState.user?.addresses,
+  
+    },
     reducers:{
         setUser:(state,action)=>
         {

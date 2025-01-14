@@ -1,69 +1,89 @@
-"use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { useGetSingleUserQuery,  useUpdateUserInfoMutation } from "../redux/features/auth/authApi";
 
 export default function Addresses() {
-  const [addresses, setAddresses] = useState([
-    {
-      id: 1,
-      name: "Home",
-      street: "123 Main Street",
-      city: "New York",
-      state: "NY",
-      zipCode: "10001",
-      country: "United States",
-      isDefault: true
-    },
-    {
-      id: 2,
-      name: "Office",
-      street: "456 Business Ave",
-      city: "New York",
-      state: "NY",
-      zipCode: "10002",
-      country: "United States",
-      isDefault: false
-    }
-  ])
-
+  const add = useSelector((state)=>state.auth.addresses)
+  // console.log('fhjsf',add)
+  const user = useSelector((state) => state.auth.user); 
+  console.log('user',user)
+  console.log('userId',user._id);
+  
+  const [addresses, setAddresses] = useState(add)
+console.log('adresses',addresses)
   const [showAddForm, setShowAddForm] = useState(false)
   const [newAddress, setNewAddress] = useState({
-    name: "",
-    street: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    country: "United States",
-    isDefault: false
+  
+    addressName:"",
+    streetAddress:"",
+    city:"",
+    state:"",
+    zipCode:"",
+    country:"",
+    isDefault:true
   })
+ 
+  const [updateUserInfo, { isLoading: isUpdating }] = useUpdateUserInfoMutation();
+  const { data: userData, isLoading: isFetching, error: fetchError } = useGetSingleUserQuery(user?._id, {
+    skip: !user, // Skip fetching if the user is not available
+  });
+  
+  // Fetch addresses on component mount
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (userData?.addresses) {
+      setAddresses(userData.addresses);
+    }
+  }, [userData?.addresses]);
+
+  const handleSubmit =async (e) => {
     e.preventDefault()
     const id = addresses.length + 1
-    setAddresses([...addresses, { ...newAddress, id }])
-    setNewAddress({
-      name: "",
-      street: "",
-      city: "",
-      state: "",
-      zipCode: "",
-      country: "United States",
-      isDefault: false
-    })
-    setShowAddForm(false)
+    const updatedAddresses = [...addresses, { ...newAddress }];
+    console.log("update", updatedAddresses);
+    
+    setAddresses(updatedAddresses);
+   
+    try {
+      await updateUserInfo({ userId: user._id, addresses: updatedAddresses }).unwrap();
+      setNewAddress({
+        addressName: "",
+        streetAddress: "",
+        city: "",
+        state: "",
+        zipCode: "",
+        country: "",
+        isDefault:true
+      });
+      setShowAddForm(false);
+    } catch (error) {
+      console.error("Error updating user info:", error);
+    }
   }
 
-  const deleteAddress = (id) => {
-    setAddresses(addresses.filter(address => address.id !== id))
-  }
+  const deleteAddress = async (index) => {
+    // Remove the address at the specified index
+    const updatedAddresses = addresses.filter((_, i) => i !== index);
+    setAddresses(updatedAddresses);
+  
+    try {
+      // Update the backend with the modified addresses
+      await updateUserInfo({ userId: user._id, addresses: updatedAddresses }).unwrap();
+      console.log("Address deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting address:", error);
+    }
+  };
+  
 
-  const setAsDefault = (id) => {
-    setAddresses(addresses.map(address => ({
-      ...address,
-      isDefault: address.id === id
-    })))
-  }
-
+  // const setAsDefault = (id) => {
+  //   setAddresses(addresses.map(address => ({
+  //     ...address,
+  //     isDefault: address.id === id
+  //   })))
+  // }
+  
   return (
     // <div className="min-h-screen bg-gray-50 p-4 md:p-8">
     <div className="flex-1 bg-white rounded-lg shadow-sm p-6">
@@ -90,8 +110,8 @@ export default function Addresses() {
                   <input
                     type="text"
                     required
-                    value={newAddress.name}
-                    onChange={(e) => setNewAddress({...newAddress, name: e.target.value})}
+                    value={newAddress.addressName}
+                    onChange={(e) => setNewAddress({...newAddress, addressName: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   />
                 </div>
@@ -102,8 +122,8 @@ export default function Addresses() {
                   <input
                     type="text"
                     required
-                    value={newAddress.street}
-                    onChange={(e) => setNewAddress({...newAddress, street: e.target.value})}
+                    value={newAddress.streetAddress}
+                    onChange={(e) => setNewAddress({...newAddress,  streetAddress: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   />
                 </div>
@@ -156,7 +176,7 @@ export default function Addresses() {
                   />
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   id="isDefault"
@@ -167,7 +187,7 @@ export default function Addresses() {
                 <label htmlFor="isDefault" className="text-sm text-gray-700">
                   Set as default address
                 </label>
-              </div>
+              </div> */}
               <div className="flex gap-2">
                 <button
                   type="submit"
@@ -188,33 +208,33 @@ export default function Addresses() {
         )}
 
         <div className="space-y-4">
-          {addresses.map((address) => (
+          {addresses.map((address,index) => (
             <div key={address.id} className="bg-white rounded-lg shadow-sm p-6">
               <div className="flex justify-between items-start">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <h3 className="font-medium">{address.name}</h3>
-                    {address.isDefault && (
+                    <h3 className="font-medium">{address.addressName}</h3>
+                    {/* {address.isDefault && (
                       <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
                         Default
                       </span>
-                    )}
+                    )} */}
                   </div>
-                  <p className="text-gray-600">{address.street}</p>
-                  <p className="text-gray-600">{address.city}, {address.state} {address.zipCode}</p>
+                  <p className="text-gray-600">{address.streetAddress }</p>
+                  <p className="text-gray-600">{address.city},   {address.state},   {address.zipCode }</p>
                   <p className="text-gray-600">{address.country}</p>
                 </div>
                 <div className="flex gap-2">
-                  {!address.isDefault && (
+                  {/* {!address.isDefault  && (
                     <button
                       onClick={() => setAsDefault(address.id)}
                       className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50"
                     >
                       Set as Default
                     </button>
-                  )}
+                  )} */}
                   <button
-                    onClick={() => deleteAddress(address.id)}
+                    onClick={() => deleteAddress(index)}
                     className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50"
                   >
                     Delete

@@ -23,16 +23,11 @@ const ProductCards = ({products}) => {
     }
   };
 
-  // const handleAddToCart=(product)=>
-  // {
-  // }
-
-
 console.log('afafafaf',products)
-  return (
-<>
-<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>
 
+  return (
+       <>
+<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>
 {
   products && products.map((product,index)=>
   (
@@ -41,7 +36,6 @@ console.log('afafafaf',products)
     className="relative bg-gradient-to-r from-blue-100 via-gray-200 to-blue-100 text-white rounded-xl shadow-lg overflow-hidden hover:scale-105
      transition-transform duration-300"
       >
-
 <div className='relative'>
   <Link  to={`/shop/${product._id}`}>
 
