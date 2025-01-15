@@ -1,18 +1,18 @@
 
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useGetSingleUserQuery,  useUpdateUserInfoMutation } from "../redux/features/auth/authApi";
+import { setAddress } from "../redux/features/auth/authSlice";
 
 export default function Addresses() {
-  const add = useSelector((state)=>state.auth.addresses)
+  const addresses = useSelector((state)=>state.auth.addresses)
   // console.log('fhjsf',add)
   const user = useSelector((state) => state.auth.user); 
-  console.log('user',user)
-  console.log('userId',user._id);
+
   
-  const [addresses, setAddresses] = useState(add)
-console.log('adresses',addresses)
+  // const [addresses, setAddresses] = useState(add)
   const [showAddForm, setShowAddForm] = useState(false)
+  const dispatch = useDispatch();
   const [newAddress, setNewAddress] = useState({
   
     addressName:"",
@@ -25,17 +25,7 @@ console.log('adresses',addresses)
   })
  
   const [updateUserInfo, { isLoading: isUpdating }] = useUpdateUserInfoMutation();
-  const { data: userData, isLoading: isFetching, error: fetchError } = useGetSingleUserQuery(user?._id, {
-    skip: !user, // Skip fetching if the user is not available
-  });
-  
-  // Fetch addresses on component mount
-
-  useEffect(() => {
-    if (userData?.addresses) {
-      setAddresses(userData.addresses);
-    }
-  }, [userData?.addresses]);
+ 
 
   const handleSubmit =async (e) => {
     e.preventDefault()
@@ -43,7 +33,9 @@ console.log('adresses',addresses)
     const updatedAddresses = [...addresses, { ...newAddress }];
     console.log("update", updatedAddresses);
     
-    setAddresses(updatedAddresses);
+    // setAddresses(updatedAddresses);
+    dispatch(setAddress(updatedAddresses))
+    
    
     try {
       await updateUserInfo({ userId: user._id, addresses: updatedAddresses }).unwrap();
@@ -65,8 +57,9 @@ console.log('adresses',addresses)
   const deleteAddress = async (index) => {
     // Remove the address at the specified index
     const updatedAddresses = addresses.filter((_, i) => i !== index);
-    setAddresses(updatedAddresses);
-  
+    // setAddresses(updatedAddresses);
+    dispatch(setAddress(updatedAddresses))
+    
     try {
       // Update the backend with the modified addresses
       await updateUserInfo({ userId: user._id, addresses: updatedAddresses }).unwrap();
@@ -75,7 +68,6 @@ console.log('adresses',addresses)
       console.error("Error deleting address:", error);
     }
   };
-  
 
   // const setAsDefault = (id) => {
   //   setAddresses(addresses.map(address => ({
@@ -208,8 +200,8 @@ console.log('adresses',addresses)
         )}
 
         <div className="space-y-4">
-          {addresses.map((address,index) => (
-            <div key={address.id} className="bg-white rounded-lg shadow-sm p-6">
+          {addresses?.map((address,index) => (
+            <div key={index} className="bg-white rounded-lg shadow-sm p-6">
               <div className="flex justify-between items-start">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
