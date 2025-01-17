@@ -9,7 +9,8 @@ const ReviewsCard = ({productReviews}) => {
 
     const reviews=productReviews || []
 
-    // console.log(reviews);
+    console.log('revvvv',reviews);
+
 
     const handleOpenReviewModal=()=>
     {
@@ -33,10 +34,10 @@ const ReviewsCard = ({productReviews}) => {
                         reviews.map((review, index)=>(
                         <div key={index} className='mt-4'>
                           <div className='flex gap-4 items-center'>
-                            <img src={commentorIcon} alt="" className='size-14'/>
+                            <img src={ review?.profileImage || commentorIcon} alt="" className='size-14 rounded-full'/>
 
                             <div className='space-y-1'>
-                            <p className='text-lg font-medium underline capitalize underline-offset-4 text-blue-400'>{review?.userId?.userName}</p>
+                            <p className='text-lg font-medium underline capitalize underline-offset-4 text-blue-400'>{review?.firstName} {review?.lastName}</p>
                     
 
                             <p className='text-[12px] italic'>{formateDate(review?.updatedAt)}</p>
@@ -47,7 +48,6 @@ const ReviewsCard = ({productReviews}) => {
                             <p className='md:w-4/5'>{review?.comment}</p>
                           </div>
                         </div>
-
                         ))
                     }
                 </div>
@@ -60,7 +60,7 @@ const ReviewsCard = ({productReviews}) => {
     className='px-6 py-3 bg-primary text-white rounded-md'>Add a review</button>
 </div>
 {/* review modal */}
-<PostAReview isModalOpen={isModalOpen} handleClose={handleCloseReviewModal}/>
+<PostAReview isModalOpen={isModalOpen} handleClose={handleCloseReviewModal} />
     </div>
  </>
   )

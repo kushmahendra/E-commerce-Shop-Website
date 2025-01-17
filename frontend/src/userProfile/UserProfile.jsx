@@ -11,6 +11,9 @@ import { uploadProfileImage } from '../services/services';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAddress } from "../redux/features/auth/authSlice";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function UserProfile() {
   const navigate = useNavigate()
@@ -85,10 +88,28 @@ export default function UserProfile() {
           image: result,
         }));
         setImagePreview(result);
-        alert('Image uploaded successfully!');
+        // alert('Image uploaded successfully!');
+        toast.success("Image uploaded successful!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
       } catch (error) {
         console.error('Error uploading image:', error);
-        alert('Failed to upload image');
+        // alert('Failed to upload image');
+        toast.error("Failed to upload image", {
+          position: "top-right",
+          autoClose: 3000, // Duration in milliseconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light", // Options: 'light', 'dark', 'colored'
+        });
       } finally {
         setUploading(false); // End upload state
       }
@@ -110,10 +131,28 @@ export default function UserProfile() {
         lastName: formData?.lastName,
         phoneNumber: formData?.phoneNumber,
       }).unwrap();
-      alert("Profile updated successfully!");
+      // alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!", {
+        position: "top-right",
+        autoClose: 3000, // Time in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light", // 'light', 'dark', or 'colored'
+      });
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("Failed to update profile");
+      // alert("Failed to update profile");
+      toast.error("Failed to update profile", {
+        position: "top-right",
+        autoClose: 3000, // Duration in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light", // Options: 'light', 'dark', 'colored'
+      });
     }
   };
 
@@ -142,6 +181,7 @@ export default function UserProfile() {
   }
 
   return (<>
+    <ToastContainer />
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-8">
@@ -177,6 +217,7 @@ export default function UserProfile() {
                   className="hidden"
                   accept="image/*"
                   onChange={handleImageUpload}
+
                 />
               </div>
 
@@ -348,7 +389,7 @@ export default function UserProfile() {
             renderComponent()
           )
           }
-
+         
         </div>
       </div>
     </div>

@@ -18,7 +18,6 @@ const authSlice=createSlice({
     initialState:{
         user:{...initialState.user},
         addresses:null
-  
     },
     reducers:{
         setUser:(state,action)=>
@@ -29,7 +28,6 @@ const authSlice=createSlice({
         setAddress:(state,action)=>{
             state.addresses=action.payload
         }
-
         ,
         logout:(state)=>
         {

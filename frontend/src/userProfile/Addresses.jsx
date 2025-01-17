@@ -3,6 +3,9 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useGetSingleUserQuery,  useUpdateUserInfoMutation } from "../redux/features/auth/authApi";
 import { setAddress } from "../redux/features/auth/authSlice";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function Addresses() {
   const addresses = useSelector((state)=>state.auth.addresses)
@@ -49,13 +52,31 @@ export default function Addresses() {
         isDefault:true
       });
       setShowAddForm(false);
+      toast.success("Address save successfully.", {
+        position: "top-right",
+        autoClose: 3000, // Time in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light", // 'light', 'dark', or 'colored'
+      });
     } catch (error) {
       console.error("Error updating user info:", error);
+      toast.error("Faile to save address ", {
+        position: "top-right",
+        autoClose: 3000, // Time in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light", // 'light', 'dark', or 'colored'
+      });
     }
   }
+  
 
   const deleteAddress = async (index) => {
-    // Remove the address at the specified index
     const updatedAddresses = addresses.filter((_, i) => i !== index);
     // setAddresses(updatedAddresses);
     dispatch(setAddress(updatedAddresses))
@@ -63,9 +84,27 @@ export default function Addresses() {
     try {
       // Update the backend with the modified addresses
       await updateUserInfo({ userId: user._id, addresses: updatedAddresses }).unwrap();
-      console.log("Address deleted successfully.");
+      // console.log("Address deleted successfully.");
+      toast.success("Address deleted successfully.", {
+        position: "top-right",
+        autoClose: 3000, // Time in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light", // 'light', 'dark', or 'colored'
+      });
     } catch (error) {
       console.error("Error deleting address:", error);
+      toast.error("Failed to Address deleted ", {
+        position: "top-right",
+        autoClose: 3000, // Time in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light", // 'light', 'dark', or 'colored'
+      });
     }
   };
 
@@ -236,6 +275,7 @@ export default function Addresses() {
             </div>
           ))}
         </div>
+        <ToastContainer />
       </div>
     </div>
   )

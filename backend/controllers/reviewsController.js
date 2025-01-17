@@ -4,10 +4,10 @@ import Reviews from '../models/reviewsModel.js';
 
 const handleReview = async (req, res) => {
     try {
-        const { comment, rating, productId, userId } = req.body;
+        const { comment, rating, productId, userId, firstName ,lastName,profileImage } = req.body;
 
         // Validation: Check for required fields
-        if (!comment || !rating || !productId || !userId) {
+        if (!comment || !rating || !productId || !userId ||!firstName || !profileImage) {
             return res.status(400).send({ message: "All fields are required" });
         }
 
@@ -17,7 +17,7 @@ const handleReview = async (req, res) => {
         }
 
         // Check if the user has already reviewed the product
-        const existingReview = await Reviews.findOne({ productId, userId });
+        const existingReview = await Reviews.findOne({ productId, userId,firstName,profileImage });
         // .populate('userId', 'userName')
 
         if (existingReview) {
@@ -32,6 +32,9 @@ const handleReview = async (req, res) => {
                 rating,
                 productId,
                 userId,
+                firstName,
+                lastName,
+                profileImage,
             });
         }
 

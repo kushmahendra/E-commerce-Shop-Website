@@ -83,7 +83,6 @@ const authApi=createApi({
                 invalidatesTags:['ShopUser'],
             }),
           
-
             updateUserInfo: builder.mutation({
                 query: ({ userId, profileImage, bio, profession, firstName, lastName, phoneNumber ,addresses }) => {
                   const token = localStorage.getItem("token");
@@ -108,7 +107,6 @@ const authApi=createApi({
                     body:profileData
                 })
             }),
-
         })
 
 })

@@ -1,54 +1,63 @@
 import React, { useEffect } from 'react'
 import OrderSummary from './OrderSummary';
 import { createDispatchHook, useDispatch, useSelector } from 'react-redux';
-import { updateQuantity, removeFromCart, addToCart, cartFetch,setProducts } from '../../../redux/features/cart/cartSlice';
+import { updateQuantity, removeFromCart, addToCart, cartFetch, setProducts } from '../../../redux/features/cart/cartSlice';
 import { useGetSingleCartQuery, useUpdateCartMutation, useRemoveCartItemMutation } from '../../../redux/features/cart/cartApi';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
-const CartModal = ({  isOpen, onClose }) => {
+
+const CartModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
-  const teno =JSON.parse(localStorage.getItem("user"))
-  const products = useSelector((state)=>state.cart.products)
+  const teno = JSON.parse(localStorage.getItem("user"))
+  const products = useSelector((state) => state.cart.products)
   const { data: cart, isLoading, isError } = useGetSingleCartQuery(teno._id);
 
-  const [ updateCart] = useUpdateCartMutation();
- const  [ removeCartItem]= useRemoveCartItemMutation();
-
-  // const handleQuantity= async (product) => {
-  //   try {
-  //     await addsToCart({...product,userId:teno._id}).unwrap();
-  //       dispatch(addToCart({...product,userId:teno._id}))
-  //     alert('Product added to cart successfully!');
-  //   } catch (error) {
-  //     console.error('Error adding product to cart:', error);
-  //     alert('Failed to add product to cart. Please try again.');
-  //   }
-  // };
+  const [updateCart] = useUpdateCartMutation();
+  const [removeCartItem] = useRemoveCartItemMutation();
 
 
-
-  useEffect(()=>{
-    if(cart){
+  useEffect(() => {
+    if (cart) {
       dispatch(setProducts(cart.items))
     }
-      },[cart])
+  }, [cart])
 
-  const handleQuantity = async(type, id,quan) => {
+  const handleQuantity = async (type, id, quan) => {
     const payload = { type, id }
 
     try {
-      if(type==='decrement'){
+      if (type === 'decrement') {
 
-        await updateCart({productId:id,userId:teno._id,quantity:quan-1}).unwrap();
+        await updateCart({ productId: id, userId: teno._id, quantity: quan - 1 }).unwrap();
       }
-      else{
-        await updateCart({productId:id,userId:teno._id,quantity:quan+1}).unwrap();
+      else {
+        await updateCart({ productId: id, userId: teno._id, quantity: quan + 1 }).unwrap();
 
       }
       dispatch(updateQuantity(payload))
-      alert('Product quantity updated successfully!');
+      // alert('Product quantity updated successfully!');
+      toast.success("Product quantity updated successfully!", {
+        position: "top-right",
+        autoClose: 3000, // Time in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light", // 'light', 'dark', or 'colored'
+      });
     } catch (error) {
       console.error('Error updating product quantity cart:', error);
-      alert('Failed to update product quantity in cart. Please try again.');
+      // alert('Failed to update product quantity in cart. Please try again.');
+      toast.error("Failed to update product quantity in cart. Please try again.", {
+        position: "top-right",
+        autoClose: 3000, // Time in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light", // 'light', 'dark', or 'colored'
+      });
     }
 
   }
@@ -62,42 +71,62 @@ const CartModal = ({  isOpen, onClose }) => {
   //   }
   // }
 
-// useEffect(()=>{
-// fetchCart();
-// },[])
+  // useEffect(()=>{
+  // fetchCart();
+  // },[])
 
-  const handleRemove =async(e, id) => {
+  const handleRemove = async (e, id) => {
     e.preventDefault()
-   try
-   {
+    try {
 
-    await removeCartItem({productId:id,userId:teno._id}).unwrap();
+      await removeCartItem({ productId: id, userId: teno._id }).unwrap();
 
-    dispatch(removeFromCart({ id }))
-    alert('Product removed successfully!');
-  } catch (error) {
-    console.error('Error removed product:', error);
-    alert('Failed to remove product. Please try again.');
-  }
+      dispatch(removeFromCart({ id }))
+      // alert('Product removed successfully!');
+      toast.success("Product removed successfully!", {
+        position: "top-right",
+        autoClose: 3000, // Time in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light", // 'light', 'dark', or 'colored'
+      });
+    } catch (error) {
+      console.error('Error removed product:', error);
+      // alert('Failed to remove product. Please try again.');
+      toast.error("Failed to remove product. Please try again", {
+        position: "top-right",
+        autoClose: 3000, // Time in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light", // 'light', 'dark', or 'colored'
+      });
+    }
   }
 
   if (isLoading) {
     return <p>Loading cart...</p>;
-}
+  }
 
-if (isError) {
+  if (isError) {
     return <p>Error fetching cart: {error?.data?.message || 'Something went wrong!'}</p>;
-}
+  }
 
-if (!products || products?.items?.length === 0) {
+  if (!products || products?.items?.length === 0) {
     return <p>Your cart is empty.</p>;
-}
-// console.log('kuch to hua h',cart)
+  }
+  // console.log('kuch to hua h',cart)
   return (
+    <>
+    <ToastContainer />
     <div
       className={`fixed z-[1000] inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
     >
+      
       <div className={`fixed right-0 top-0 md:w-1/3 w-full bg-white h-full overflow-y-auto transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       // style={{ transition: 'transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' }}
@@ -126,10 +155,10 @@ if (!products || products?.items?.length === 0) {
                       <p className='text-gray-600 text-sm'>${Number(item.product.price).toFixed(2)}</p>
                     </div>
                     <div className='flex flex-row md:justify-start justify-end items-center mt-2'>
-                      <button onClick={() => handleQuantity('decrement', item.product._id,item.quantity)} className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary 
+                      <button onClick={() => handleQuantity('decrement', item.product._id, item.quantity)} className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary 
                      hover:text-white ml-8'>-</button>
                       <span className='px-2  text-center mx-1'>{item.quantity}</span>
-                      <button onClick={() => handleQuantity('increment', item.product._id,item.quantity)} className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary 
+                      <button onClick={() => handleQuantity('increment', item.product._id, item.quantity)} className='size-6 flex items-center justify-center px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-primary 
                      hover:text-white '>+</button>
                       <div className='ml-5'>
                         <button onClick={(e) => handleRemove(e, item.product._id)}
@@ -151,6 +180,7 @@ if (!products || products?.items?.length === 0) {
       </div>
 
     </div>
+   </>
   );
 
 }

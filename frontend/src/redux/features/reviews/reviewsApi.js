@@ -24,7 +24,6 @@ export const reviewsApi=createApi({
             query: () => ({
                 url:'/total-reviews'
             })
-           
         }),
 
         getreviewsByUserId:builder.query({
@@ -37,9 +36,6 @@ export const reviewsApi=createApi({
       
     }),
 });
-
-// export const {useFetchAllProductsQuery,useFetchAllProductByIdQuery,useAddProductMutation,useUpdateProductMutation,
-//     useDeleteProductMutation,useFetchRelatedProductsQuery} = productsApi;
 
 export const {
     usePostReviewMutation,

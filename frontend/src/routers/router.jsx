@@ -16,6 +16,7 @@ import ConfirmPage from "../pages/shop/productDetails/ConfirmPage";
 
 
 const router = createBrowserRouter([
+ 
     {
       path: "/",
       element:<App/>,
@@ -25,7 +26,6 @@ const router = createBrowserRouter([
         {path:'/search',element:<Search/>},
         {path:"/shop",element:<ShopPage/>},
         {path:'/shop/:id', element:<SingleProduct/>},
-
      
       ] 
     },

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ProductCards from './ProductCards'
 // import products  from '../../data/products.json'
 import { getBaseUrl } from '../../utils/baseURL'
+import { ToastContainer } from 'react-toastify'
 
 
 const TrendingProducts = () => {
@@ -37,13 +38,9 @@ const TrendingProducts = () => {
     {
         setVisibleProducts((prevCount)=> prevCount + 8 )
     }
-
-    // useEffect(()=>{
-    //  fetchAllProducts()
-    // },[])
     
   return (
-   <>
+   <> <ToastContainer/>
    <section className='section__container product__container'>
     <h2 className='section__header'>Trending Products</h2>
     <p className='section__subheader mb-12'>Discover the Hottest Picks:

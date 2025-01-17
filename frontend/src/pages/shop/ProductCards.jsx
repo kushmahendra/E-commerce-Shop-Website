@@ -4,6 +4,8 @@ import RatingStars from '../../components/RatingStars'
 import {useDispatch} from 'react-redux'
 import { addToCart } from '../../redux/features/cart/cartSlice'
 import { useAddsToCartMutation} from '../../redux/features/cart/cartApi'
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const ProductCards = ({products}) => {
@@ -16,17 +18,36 @@ const ProductCards = ({products}) => {
     try {
       await addsToCart({...product,userId:teno._id}).unwrap();
         dispatch(addToCart({...product,userId:teno._id}))
-      alert('Product added to cart successfully!');
+      // alert('Product added to cart successfully!');
+      toast.success("Product added to cart successfully!", {
+        position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+      });
     } catch (error) {
       console.error('Error adding product to cart:', error);
-      alert('Failed to add product to cart. Please try again.');
+      // alert('Failed to add product to cart. Please try again.');
+      toast.error("Product failed to add cart!", {
+        position: "top-right",
+        autoClose: 3000, // Time in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light", // 'light', 'dark', or 'colored'
+      });
     }
   };
 
 console.log('afafafaf',products)
 
   return (
-       <>
+       <> 
+      <ToastContainer />
 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>
 {
   products && products.map((product,index)=>
@@ -76,6 +97,7 @@ console.log('afafafaf',products)
       </div>
   ))
 }
+
 </div>
 </>
   )

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "../redux/features/auth/authApi";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +12,7 @@ const Register = () => {
     password: "",
     phoneNumber: "",
   });
-  
+
   const [message, setMessage] = useState("");
   const [registerUser, { isLoading }] = useRegisterUserMutation();
   const navigate = useNavigate();
@@ -28,15 +30,34 @@ const Register = () => {
     try {
       const response = await registerUser(formData).unwrap();
       console.log("Registration successful:", response);
-      alert("Registration successful!");
+      // alert("Registration successful!");
+      toast.success("Registration successful!", {
+        position: "top-right",
+        autoClose: 3000, // 3 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
       navigate("/login");
     } catch (error) {
       console.error("Registration error:", error);
-      setMessage("Registration failed. Please try again.");
+      // setMessage("Registration failed. Please try again.");
+      toast.error("Registration failed. Please try again!", {
+        position: "top-right",
+        autoClose: 3000, // 3 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
     }
   };
 
-  return (
+  return (<>
+    <ToastContainer />
     <section className="h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md border shadow bg-white rounded-lg p-8">
         <h2 className="text-2xl font-semibold text-center">Create an Account</h2>
@@ -98,9 +119,8 @@ const Register = () => {
           {message && <p className="text-red-500 text-sm">{message}</p>}
           <button
             type="submit"
-            className={`w-full mt-5 bg-red-500 text-white font-medium py-3 rounded-md hover:bg-indigo-700 transition ${
-              isLoading ? "cursor-not-allowed opacity-50" : ""
-            }`}
+            className={`w-full mt-5 bg-red-500 text-white font-medium py-3 rounded-md hover:bg-indigo-700 transition ${isLoading ? "cursor-not-allowed opacity-50" : ""
+              }`}
             disabled={isLoading}
           >
             {isLoading ? "Registering..." : "Register"}
@@ -114,6 +134,7 @@ const Register = () => {
         </p>
       </div>
     </section>
+  </>
   );
 };
 
