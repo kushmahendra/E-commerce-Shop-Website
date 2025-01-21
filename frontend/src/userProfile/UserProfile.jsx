@@ -25,6 +25,8 @@ export default function UserProfile() {
     bio: "",
     image: null,
   });
+
+  
   const [activeComponent, setActiveComponent] = useState('');
   const [other, setOther] = useState(true)
 

@@ -11,34 +11,38 @@ import Register from "../components/Register";
 import ForgetPassword from "../components/ForgetPassword";
 import OtpWithNewPassword from "../components/OtpWithNewPassword";
 import UserProfile from "../userProfile/UserProfile";
-import Checkout from "../pages/shop/productDetails/CheckOut";
-import ConfirmPage from "../pages/shop/productDetails/ConfirmPage";
+import Checkout from "../pages/shop/productDetails/Checkout";
+import ProtectedRoute from "../components/ProtectedRoute";
+import CartModal from "../pages/shop/productDetails/CartModal";
+import Ordered from "../pages/shop/productDetails/Ordered";
+
 
 
 const router = createBrowserRouter([
  
-    {
-      path: "/",
-      element:<App/>,
+    {path: "/",element:<App/>,
+
       children:[
         { path:'/', element:<Home/> },
         {path:'/categories/:categoryName',element: <CategoryPage/>},
         {path:'/search',element:<Search/>},
         {path:"/shop",element:<ShopPage/>},
-        {path:'/shop/:id', element:<SingleProduct/>},
-     
-      ] 
+        {path:'/shop/:id', element:<SingleProduct/>}
+             ] 
     },
-    {
-      path:'/login',element:<Login/>
-    },
-    {
-      path:'/register',element:<Register/>
-    },
+    
+    {path:'/login',element:<Login/>},
+    {path:'/register',element:<Register/> },
     {path:'/forget', element:<ForgetPassword/>},
     {path:'/Otp', element:<OtpWithNewPassword/>},
-    {path:'/profile', element:<UserProfile/>},
+
+    {path:'/profile', element:(
+      <ProtectedRoute>
+        <UserProfile />
+      </ProtectedRoute>
+    ),},
     {path:'/checkout',element:<Checkout/>},
-    {path:'/order-confirmation', element:<ConfirmPage/>},
+    {path:'/ordered', element:<Ordered/>},
+    {path:'/', element:<CartModal/>},
   ]);
   export default router

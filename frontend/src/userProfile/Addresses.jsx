@@ -39,7 +39,6 @@ export default function Addresses() {
     // setAddresses(updatedAddresses);
     dispatch(setAddress(updatedAddresses))
     
-   
     try {
       await updateUserInfo({ userId: user._id, addresses: updatedAddresses }).unwrap();
       setNewAddress({

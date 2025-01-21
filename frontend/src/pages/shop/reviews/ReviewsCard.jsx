@@ -9,7 +9,7 @@ const ReviewsCard = ({productReviews}) => {
 
     const reviews=productReviews || []
 
-    console.log('revvvv',reviews);
+    // console.log('revvvv',reviews);
 
 
     const handleOpenReviewModal=()=>

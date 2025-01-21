@@ -51,7 +51,7 @@ const Navbar = () => {
     <> <ToastContainer />
       <header className='fixed-nav-bar w-nav'>
 
-        <nav className='max-w-screen-2xl mx-auto px-4 flex justify-between items-center px-6 py-4'>
+        <nav className='max-w-screen-2xl mx-auto px- flex justify-between items-center px-6 py-4'>
           {/* // <header className="bg-white shadow fixed top-0 left-0 w-full z-50">
     //   <nav className="max-w-screen-2xl mx-auto flex items-center justify-between px-6 py-4"> */}
 
@@ -112,8 +112,7 @@ const Navbar = () => {
               </>) : (<Link to='/login'>
                 <i className="ri-user-line"></i> </Link>)
               }
-
-
+              
             </span>
           </div>
         </nav>

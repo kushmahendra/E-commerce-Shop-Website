@@ -5,6 +5,7 @@ import ProductCards from '../shop/ProductCards';
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(productsData);
+  console.log('daaaata',productsData )
 
   // List of categories for dynamic placeholder
   const placeholders = ['accessories', 'dress', 'jewellery', 'cosmetics'];
@@ -43,9 +44,8 @@ const Search = () => {
           accessories, Elevate your style today
         </p>
       </section>
-
       <section className='section__container'>
-        <div className='w-full mb-12 flex flex-col md:flex-row items-center justify-center gap-4'>
+        <div className='w-full mb-10 flex flex-col md:flex-row items-center justify-center gap-4'>
           <input
             type="text"
             value={searchQuery}
@@ -62,6 +62,7 @@ const Search = () => {
           </button>
         </div>
         <ProductCards products={filteredProducts} />
+        
       </section>
     </>
   );

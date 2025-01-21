@@ -7,6 +7,7 @@ import {reviewsApi} from './features/reviews/reviewsApi';
 import resetPasswordApi from './features/auth/resetPasswordApi';
 import orderApi from './features/orders/orderApi';
 import cartApi from './features/cart/cartApi';
+import orderReducer from './features/orders/orderSlice';
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     [reviewsApi.reducerPath]:reviewsApi.reducer,
     [resetPasswordApi.reducerPath]:resetPasswordApi.reducer,
     [orderApi.reducerPath]:orderApi.reducer,
+    order: orderReducer,
     [cartApi.reducerPath]:cartApi.reducer,
   
   },

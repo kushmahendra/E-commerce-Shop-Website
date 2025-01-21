@@ -1,25 +1,22 @@
 import mongoose from 'mongoose';
 
+
 const orderSchema = new mongoose.Schema({
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ShopUser',
     required: true,
   },
-  cartId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Cart',
-    required: true,
-  },
-  cartItems: [
+
+  items: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'CartItem', // Reference to CartItem model
+      ref: 'Cart', 
       required: true,
     },
   ],
   addressInfo: {
-    type: Object, // Can be further structured (e.g., { street, city, state, postalCode })
+    type: Object, 
     required: true,
   },
   orderStatus: {
@@ -29,8 +26,8 @@ const orderSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ['paypal', 'credit_card', 'cash_on_delivery'],
-    required: true,
+    enum: ['RazorPay', 'Credit Card', 'Cash On Delivery'],
+    // required: true,
   },
   paymentStatus: {
     type: String,
@@ -45,49 +42,29 @@ const orderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  orderUpdateDate: {
-    type: Date,
-    default: Date.now,
-  },
-  paymentId: {
-    type: String,
-    default: '',
-  },
-  payerId: {
-    type: String,
-    default: '',
-  },
+
+
+
 });
 
 const Order = mongoose.model('Order', orderSchema);
 export default Order;
 
+  // orderUpdateDate: {
+  //   type: Date,
+  //   default: Date.now,
+  // },
+  // paymentId: {
+  //   type: String,
+  //   default: '',
+  // },
+  // payerId: {
+  //   type: String,
+  //   default: '',
+  // },
+    // cartId: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Cart',
+  //   required: true,
+  // },
 
-// const ordersSchema = new mongoose.Schema({
-//   user: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'ShopUser',
-//     required: true,
-//   },
-//   cartItems: [
-//     {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: 'CartItem', // Reference to CartItem model
-//       required: true,
-//     },
-//   ],
-//   status: {
-//     type: String,
-//     enum: ['Pending', 'Shipped', 'Delivered', 'Cancelled'],
-//     default: 'Pending',
-//   },
-//   createdAt: {
-//     type: Date,
-//     default: Date.now,
-//   },
-// });
-
-
-// const Order = mongoose.model('Order', ordersSchema);
-
-// export default Order;

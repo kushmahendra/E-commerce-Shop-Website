@@ -5,6 +5,7 @@ import ShopUser from '../models/User.js'
 dotenv.config();
 const  JWT_SECRET=process.env.JWT_SECRET_KEY
 
+
 const generateToken=async(userId)=>
 {
    try{
@@ -38,13 +39,7 @@ const verifyToken=async(req,res,next)=>
     try{
 
         const token =req.headers['authorization'].split(" ")[1]
-        //  Get the token from cookies
-        // const token=req.cookies?.token ||"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcyODA2YzAzNjFhN2YxMTNlZjBmZDEiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNTU3MzA0NiwiZXhwIjoxNzM2MTc3ODQ2fQ.TvsLaXl-vXnHKkkgPpFaJZWCY4QSsoIvH8b3wMs00zs"  // Optional chaining to prevent errors if cookies are undefined;
-        // const token =req.headers['authorization'].split(" ")[1] || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcyODA2YzAzNjFhN2YxMTNlZjBmZDEiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNTU3MzA0NiwiZXhwIjoxNzM2MTc3ODQ2fQ.TvsLaXl-vXnHKkkgPpFaJZWCY4QSsoIvH8b3wMs00zs"  // Optional chaining to prevent errors if cookies are undefined
-      // Check token in cookies
-    //   if (req.cookies?.token) {
-    //     token = req.cookies.token;
-    // }
+       
        
         console.log('Token:', token);
 

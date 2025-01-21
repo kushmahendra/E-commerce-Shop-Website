@@ -10,13 +10,21 @@ const orderApi = createApi({
     tagTypes: ['Order'],
     endpoints: (builder) => ({
         createOrder: builder.mutation({
-            query: (newOrder) => ({
-                url: '/orders',
-                method: 'POST',
-                body: newOrder,
-            }),
-            invalidatesTags: ['Order'],
+          query: (newOrder) => {
+            const token = localStorage.getItem("token");
+            return {
+              url: '/orders',
+              method: 'POST',
+              headers: {
+               'Authorization': `Bearer ${token}`, // Set the Authorization header
+               'Content-Type': 'application/json', // Ensure content type is JSON
+              },
+              body: newOrder,
+            };
+          },
+          invalidatesTags: ['Order'],
         }),
+    
         getAllOrders: builder.query({
             query: () => ({
                 url: '/orders',

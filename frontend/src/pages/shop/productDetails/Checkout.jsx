@@ -1,191 +1,243 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { CreditCard, Wallet, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCreateOrderMutation } from '../../../redux/features/orders/orderApi';
+import { addOrder } from '../../../redux/features/orders/orderSlice';
 
+export default function PaymentPage() {
+  const [selectedMethod, setSelectedMethod] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [cvv, setCvv] = useState('');
 
-const Checkout = () => {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    fullName: '',
-    address: '',
-    city: '',
-    state: '',
-    zip: '',
-    paymentMethod: 'creditCard', // Default payment method
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
-  });
+  const navigate=useNavigate();
+  const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [createOrder, { isLoading, isError, error }] = useCreateOrderMutation();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  const userId = useSelector((state) => state.auth.user._id);
+  const totalAmount = useSelector((state) => state.cart.grandTotal);
+  const cartId = useSelector((state) => state.cart.cartId);
+  const addresses = useSelector((state) => state.auth.addresses);
+  
+   const addressInfo=addresses[0];
+   const items=[cartId]
+  console.log('User ID:', userId);
+  console.log('Total Amount:', totalAmount);
+  console.log('items:', items);
+  console.log('addressInfo:', addressInfo);
+
+  const newOrder = {
+    userId,
+    items,
+    totalAmount,
+    addressInfo,
+    paymentMethod: selectedMethod,
   };
 
-  const handleCheckout = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
+  const handleOrderSubmit = async () => {
+    if (!selectedMethod) {
+      alert('Please select a payment method.');
+      return;
+    }
 
     try {
-      const user = JSON.parse(localStorage.getItem('user')); // Assuming user info is in localStorage
-      if (!user || !user._id) {
-        throw new Error('User not logged in');
-      }
-
- 
-    const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user._id,
-          ...formData,
-        }),
-      });
-
-      if (response.data.success) {
-        alert('Order placed successfully!');
-        navigate('/order-confirmation'); // Navigate to confirmation page
-      } else {
-        throw new Error(response.data.message || 'Failed to place the order');
-      }
+      const result = await createOrder(newOrder).unwrap();
+      console.log('Order created successfully:', result);
+      dispatch(addOrder(result));
+      alert('Order placed successfully!');
+  
+      navigate('/ordered');
     } catch (err) {
-      console.error('Checkout error:', err);
-      setError(err.message || 'Something went wrong');
-    } finally {
-      setIsLoading(false);
+      console.error('Error creating order:', err);
+      alert('Failed to place the order. Please try again.');
     }
   };
+// const [ createOrder]= useCreateOrderMutation();
+
+//   const { userId } = useSelector((state) => ({
+//     userId: state.auth.user._id
+ 
+//   }));
+//   console.log('uid',userId);
+ 
+//   const { totalAmount,cartId} = useSelector((state) => ({
+//     totalAmount: state.cart.grandTotal,
+//     cartId: state.cart.cartId, // Access cartId
+//   }));
+//   console.log('pt', totalAmount);
+//   console.log('crtid',cartId);
+//   // console.log('uid',totalAmount);
+//   const addresses = useSelector((state) => state.auth.addresses); 
+//   console.log('adddd',addresses);
+
+// const newOrder=
+// {
+//   userId,cartId,totalAmount,addresses
+// }
+// const handleOrderSbmit=async()=>
+// {
+//   try {
+//   await createOrder(newOrder).unwrap()
+
+//   } catch (error) {
+//     console.error('Error while ordering',error)
+ 
+//   }
+// }
+
+
+
+  const formatCardNumber = (value) => {
+    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    const matches = v.match(/\d{4,16}/g);
+    const match = (matches && matches[0]) || '';
+    const parts = [];
+    for (let i = 0, len = match.length; i < len; i += 4) {
+      parts.push(match.substring(i, i + 4));
+    }
+    return parts.join(' ');
+  };
+
+  const handleBack=()=>
+  {
+    navigate('/')
+  }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md">
-      <h2 className="text-2xl font-semibold text-center mb-6">Checkout</h2>
-      <form onSubmit={handleCheckout} className="space-y-4">
-        <div>
-          <label className="block font-medium">Full Name</label>
-          <input
-            type="text"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
-        </div>
-        <div>
-          <label className="block font-medium">Address</label>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium">City</label>
-            <input
-              type="text"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border rounded-md"
-            />
-          </div>
-          <div>
-            <label className="block font-medium">State</label>
-            <input
-              type="text"
-              name="state"
-              value={formData.state}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border rounded-md"
-            />
-          </div>
-        </div>
-        <div>
-          <label className="block font-medium">ZIP Code</label>
-          <input
-            type="text"
-            name="zip"
-            value={formData.zip}
-            onChange={handleChange}
-            required
-            className="w-full p-2 border rounded-md"
-          />
-        </div>
-        <div>
-          <label className="block font-medium">Payment Method</label>
-          <select
-            name="paymentMethod"
-            value={formData.paymentMethod}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md"
-          >
-            <option value="creditCard">Credit Card</option>
-            <option value="paypal">PayPal</option>
-          </select>
-        </div>
-        {formData.paymentMethod === 'creditCard' && (
-          <>
-            <div>
-              <label className="block font-medium">Card Number</label>
-              <input
-                type="text"
-                name="cardNumber"
-                value={formData.cardNumber}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border rounded-md"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block font-medium">Expiry Date</label>
-                <input
-                  type="text"
-                  name="expiryDate"
-                  value={formData.expiryDate}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-2 border rounded-md"
-                />
-              </div>
-              <div>
-                <label className="block font-medium">CVV</label>
-                <input
-                  type="text"
-                  name="cvv"
-                  value={formData.cvv}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-2 border rounded-md"
-                />
-              </div>
-            </div>
-          </>
-        )}
-        {error && <p className="text-red-500">{error}</p>}
-        <button
-          type="submit"
-          disabled={isLoading}
-          className={`w-full p-2 text-white rounded-md ${
-            isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-600'
-          }`}
-        >
-          {isLoading ? 'Processing...' : 'Place Order'}
-        </button>
-      </form>
-    </div>
-  );
-};
+    <>  
+    <button onClick={handleBack} className='px-4 py-2'><i className="ri-arrow-left-line">Back</i></button>
 
-export default Checkout;
+    {/* payment */}
+    <div className="min-h-screen bg-gray-50 py-1 ">
+      <div className="max-w-md mx-auto bg-yellow-100 rounded-xl shadow-md overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-rose-500 to-pink-500 p-6">
+          <h1 className="text-2xl font-bold text-white">Payment Method</h1>
+          <p className="text-rose-100 mt-1">Choose how you'd like to pay</p>
+        </div>
+
+        {/* Order Summary */}
+        <div className="p-6 bg-rose-50">
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Order Total</span>
+            <span className="text-xl font-bold text-gray-900">${totalAmount}</span>
+          </div>
+        </div>
+       
+        {/* Payment Methods */}
+        <div className="p-6 space-y-4">
+          {/* Credit Card Option */}
+          <div
+            className={`border rounded-lg p-4 cursor-pointer transition-all ${
+              selectedMethod === 'card'
+                ? 'border-rose-500 bg-rose-50'
+                : 'border-gray-200 hover:border-rose-200'
+            }`}
+            onClick={() => setSelectedMethod('card')}
+          >
+            <div className="flex items-center space-x-3">
+              <div className="bg-rose-100 p-2 rounded-full">
+                <CreditCard className="w-6 h-6 text-rose-500" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900">Credit Card</h3>
+                <p className="text-sm text-gray-500">Pay with Visa, Mastercard</p>
+              </div>
+              <ChevronRight className="w-5 h-5 text-gray-400 ml-auto" />
+            </div>
+          </div>
+
+          {/* Cash on Delivery */}
+          <div
+            className={`border rounded-lg p-4 cursor-pointer transition-all ${
+              selectedMethod === 'cash'
+                ? 'border-rose-500 bg-rose-50'
+                : 'border-gray-200 hover:border-rose-200'
+            }`}
+            onClick={() => setSelectedMethod('cash')}
+          >
+            <div className="flex items-center space-x-3">
+              <div className="bg-rose-100 p-2 rounded-full">
+                <Wallet className="w-6 h-6 text-rose-500" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900">Cash on Delivery</h3>
+                <p className="text-sm text-gray-500">Pay when you receive</p>
+              </div>
+              <ChevronRight className="w-5 h-5 text-gray-400 ml-auto" />
+            </div>
+          </div>
+
+          {/* Credit Card Form */}
+          {selectedMethod === 'card' && (
+            <div className="mt-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Card Number
+                </label>
+                <input
+                  type="text"
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                  maxLength={19}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-rose-500"
+                  placeholder="1234 5678 9012 3456"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Expiry Date
+                  </label>
+                  <input
+                    type="text"
+                    value={expiryDate}
+                    onChange={(e) => setExpiryDate(e.target.value)}
+                    maxLength={5}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-rose-500"
+                    placeholder="MM/YY"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    CVV
+                  </label>
+                  <input
+                    type="text"
+                    value={cvv}
+                    onChange={(e) => setCvv(e.target.value)}
+                    maxLength={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-rose-500"
+                    placeholder="123"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Pay Button */}
+          <button
+            className={`w-full mt-6 py-3 px-4 rounded-lg text-white font-medium transition-colors ${
+              selectedMethod
+                ? 'bg-rose-500 hover:bg-rose-600'
+                : 'bg-gray-300 cursor-not-allowed'
+            }`}
+            disabled={!selectedMethod}
+            onClick={handleOrderSubmit}
+          >
+            {selectedMethod === 'card'
+              ? `Pay ${totalAmount}`
+              : selectedMethod === 'cash'
+              ? 'Place Order'
+              : 'Select Payment Method'}
+          </button>
+        </div>
+      </div>
+
+    </div>
+ 
+    </>
+  );
+}
