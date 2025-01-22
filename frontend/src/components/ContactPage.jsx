@@ -1,11 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { sendContactData } from "../services/emailService";
+import { Mail, Phone, MapPin } from "lucide-react"
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const ContactPage = () => {
-
+const navigate=useNavigate()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -138,17 +140,38 @@ const ContactPage = () => {
     },
     // Repeat for other platforms (Facebook, Twitter, etc.)
   ];
+  const handleBack=()=>
+  {
+    navigate('/')
+  }
 
   return (<>
     <ToastContainer />
-    <div className="min-h-screen bg-gray-50 py-12 px-6 lg:px-8">
+
+    <div className="min-h-screen bg-gradient-to-r from-green-400 to-blue-500 p-4 text-white py-12 px-6 lg:px-8">
+    <button onClick={handleBack} className='px-4 py-2 bg-green-500 hover:bg-orange-500 text-white rounded-xl'><i className="ri-arrow-left-line">Back</i></button>
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold text-gray-800 text-center mb-6">Contact Us</h1>
-        <div className="bg-white shadow-lg rounded-lg">
-          <div className="px-8 py-2 sm:p-10">
-            <p className="text-gray-600 mb-8">
+        <div className="bg-[#ffd29d] shadow-lg rounded-lg">
+          <div className="px-8 py- sm:p-10">
+            {/* <p className="text-gray-600 mb-8">
               We’d love to hear from you! Reach out through any of the following platforms:
-            </p>
+            </p> */}
+              {/* add */}
+              <div className="space-y-4 pb-8">
+          <div className="flex items-center space-x-4 text-gray-600">
+            <Mail className="w-6 h-6 text-orange-500" />
+            <span className="text-blue-800">contact@example.com</span>
+          </div>
+          <div className="flex items-center space-x-4 text-gray-600">
+            <Phone className="w-6 h-6 text-blue-400" />
+            <span className="text-black">+1 (123) 456-7890</span>
+          </div>
+          <div className="flex items-center space-x-4 text-gray-600">
+            <MapPin className="w-6 h-6 text-green-400" />
+            <span className="text-blue-800">123 Main St, Anytown, USA</span>
+          </div>
+        </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-8">
               {socialMedia.map((platform) => (
                 <a
@@ -163,6 +186,8 @@ const ContactPage = () => {
                 </a>
               ))}
             </div>
+          
+
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Send us a Message</h3>
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>

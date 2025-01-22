@@ -15,6 +15,7 @@ export default function ProductUpload({ onAddProduct }) {
     color: '',
     rating: '',
     image: null,
+    stock:'',
     author: '',
   });
 
@@ -64,7 +65,7 @@ const handleImageUpload = async (e) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.price || !formData.image) {
+    if (!formData.name || !formData.price || !formData.image || !formData.stock) {
       toast.error('Please fill out all required fields and upload an image.', {
         autoClose: 5000,
         hideProgressBar: false,
@@ -88,6 +89,7 @@ const handleImageUpload = async (e) => {
       color: '',
       rating: '',
       image: null,
+      stock:'',
       author: '',
     });
     setImagePreview(null);
@@ -236,6 +238,19 @@ const handleImageUpload = async (e) => {
                 placeholder="e.g., 4.5"
               />
             </div>
+          </div>
+         {/* stock */}
+         <div>
+            <label className="block text-sm mb-1">Stock</label>
+            <input
+              type="number"
+              value={formData.stock}
+              onChange={(e) =>
+                setFormData({ ...formData, stock: e.target.value })
+              }
+              className="w-full p-2 border rounded-lg"
+              placeholder="Enter stock number"
+            />
           </div>
 
           {/* Author */}

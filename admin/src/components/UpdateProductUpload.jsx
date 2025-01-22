@@ -21,6 +21,7 @@ export default function UpdateProductUpload({  productId }) {
     color: productDetails?.color,
     rating: productDetails?.rating,
     image: productDetails?.image,
+    stock: productDetails?.stock,
     author: productDetails?.author,
   });
 
@@ -120,8 +121,10 @@ const handleSubmit = async(e) => {
     <div className="max-w-2xl">
         <div className='flex flex-row items-center  justify-between gap-12 mt-2'>
         <h2 className="text-xl font-semibold mb-6">PRODUCTS UPLOAD  </h2>
-       <h2 > <Link to='/dashboard'><span className='bg-green-600 px-2 py-2 hover:bg-orange-700 rounded-lg text-white'>Back To Dashboard
-        </span></Link></h2>
+       {/* <h2 > <Link to='/dashboard'><span className='bg-green-600 px-2 py-2 hover:bg-orange-700 rounded-lg text-white'>Back To Dashboard
+        </span></Link></h2> */}
+           <h2 > <Link to='/dashboard'><span className='bg-green-600 px-2 py-2 hover:bg-orange-700 rounded-lg text-white'>Back To ProductList
+           </span></Link></h2>
         </div>
      
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -264,6 +267,19 @@ const handleSubmit = async(e) => {
                 placeholder="e.g., 4.5"
               />
             </div>
+          </div>
+             {/* stock */}
+         <div>
+            <label className="block text-sm mb-1">Stock</label>
+            <input
+              type="number"
+              value={formData.stock}
+              onChange={(e) =>
+                setFormData({ ...formData, stock: e.target.value })
+              }
+              className="w-full p-2 border rounded-lg"
+              placeholder="Enter stock number"
+            />
           </div>
 
           {/* Author */}

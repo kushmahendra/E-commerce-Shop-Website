@@ -16,11 +16,12 @@ const handleCreateProduct = async (req, res) => {
             image,
             color,
             rating,
+            stock,
             author
         } = req.body;
 
         // Validate required fields
-        if (!name || !price || !author) {
+        if (!name || !price || !author || !stock) {
             return res.status(400).json({
                 success: false,
                 message: 'Name, price, and author are required fields.'
@@ -52,9 +53,11 @@ const handleCreateProduct = async (req, res) => {
             image: imageField,
             color,
             rating: parsedRating,
+            stock,
             author
         });
 
+        
         // Save the product to the database
         const savedProduct = await newProduct.save();
 

@@ -11,14 +11,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';  // Import toast CSS
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('add');
+  const [activeTab, setActiveTab] = useState('list');
   const [products, setProducts] = useState([]);
-  const [avatar, setAvatar] = useState(localStorage.getItem("profile_img") ||'/avatar.png');
+  const [avatar, setAvatar] = useState(localStorage.getItem("profile_img") || '/avatar.png');
   const [uploading, setUploading] = useState(false);
 
   const navigate = useNavigate();
 
-  console.log('env is ',import.meta.env.VITE_CLOUD_NAME)
+  console.log('env is ', import.meta.env.VITE_CLOUD_NAME)
 
   const fileInputRef = useRef(null);
 
@@ -30,35 +30,35 @@ export default function Dashboard() {
     setUploading(true);
 
     try {
-     
-         const result  = await uploadProfileImage(file);
-            console.log('hello world',result)
-            const response = await fetch(`${API_BASE_URL}/admin/detail/update/${localStorage.getItem("userId")}`,{
-              method:'PUT',
-              headers:{
-                'Content-type':'application/json'
-              },
-              body:JSON.stringify({
-                profile_img:result
-              })
-            })
-            if(response.ok){
-              setAvatar(result)
-              toast.success('Avatar uploaded successfully!', {
-                autoClose: 5000,
-                hideProgressBar: false,
-              });
-              localStorage.setItem("profile_img",result)
 
-            }
-            else{
-              toast.error('Failed to update profile image', {
-                autoClose: 5000,
-                hideProgressBar: false,
-              });
-            }
+      const result = await uploadProfileImage(file);
+      console.log('hello world', result)
+      const response = await fetch(`${API_BASE_URL}/admin/detail/update/${localStorage.getItem("userId")}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          profile_img: result
+        })
+      })
+      if (response.ok) {
+        setAvatar(result)
+        toast.success('Avatar uploaded successfully!', {
+          autoClose: 5000,
+          hideProgressBar: false,
+        });
+        localStorage.setItem("profile_img", result)
+
+      }
+      else {
+        toast.error('Failed to update profile image', {
+          autoClose: 5000,
+          hideProgressBar: false,
+        });
+      }
     } catch (error) {
-    
+
       console.error('Error uploading avatar:', error);
       toast.error('Failed to upload avatar.', {
         autoClose: 5000,
@@ -84,7 +84,7 @@ export default function Dashboard() {
       }
 
       try {
-        const response = await axios.get(API_BASE_URL+'/api/all');
+        const response = await axios.get(API_BASE_URL + '/api/all');
         setProducts(response.data.data || response.data);
       } catch (error) {
         console.error('Failed to fetch products:', error);
@@ -101,11 +101,11 @@ export default function Dashboard() {
   const handleAddProduct = async (product) => {
     try {
       const response = await axios.post(
-        API_BASE_URL+'/api/products',
+        API_BASE_URL + '/api/products',
         product
       );
       setProducts([...products, response.data]);
-    
+
     } catch (error) {
       console.error('Failed to add product:', error);
       toast.error('Failed to add product.', {
@@ -116,9 +116,9 @@ export default function Dashboard() {
   };
 
   const handleRemoveProduct = async (id) => {
-    
+
     try {
-      await axios.delete(API_BASE_URL+`/api/product/${id}`);
+      await axios.delete(API_BASE_URL + `/api/product/${id}`);
       setProducts(products.filter((product) => product._id !== id));
       toast.success('Product deleted successfully', {
         autoClose: 5000,
@@ -137,7 +137,7 @@ export default function Dashboard() {
     localStorage.removeItem('token'); // Clear token
     setTimeout(() => navigate('/'), 0);
   };
-  
+
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -162,14 +162,15 @@ export default function Dashboard() {
             onChange={handleAvatarUpload}
           />
         </header>
-       {/* <UpdateProductUpload onUpdateProduct={handleUpdateProduct} /> */}
+        {/* <UpdateProductUpload onUpdateProduct={handleUpdateProduct} /> */}
 
-        {activeTab === 'add' && <ProductUpload onAddProduct={handleAddProduct} />}
+        {/* {activeTab === 'add' && <ProductUpload onAddProduct={handleAddProduct} />} */}
         {activeTab === 'list' && (
-          <ProductList products={products} onRemoveProduct={handleRemoveProduct}   />
+          <ProductList products={products} onRemoveProduct={handleRemoveProduct} />
         )}
+        {activeTab === 'add' && <ProductUpload onAddProduct={handleAddProduct} />}
         {activeTab === 'orders' && <OrderList />}
-        {activeTab === 'logout' &&  handleLogout() }
+        {activeTab === 'logout' && handleLogout()}
       </main>
       <ToastContainer />
     </div>

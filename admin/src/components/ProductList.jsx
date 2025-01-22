@@ -19,6 +19,7 @@ export default function ProductList({ products, onRemoveProduct, onUpdateProduct
           <div>Old Price</div>
           <div>Color</div>
           <div>Rating</div>
+          <div>Stock</div>
           <div>Remove</div>
           <div>Edit</div>
         </div>
@@ -64,6 +65,9 @@ export default function ProductList({ products, onRemoveProduct, onUpdateProduct
 
               {/* Product Rating */}
               <div className="text-yellow-500 font-bold">{product.rating}</div>
+
+                 {/* Product Stock */}
+                 <div className="text-yellow-500 font-bold">{product.stock}</div>
 
               {/* Remove Button */}
               <button

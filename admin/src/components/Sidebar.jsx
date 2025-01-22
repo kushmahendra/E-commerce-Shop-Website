@@ -2,8 +2,9 @@ import { Plus, List, ShoppingCart, LogOut } from 'lucide-react';
 
 export default function Sidebar({ activeTab, onTabChange }) {
   const tabs = [
-    { id: 'add', icon: Plus, label: 'Add Items' },
+    // { id: 'add', icon: Plus, label: 'Add Items' },
     { id: 'list', icon: List, label: 'List Items' },
+    { id: 'add', icon: Plus, label: 'Add Items' },
     { id: 'orders', icon: ShoppingCart, label: 'Orders' },
     { id: 'logout', icon: LogOut, label: 'Logout' },
   ];
@@ -32,7 +33,7 @@ export default function Sidebar({ activeTab, onTabChange }) {
           </button>
         ))}
       </nav>
-      <footer className="absolute bottom-4 w-full text-center text-sm text-gray/70">
+      <footer className="absolute bottom-4 w-full text-center text-sm text-gray-400">
         © 2025 Shop Website
       </footer>
     </aside>

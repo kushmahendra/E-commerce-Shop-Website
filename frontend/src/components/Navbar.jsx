@@ -51,27 +51,32 @@ const Navbar = () => {
     <> <ToastContainer />
       <header className='fixed-nav-bar w-nav'>
 
-        <nav className='max-w-screen-2xl mx-auto px- flex justify-between items-center px-6 py-4'>
+        <nav className='max-w-screen-2xl bg-[#e0aaff] mx-auto px- flex justify-between items-center px-6 py-4'>
           {/* // <header className="bg-white shadow fixed top-0 left-0 w-full z-50">
     //   <nav className="max-w-screen-2xl mx-auto flex items-center justify-between px-6 py-4"> */}
 
 
-          <ul className="flex flex-1 items-center space-x-4 list-none">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/shop">Shop</Link></li>
-            <li><Link to="/pages">Pages</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
+          <ul className="flex flex-1 bg-text-blue-700  items-center space-x-4 list-none">
+            <li><Link to="/"><span className='hover:text-green-700'>Home</span></Link></li>
+            <li><Link to="/shop"><span className='hover:text-green-700'>Shop</span></Link></li>
+            <li><Link to="/pages"><span className='hover:text-green-700'>Pages</span></Link></li>
+            <li><Link to="/contact"><span className='hover:text-green-700'>Contact</span></Link></li>
           </ul>
           <div className='nav__logo'>
-            <Link to='/'>Mahendra</Link>
+            <Link to='/'>
+            <div className="flex flex-row transition duration-150 ease-in-out hover:scale-105">
+                <h1 className="text-red-800 font-bold">Click</h1>
+                <h1 className="text-blue-800 font-bold">Cart</h1>
+              </div>
+            </Link>
             {/* <Link to='/' className='ml-12'><img src={logoImg} alt="logo" className='w-1/12 h-1/4 rounded-lg' /></Link> */}
           </div>
           {/* nav icons */}
-
+          
           <div className='nav__icons relative'>
             <span>
               <Link to='/search'>
-                <i className="ri-search-line"></i>
+                <i className="ri-search-line text-green-700"></i>
               </Link>
             </span>
             <span>
@@ -112,7 +117,7 @@ const Navbar = () => {
               </>) : (<Link to='/login'>
                 <i className="ri-user-line"></i> </Link>)
               }
-              
+
             </span>
           </div>
         </nav>

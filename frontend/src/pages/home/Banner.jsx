@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import bannerImg from '../../assets/header.png'
+// import bannerImg from '../../assets/header.png'
+import bannerImg from '../../assets/img812.png'
 
 const Banner = () => {
   return (
-    <div className='section__container header__container'>
-    <div className='header__content'>
+    <div className='max-w-[1400px]  py-20  min-h-[618px] bg-primary-light rounded-b-lg grid grid-cols-2 gap-12 items-center'>
+    <div className='header__content pl-4'>
         <h4 className='uppercase'>Up To 20% Discount</h4>
         <h1>Girls Fashion</h1>
         <p>Step into a world where style meets personality, and every outfit tells a story. From playful patterns to timeless classics,
