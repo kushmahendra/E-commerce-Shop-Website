@@ -75,7 +75,6 @@ export default function UserProfile() {
   if (isError) {
     return <div>Error fetching user data: {error?.data?.message || error.message}</div>;
   }
-
   // Handle Image Upload
   const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];

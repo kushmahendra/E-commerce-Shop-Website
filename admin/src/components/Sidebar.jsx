@@ -32,7 +32,7 @@ export default function Sidebar({ activeTab, onTabChange }) {
           </button>
         ))}
       </nav>
-      <footer className="absolute bottom-4 w-full text-center text-sm text-white/70">
+      <footer className="absolute bottom-4 w-full text-center text-sm text-gray/70">
         © 2025 Shop Website
       </footer>
     </aside>

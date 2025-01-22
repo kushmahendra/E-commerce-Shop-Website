@@ -17,6 +17,7 @@ const OrderSummary = () => {
   console.log('tp', totalPrice);
   // const dispatch=useDispatch()
 
+  
 
   const teno = JSON.parse(localStorage.getItem("user"))
   console.log('User:', teno);

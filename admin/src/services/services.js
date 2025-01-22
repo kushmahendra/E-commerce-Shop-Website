@@ -17,6 +17,7 @@ export const uploadProfileImage = async (file) => {
       if (!response.ok) {
         throw new Error('Failed to upload image');
       }
+      
   
       const data = await response.json();
       console.log('Upload successful:', data);

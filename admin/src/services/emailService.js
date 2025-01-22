@@ -14,6 +14,7 @@ export const forgotPassword = async (email) => {
     );
 };
 
+
 export const resetPassword = async (email, password, otp) => {
     const response = await fetch(`${API_BASE_URL}/api/reset-password`, {
         method: "PUT",

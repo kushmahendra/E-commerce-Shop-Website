@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCreateOrderMutation } from '../../../redux/features/orders/orderApi';
 import { addOrder } from '../../../redux/features/orders/orderSlice';
+import { useClearCartMutation } from '../../../redux/features/cart/cartApi';
 
 export default function PaymentPage() {
   const [selectedMethod, setSelectedMethod] = useState('');
@@ -20,6 +21,8 @@ export default function PaymentPage() {
   const totalAmount = useSelector((state) => state.cart.grandTotal);
   const cartId = useSelector((state) => state.cart.cartId);
   const addresses = useSelector((state) => state.auth.addresses);
+
+    const [clearCart] = useClearCartMutation();
   
    const addressInfo=addresses[0];
    const items=[cartId]
@@ -35,7 +38,7 @@ export default function PaymentPage() {
     addressInfo,
     paymentMethod: selectedMethod,
   };
-
+  const teno = JSON.parse(localStorage.getItem("user"))
   const handleOrderSubmit = async () => {
     if (!selectedMethod) {
       alert('Please select a payment method.');
@@ -49,45 +52,12 @@ export default function PaymentPage() {
       alert('Order placed successfully!');
   
       navigate('/ordered');
+      await clearCart(teno._id).unwrap(); 
     } catch (err) {
       console.error('Error creating order:', err);
       alert('Failed to place the order. Please try again.');
     }
   };
-// const [ createOrder]= useCreateOrderMutation();
-
-//   const { userId } = useSelector((state) => ({
-//     userId: state.auth.user._id
- 
-//   }));
-//   console.log('uid',userId);
- 
-//   const { totalAmount,cartId} = useSelector((state) => ({
-//     totalAmount: state.cart.grandTotal,
-//     cartId: state.cart.cartId, // Access cartId
-//   }));
-//   console.log('pt', totalAmount);
-//   console.log('crtid',cartId);
-//   // console.log('uid',totalAmount);
-//   const addresses = useSelector((state) => state.auth.addresses); 
-//   console.log('adddd',addresses);
-
-// const newOrder=
-// {
-//   userId,cartId,totalAmount,addresses
-// }
-// const handleOrderSbmit=async()=>
-// {
-//   try {
-//   await createOrder(newOrder).unwrap()
-
-//   } catch (error) {
-//     console.error('Error while ordering',error)
- 
-//   }
-// }
-
-
 
   const formatCardNumber = (value) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');

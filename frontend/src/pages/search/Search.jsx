@@ -1,11 +1,13 @@
 import { React, useState, useEffect } from 'react';
 import productsData from '../../data/products.json';
 import ProductCards from '../shop/ProductCards';
+import { useSelector } from 'react-redux';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(productsData);
   console.log('daaaata',productsData )
+ 
 
   // List of categories for dynamic placeholder
   const placeholders = ['accessories', 'dress', 'jewellery', 'cosmetics'];
@@ -21,9 +23,10 @@ const Search = () => {
     setFilteredProducts(filtered);
   };
 
-  useEffect(() => {
-    // Set an interval to change the placeholder every 2 seconds
-    const interval = setInterval(() => {
+  // useEffect(() => {
+  //   // Set an interval to change the placeholder every 2 seconds
+    // const interval = 
+    setInterval(() => {
       setCurrentPlaceholder((prev) => {
         const currentIndex = placeholders.indexOf(prev);
         const nextIndex = (currentIndex + 1) % placeholders.length;
@@ -31,9 +34,9 @@ const Search = () => {
       });
     }, 2000); // Change every 2 seconds
 
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
+  //   // Cleanup interval on component unmount
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <>

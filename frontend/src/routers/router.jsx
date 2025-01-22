@@ -15,7 +15,7 @@ import Checkout from "../pages/shop/productDetails/Checkout";
 import ProtectedRoute from "../components/ProtectedRoute";
 import CartModal from "../pages/shop/productDetails/CartModal";
 import Ordered from "../pages/shop/productDetails/Ordered";
-
+import ContactPage from "../components/ContactPage";
 
 
 const router = createBrowserRouter([
@@ -44,5 +44,6 @@ const router = createBrowserRouter([
     {path:'/checkout',element:<Checkout/>},
     {path:'/ordered', element:<Ordered/>},
     {path:'/', element:<CartModal/>},
+    {path:"/contact", element:<ContactPage/>},
   ]);
   export default router

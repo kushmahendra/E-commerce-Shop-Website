@@ -59,7 +59,7 @@ const Navbar = () => {
           <ul className="flex flex-1 items-center space-x-4 list-none">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/shop">Shop</Link></li>
-            <li><Link to="/">Pages</Link></li>
+            <li><Link to="/pages">Pages</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
           <div className='nav__logo'>

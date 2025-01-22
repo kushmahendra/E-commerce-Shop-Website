@@ -50,8 +50,7 @@ const handleForgetPassword = async (req,res)=>{
         console.error('Error',error)
         res.status(500).json({message:'Internal Server Error'});
     }
-}
-
+};
 
 const handleResetPassword = async (req,res)=>{
     try {
@@ -107,5 +106,42 @@ const handleResetPassword = async (req,res)=>{
     }
 }
 
+//for contact message
+const handleContactForm = async (req, res) => {
+    try {
+        const { name, email, message } = req.body;
 
-export { handleForgetPassword, handleResetPassword };
+        // Validate the input
+        if (!name || !email || !message) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        const savedMessage ={
+            name,
+            email,
+            message,
+            createdAt: new Date(),
+        };
+
+        if (savedMessage) {
+            // Sending email notification (adjust `transporter` with your configuration)
+            await transporter.sendMail({
+                from: EMAIL_USER,
+                to:email, // Replace with your admin/support email
+                subject: "New Contact Form Submission",
+                text: `You have a new message from ${name} (${email}):\n\n${message}`,
+            });
+
+            return res.status(200).json({ message: "Your message has been sent successfully" });
+        } else {
+            return res.status(500).json({ message: "Failed to save your message" });
+        }
+
+    } catch (error) {
+        console.error("Error handling contact form submission:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+  
+
+export { handleForgetPassword, handleResetPassword,handleContactForm  };
