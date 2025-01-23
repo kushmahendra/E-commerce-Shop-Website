@@ -9,6 +9,7 @@ import PromoBanner from './PromoBanner'
 import Blogs from '../blogs/Blogs'
 import { ToastContainer } from 'react-toastify'
 
+
 const Home = () => {
   return (
     <>
