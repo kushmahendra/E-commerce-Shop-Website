@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect } from 'react';
+import { API_BASE_URL } from '../../constants/constant';
 
 /** Mock Data */
 const orders = [
@@ -18,7 +20,42 @@ const OrderList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  // const [user, setUser] = useState(null);
   const ordersPerPage = 5;
+
+//get user
+// const localUser=JSON.parse(localStorage.getItem('user'))
+// const userId=localUser._id
+// console.log('userId',userId)
+
+// useEffect(() => {
+//   // Function to fetch user data
+//   const fetchUser = async () => {
+//     try {
+//       const token = localStorage.getItem("token");
+    
+//       const response = await fetch(API_BASE_URL+`/api/auth/user/${userId}`, {
+//         method: "GET",
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//           "Content-Type": "application/json",
+//         },
+//       });
+
+//       const userData = await response.json();
+//       setUser(userData); // Update state with fetched data
+//     } catch (error) {
+//      console.error("error while fetching data",error)
+    
+//     }
+//   }
+
+//   if (userId) {
+//     fetchUser(); // Call fetchUser when userId is available
+//   }
+// }, [userId]);
+
+// console.log('userData',user)
 
   // Search and Filter Logic
   const filteredOrders = orders.filter((order) => {

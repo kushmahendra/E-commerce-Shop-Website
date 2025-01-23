@@ -1,7 +1,8 @@
 import express from 'express'
 import ShopUser from '../models/User.js'
 import bcrypt from 'bcrypt';
-import { generateToken } from '../middlewares/authMiddleware.js';
+import { generateToken } from '../middlewares/authMiddleWare.js';
+
 
 
 //Register Api
@@ -102,7 +103,9 @@ const handleGetUser = async (req, res) => {
         return res.status(400).send({ message: "User ID is required" });
       }
   
-      const user = await ShopUser.findById(id);
+      // const user = await ShopUser.findById(id);
+        // Fetch the user by ID and populate the 'orders' field
+    const user = await ShopUser.findById(id).populate('orders');
   
       if (!user) {
         return res.status(404).send({ message: "User not found" });

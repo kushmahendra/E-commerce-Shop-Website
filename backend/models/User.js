@@ -17,15 +17,23 @@ const shopUserSchema=new mongoose.Schema({
     bio: { type: String, default: "", maxlength: 200 },
   
     profession: { type: String, default: "" },
-    orders: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Order',
-    },
+
+    // orders: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: 'Order',
+    // },
+
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order', // Reference to Order model
+      },
+    ],
     
 
     cart: [{   //square bracket represents cart array
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'CartItem', // Reference to CartItem model
+      ref: 'Cart', // Reference to CartItem model
     }],
     addresses:[],
   

@@ -8,6 +8,7 @@ const Ordered = () => {
 
   const latestOrder = orders?.[orders.length - 1];
   const totalAmount = latestOrder?.newOrder?.totalAmount || 0;
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-orange-300 to-green-200 p-6">

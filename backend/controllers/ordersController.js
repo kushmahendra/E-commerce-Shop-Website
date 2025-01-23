@@ -48,12 +48,17 @@ const handleCreateOrders = async (req, res) => {
       orderDate: Date.now(),
     });
 
-    // Clear the user's cart after successful order creation
     await ShopUser.findByIdAndUpdate(
       userId,
-      { $set: { cart: [] } },
+      { $push: { orders: newOrder._id } },
       { new: true }
     );
+    // // Clear the user's cart after successful order creation
+    // await ShopUser.findByIdAndUpdate(
+    //   userId,
+    //   { $set: { cart: [] } },
+    //   { new: true }
+    // );
 
     res.status(201).json({ message: 'Order created successfully', newOrder });
   } catch (error) {
@@ -95,7 +100,6 @@ const handleRazorPay=async(req,res)=>
       orderDate: Date.now(),
     });
 
-   
     // Razorpay order creation options
     const options = {
       amount: totalAmount * 100, // Amount in smallest currency unit (e.g., paise for INR)
@@ -159,21 +163,51 @@ const   handleGetAllOrders=async (req, res) => {
 };
 
 // 3. User Order data for frontend 
-const  handleGetSingleOrder= async (req, res) => {
+// const  handleSingleUserOrders= async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//       // Check if id is a valid ObjectId
+//       if (!mongoose.Types.ObjectId.isValid(id)) {
+//         return res.status(400).json({ message: 'Invalid Order ID' });
+//       }
+//     const order = await Order.findById(id)
+//       // .populate('user', 'firstName lastName email')
+//       // .populate('cartItems')
+//       // .populate('cartId');
+//     if (!order) {
+//       return res.status(404).json({ message: 'Order not found' });
+//     }
+//     return res.status(200).json({message:"User get all order successfully",order});
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error fetching order', error: error.message });
+//   }
+// };
+
+const handleSingleUserOrders = async (req, res) => {
   const { id } = req.params;
   try {
-    const order = await Order.findById(id)
-      .populate('user', 'firstName lastName email')
-      .populate('cartItems')
-      .populate('cartId');
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid Order ID' });
     }
-    res.status(200).json(order);
+
+    // Query by _id
+    const order = await Order.findById(id);
+
+    if (!order) {
+      // Fallback to query by userId
+      const userOrder = await Order.findOne({ userId: id });
+      if (!userOrder) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+      return res.status(200).json({ message: "User get all order successfully", order: userOrder });
+    }
+
+    res.status(200).json({ message: "User get all order successfully", order });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching order', error: error.message });
   }
 };
+
 
 // 4. Update Order Status or Details
 const  handleUpdateStatus= async (req, res) => {
@@ -207,7 +241,7 @@ const  handleDeleteOrder= async (req, res) => {
 export {
   handleCreateOrders,
   handleGetAllOrders,
-  handleGetSingleOrder,
+  handleSingleUserOrders,
   handleUpdateStatus,
   handleDeleteOrder,
   handleRazorPay,

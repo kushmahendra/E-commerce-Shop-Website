@@ -50,6 +50,7 @@ export default function UserProfile() {
         const response = await getUser(userId).unwrap();
         console.log('response', response);
         setFormData({
+          
           firstName: response?.user?.firstName || "",
           lastName: response?.user?.lastName || "",
           email: response?.user?.email || "",

@@ -74,9 +74,11 @@ console.log('afafafaf',products)
 </div>
 
 {/* product description */}
-<div className='flex flex-col gap-2'>
+<div className='flex flex-col gap-2 '>
+  <div className='flex flex-row mx-2 justify-between'>
   <h4 className='text-gray-600 font-semibold'>{product.name}</h4>
-
+  <h4 className='text-black pt-2 text-xs'>In Stock: <span className='text-orange-700'>{product.stock}</span> </h4>
+  </div>
   <div className='flex flex-row justify-between mx-2 text-sm'>
   <p className='text-green-400'>${product.price} </p>
   <p className='text-red-400'>{product?.oldPrice ? <s>${product?.oldPrice}</s>:null }</p>

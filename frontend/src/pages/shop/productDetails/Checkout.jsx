@@ -77,8 +77,7 @@ export default function PaymentPage() {
 
   return (
     <>  
-    <button onClick={handleBack} className='px-4 py-2'><i className="ri-arrow-left-line">Back</i></button>
-
+   <button onClick={handleBack} className='px-2 py-1 mt-2 mx-4 bg-green-500 hover:bg-orange-500 text-white rounded-lg '><i className="ri-arrow-left-line">Back</i></button>
     {/* payment */}
     <div className="min-h-screen bg-gray-50 py-1 ">
       <div className="max-w-md mx-auto bg-yellow-100 rounded-xl shadow-md overflow-hidden">

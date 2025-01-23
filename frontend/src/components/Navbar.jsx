@@ -76,7 +76,7 @@ const Navbar = () => {
           <div className='nav__icons relative'>
             <span>
               <Link to='/search'>
-                <i className="ri-search-line text-green-700"></i>
+                <i className="ri-search-line bg-text-blue-700"></i>
               </Link>
             </span>
             <span>
