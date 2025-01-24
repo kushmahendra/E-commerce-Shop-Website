@@ -1,6 +1,7 @@
 import express from 'express'
 import {handleUserRegister,handleLogin,handleDeleteUser,handleAllUsers,handleUpdateUser,handleProfile,handleGetUser} from '../controllers/userController.js';
-import { verifyToken } from '../middlewares/authMiddleware.js';
+import { verifyToken } from '../middlewares/authMiddleWare.js';
+
 
 const authRoute=express.Router();
 
@@ -13,5 +14,6 @@ authRoute.put('/users/:id',verifyToken ,handleUpdateUser)
 authRoute.get('/users',verifyToken ,handleAllUsers)
 authRoute.patch('/edit-profile',verifyToken ,handleProfile)
 authRoute.get('/user/:id',verifyToken ,handleGetUser)
+authRoute.get('/allusers',handleAllUsers)
 
 export default authRoute
