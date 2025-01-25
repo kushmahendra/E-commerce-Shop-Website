@@ -32,7 +32,7 @@ const Navbar = () => {
     // { label: 'Dashboard', path: '/adminDashboard' },
     { label: 'profile', path: '/profile' },
     { label: 'wishList', path: '/wishlist' },
-    { label: 'Payments', path: '/dashboard/payments' },
+    // { label: 'Payments', path: '/dashboard/payments' },
     { label: 'Orders', path: '/dashboard/orders' },
   ]
 

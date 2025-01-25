@@ -1,9 +1,8 @@
-
-
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useGetSingleUserOrdersQuery } from '../redux/features/orders/orderApi';
 import { useGetUserMutation } from '../redux/features/auth/authApi';
+import { useNavigate } from 'react-router-dom';
 
 // Mock data based on the Mongoose schema
 
@@ -45,6 +44,7 @@ export default function Orders() {
   //const  [ getSingleUserOrders]=useGetSingleUserOrdersQuery()
   const [userData, setUserData] = useState(null);
   const [getUser, { data, isLoading, isError, error }] = useGetUserMutation();
+  const navigate=useNavigate()
   
   const openDialog = (order) => {
     setSelectedOrder(order);
@@ -85,9 +85,18 @@ export default function Orders() {
 
   console.log('qqq', orderDetail[16]?.items[0]?.quantity);
 
-  return (
-    <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-6">Order Management</h1>
+  //back button
+  const handleBack=()=>
+    {
+      navigate('/')
+    }
+
+  return (<>
+    <button onClick={handleBack} className='px-4 py- mt-1 mr-1 border-1 hover:bg-green-700 text-black rounded-lg'>
+    <i className="ri-arrow-left-line"></i></button>
+    <div className="container mx-auto py-6">
+      
+      <h1 className="text-3xl font-bold mb-6 text-center align-middle">Order Management</h1>
       <div className="border rounded shadow">
         <div className="p-4 bg-gray-50 border-b">
           <h2 className="text-xl font-semibold">Orders</h2>
@@ -108,16 +117,16 @@ export default function Orders() {
               {orderDetail.map((order) => (
                 <tr key={order._id}>
                   {/* Display Order ID */}
-                  <td className="border border-gray-300 px-4 py-2">{order._id}</td>
+                  <td className="border  border-gray-300 px-4 py-2 text-center align-middle">{order._id}</td>
 
                   {/* Display User ID (Replace with actual user name if available in userData) */}
                   {/* <td className="border border-gray-300 px-4 py-2">{order.userId}</td> */}
 
                   {/* Display Total Amount */}
-                  <td className="border border-gray-300 px-4 py-2">${order.totalAmount.toFixed(2)}</td>
+                  <td className="border border-gray-300 px-4 py-2 text-center align-middle">${order.totalAmount.toFixed(2)}</td>
 
                   {/* Display Order Status */}
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="border border-gray-300 px-4 py-2 text-center align-middle">
                     <span
                       className={`px-2 py-1 rounded-2xl text-white ${statusColors[order.orderStatus] || 'bg-gray-500'
                         }`}
@@ -127,12 +136,12 @@ export default function Orders() {
                   </td>
 
                   {/* Display Order Date */}
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="border border-gray-300 px-4 py-2 text-center align-middle">
                     {format(new Date(order.orderDate), 'MMM dd, yyyy')}
                   </td>
 
                   {/* Actions */}
-                  <td className="border border-gray-300 px-4 py-2">
+                  <td className="border border-gray-300 px-4 py-2 text-center align-middle">
                     <button
                       className="bg-orange-500 text-white px-3 py-1 rounded hover:bg-green-600"
                       onClick={() => openDialog(order)}
@@ -224,6 +233,7 @@ export default function Orders() {
       )}
 
     </div>
+    </>
   );
 }
 

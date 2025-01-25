@@ -8,6 +8,9 @@ import resetPasswordApi from './features/auth/resetPasswordApi';
 import orderApi from './features/orders/orderApi';
 import cartApi from './features/cart/cartApi';
 import orderReducer from './features/orders/orderSlice';
+import wishlistReducer from './features/wishlist/wishlistSlice';
+
+
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +23,7 @@ export const store = configureStore({
     [orderApi.reducerPath]:orderApi.reducer,
     order: orderReducer,
     [cartApi.reducerPath]:cartApi.reducer,
+    wishlist: wishlistReducer, 
   
   },
   middleware: (getDefaultMiddleware) =>

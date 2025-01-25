@@ -6,6 +6,7 @@ import { addToCart } from '../../redux/features/cart/cartSlice';
 import { useAddsToCartMutation } from '../../redux/features/cart/cartApi';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { addToWishlist } from '../../redux/features/wishlist/wishlistSlice';
 
 const ProductCards = ({ products }) => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -41,6 +42,20 @@ const ProductCards = ({ products }) => {
         theme: "light",
       });
     }
+  };
+
+  //add to wishlist
+  const handleAddToWishlist = (product) => {
+    dispatch(addToWishlist(product));
+    toast.success("Product added to wishlist!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+    });
   };
 
   return (
@@ -87,6 +102,17 @@ const ProductCards = ({ products }) => {
                   </button>
                 )}
               </div>
+              {/* add herat */}
+              {/* <div className="mt-2 flex justify-center"> */}
+                <button
+                  onClick={() => handleAddToWishlist(product)}
+                  className="absolute top-0 right-2 text-  p-2 hover:text-green-600 text-red-800"
+                >
+                  <i className="ri-heart-line"></i> {/* Heart Icon */}
+                </button>
+              {/* </div> */}
+
+
             </div>
           </div>
         ))}
