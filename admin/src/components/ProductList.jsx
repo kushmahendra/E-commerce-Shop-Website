@@ -2,7 +2,7 @@ import { Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function ProductList({ products, onRemoveProduct, onUpdateProduct }) {
-  console.log('fsaf',products)
+  console.log('fsaf', products)
   return (
     <div className="p-6 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-lg shadow-lg">
       {/* Title */}
@@ -11,14 +11,15 @@ export default function ProductList({ products, onRemoveProduct, onUpdateProduct
       {/* Table Container */}
       <div className="bg-white rounded-lg overflow-hidden shadow-md">
         {/* Table Header */}
-        <div className="grid grid-cols-[80px,1fr,1fr,1fr,1fr,1fr,1fr,80px,80px] bg-purple-600 text-white font-semibold text-center py-3 px-4">
+        <div className="grid grid-cols-[80px,1fr,1fr,1fr,1fr,1fr,1fr,80px,80px] bg-purple-600 text-white font-semibold 
+        text-center py-4 px-2">
           <div>Image</div>
           <div>Product Name</div>
           <div>Category</div>
           <div>Price</div>
           <div>Old Price</div>
           <div>Color</div>
-          <div>Rating</div>
+          {/* <div>Rating</div> */}
           <div>Stock</div>
           <div>Remove</div>
           <div>Edit</div>
@@ -28,7 +29,7 @@ export default function ProductList({ products, onRemoveProduct, onUpdateProduct
         {/* {products.products.map((product) => ( */}
         {products.map((product) => (
           <div key={product.id} className="border-b last:border-none">
-            <div className="grid grid-cols-[80px,1fr,1fr,1fr,1fr,1fr,1fr,80px,80px] gap-4 py-4 px-4 items-center text-center hover:bg-purple-50 transition-all duration-300">
+            <div className="grid grid-cols-[80px,1fr,1fr,1fr,1fr,1fr,1fr,80px,80px] gap-2 py-4 px-1 items-center text-center hover:bg-purple-50 transition-all duration-300">
               {/* Product Image */}
               <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden border shadow-md mx-auto">
                 {product.image ? (
@@ -49,10 +50,18 @@ export default function ProductList({ products, onRemoveProduct, onUpdateProduct
               </div>
 
               {/* Product Name */}
-              <div className="truncate text-gray-800 font-medium">{product.name}</div>
+              {/* <div className="truncate text-gray-800 font-medium">{product.name}</div> */}
+              <div className="truncate text-gray-800 font-medium">
+                {product.name.length > 10 ? product.name.substring(0, 10) + "..." : product.name}
+              </div>
 
               {/* Product Category */}
-              <div className="text-gray-600">{product.category}</div>
+              {/* <div className="text-gray-600">{product.category}</div> */}
+              <div className="truncate text-gray-600">
+                {
+                  product.category.length > 6 ? product.category.substring(0,6) + "..." : product.category
+                }
+              </div>
 
               {/* Product Price */}
               <div className="text-green-600 font-semibold">${product.price}</div>
@@ -64,25 +73,25 @@ export default function ProductList({ products, onRemoveProduct, onUpdateProduct
               <div className="text-gray-700">{product.color}</div>
 
               {/* Product Rating */}
-              <div className="text-yellow-500 font-bold">{product.rating}</div>
+              {/* <div className="text-yellow-500 font-bold">{product.rating}</div> */}
 
-                 {/* Product Stock */}
-                 <div className="text-yellow-500 font-bold">{product.stock}</div>
+              {/* Product Stock */}
+              <div className="text-yellow-500 font-bold">{product.stock}</div>
 
               {/* Remove Button */}
               <button
                 onClick={() => onRemoveProduct(product._id)}
-                className="p-2 rounded-md bg-red-100 hover:bg-red-200 transition-colors"
+                className="flex items-center justify-center p-2 rounded-md bg-red-100 hover:bg-red-200  transition-colors"
                 aria-label="Remove Product"
               >
-                <Trash2 className="w-5 h-5 text-red-500" />
+                <Trash2 className="w-5 h-5 text-red-500 item-center" />
               </button>
 
               {/* Edit Button */}
               <Link
                 to="/UpdateProduct"
                 state={product}
-                className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors"
+                className="px- py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors"
               >
                 Edit
               </Link>

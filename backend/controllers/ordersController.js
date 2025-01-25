@@ -19,51 +19,73 @@ const razorpayInstance = new Razorpay({
 });
 
 // 1. Create a New Order
+
 const handleCreateOrders = async (req, res) => {
   try {
-    const {userId , items, totalAmount, addressInfo } = req.body;
-    // const userId = req.userId;
+    const { userId, items, totalAmount, addressInfo, paymentMethod } = req.body;
 
+    // Log input data for debugging
     console.log('User ID:', userId);
     console.log('Items:', items);
     console.log('Total Amount:', totalAmount);
-    console.log('Addresses:', addressInfo);
+    console.log('Address Info:', addressInfo);
+    console.log('Payment Method:', paymentMethod);
 
-   
-    const cart = await Cart.findOne({ 'user': userId });
+    // Validate required fields
+    if (!userId || !items || !totalAmount || !addressInfo || !paymentMethod) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
 
+    // Fetch the cart to verify items
+    const cart = await Cart.findOne({ user: userId });
     if (!cart) {
       return res.status(400).json({ message: 'Cart not found for this user' });
     }
 
-    // Create the new order with validated items
-    const newOrder = await Order.create({
-      userId,
-      items,
-      totalAmount,
-      addressInfo,
-      orderStatus: 'Pending',
-      paymentMethod: 'Cash On Delivery',
-      paymentStatus: 'Pending',
-      orderDate: Date.now(),
-    });
+     // Prepare items for the order
+  
+    const orderItems = await Promise.all(items.map(async (item) => {
+      const productDetails = item.product;  // Get product details
 
+      // Spread the productDetails into the order item, and add quantity and totalPrice
+      return {
+        ...productDetails, // Spread product data here
+        quantity: item.quantity,
+        totalPrice: item.totalPrice,
+      };
+    }));
+
+        // Create the order
+        const newOrder = await Order.create({
+          userId,
+          items: orderItems,
+          totalAmount,
+          addressInfo,
+          orderStatus: 'Pending',
+          paymentMethod,
+          paymentStatus: 'Pending',
+          orderDate: Date.now(),
+        })
+ 
+    // Associate the order with the user
     await ShopUser.findByIdAndUpdate(
       userId,
       { $push: { orders: newOrder._id } },
       { new: true }
     );
-    // // Clear the user's cart after successful order creation
-    // await ShopUser.findByIdAndUpdate(
-    //   userId,
-    //   { $set: { cart: [] } },
-    //   { new: true }
-    // );
+
+    
+     // // Clear the user's cart after successful order creation
+    await ShopUser.findByIdAndUpdate(
+      userId,
+      { $set: { cart: [] } },
+      { new: true }
+    );
 
     res.status(201).json({ message: 'Order created successfully', newOrder });
   } catch (error) {
-    console.error('Error creating order:', error.message);
-    res.status(400).json({ message: 'Error creating order', error: error.message });
+    console.error('Error creating order:', error);
+    res.status(500).json({ message: 'Error creating order', error: error.message });
   }
 };
 
@@ -150,17 +172,32 @@ const handleOrders=async(req,res)=>
   }
 
 // 2. Get All Orders for Admin
-const   handleGetAllOrders=async (req, res) => {
+// const   handleGetAllOrders=async (req, res) => {
+//   try {
+//     const orders = await Order.find({})
+//       .populate('user', 'firstName lastName email')
+//       .populate('cartItems')
+//       .populate('cartId');
+//     res.status(200).json(orders);
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error fetching orders', error: error.message });
+//   }
+// };
+const handleGetAllOrders = async (req, res) => {
   try {
     const orders = await Order.find({})
-      .populate('user', 'firstName lastName email')
-      .populate('cartItems')
-      .populate('cartId');
+      .populate('userId', 'firstName lastName email') // Assuming 'userId' is referencing a 'User' model
+      .populate('items', 'name category  description price oldPrice image color  rating stock') // Assuming 'items' references products or items in the order
+      .select('userId items addressInfo orderStatus paymentMethod paymentStatus totalAmount orderDate') // Select specific fields
+      .exec();
+    
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching orders', error: error.message });
   }
 };
+
+
 
 // 3. User Order data for frontend 
 // const  handleSingleUserOrders= async (req, res) => {

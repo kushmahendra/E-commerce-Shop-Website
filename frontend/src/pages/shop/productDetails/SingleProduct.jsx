@@ -81,6 +81,7 @@ const SingleProduct = () => {
                 <RatingStars rating={singleProduct?.rating} />
               </div>
             </div>
+            {singleProduct?.stock > 0 && (
             <button onClick={(e) => {
               e.stopPropagation();
               handleAddToCart({ singleProduct })
@@ -88,6 +89,7 @@ const SingleProduct = () => {
               className='mt-6 px-6 py-3 bg-primary text-white rounded-md'>
               Add to Cart
             </button>
+            )}
           </div>
         </div>
       </section>

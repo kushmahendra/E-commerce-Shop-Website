@@ -18,7 +18,6 @@ const handleLogin=async(req,res)=>
                      return res.status(401).send({ message: 'Invalid password' }); 
                  }
 
-
                  const token=await adminGenerateToken(userAdmin._id)
                  console.log('asfsaf',userAdmin)
                
@@ -37,7 +36,6 @@ const handleLogin=async(req,res)=>
         res.status(500).json("server internal error")
     }
 }
-
 
 const handleRegister=async(req,res)=>
     {

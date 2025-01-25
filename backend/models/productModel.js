@@ -13,8 +13,10 @@ const productSchema = new mongoose.Schema({
         enum: ['red', 'blue', 'green', 'yellow', 'black', 'white',  'orange', 'purple', 'pink', 'brown', 'golden', 'gray' ], // Allowed colors
         default: 'black', // Default color
       },
+
     rating: { type: Number, default: 0 },
-    author: { type: mongoose.Types.ObjectId, ref: 'ShopUser', required: true },
+    author: { type: mongoose.Types.ObjectId, ref: 'ShopUser' },
+    // author: { type: mongoose.Types.ObjectId, ref: 'ShopUser', required: true },
     stock: {
         type: Number,
         required: true,

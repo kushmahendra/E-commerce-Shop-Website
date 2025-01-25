@@ -136,6 +136,9 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Clear token
+    localStorage.removeItem('profile_img');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userId');
     setTimeout(() => navigate('/'), 0);
   };
 
@@ -144,15 +147,53 @@ export default function Dashboard() {
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
       <main className="flex-1 p-8">
-        <header className="flex items-center justify-between mb-8">
+        <header className="flex items-center justify-between  mb-8">
           <div className="flex items-center gap-4">
             <h1 className="text-2xl font-bold text-[#ff6b00]">Glamora</h1>
-            <span className="text-gray-500">Admin panel</span>
+            {/* <span className="text-gray-500">Admin panel</span> */}
           </div>
+
+          {/* Welcome Message */}
+          <div className="relative flex flex-col text-right items-end bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 p-6 rounded-2xl shadow-xl overflow-hidden animate-bounce-in">
+            {/* Decorative Sparkles */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-r from-yellow-400 via-pink-300 to-purple-500 rounded-full blur-3xl opacity-40 animate-pulse" />
+              <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-gradient-to-r from-purple-400 via-pink-300 to-yellow-500 rounded-full blur-3xl opacity-40 animate-pulse" />
+            </div>
+
+            {/* Main Welcome Text */}
+            <h1 className="text-2xl font-extrabold text-white tracking-wide drop-shadow-lg">
+              Welcome, <span className="text-yellow-300">Admin! 🎉</span>
+            </h1>
+            <p className="text-sm text-yellow-100 italic tracking-wide mt-1 drop-shadow-md">
+              Let’s make today amazing 🌟
+            </p>
+          </div>
+
+          <style jsx>{`
+  @keyframes bounce-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.5) translateY(-50px);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.05) translateY(10px);
+    }
+    100% {
+      transform: scale(1) translateY(0);
+    }
+  }
+  .animate-bounce-in {
+    animation: bounce-in 1s ease-out;
+  }
+`}</style>
+
+
           <img
             src={avatar}
             alt="Avatar"
-            className="w-20 h-20 rounded-full object-cover cursor-pointer"
+            className="w-20 h-20 rounded-full object-cover cursor-pointer border-2 border-green-500"
             onClick={handleAvatarClick}
           />
           <input

@@ -18,10 +18,6 @@ const shopUserSchema=new mongoose.Schema({
   
     profession: { type: String, default: "" },
 
-    // orders: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'Order',
-    // },
 
     orders: [
       {

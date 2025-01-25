@@ -21,59 +21,62 @@ export default function AllUserList() {
   console.log('allusersss',users)
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center text-indigo-600">
+  <>
+    {/* // <div className="container mx-auto p-8 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-xl"> */}
+      <h1 className="text-5xl font-extrabold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500">
         User List
       </h1>
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border-collapse bg-white shadow-lg rounded-lg">
-          <thead>
-            <tr className="bg-indigo-600 text-white">
-              <th className="px-4 py-3">No.</th>
-              <th className="px-4 py-3">Image</th>
-              <th className="px-4 py-3">First Name</th>
-              <th className="px-4 py-3">Last Name</th>
-              <th className="px-4 py-3">User ID</th>
-              <th className="px-4 py-3">Email ID</th>
-              <th className="px-4 py-3">Phone Number</th>
-              <th className="px-4 py-3">Orders</th>
-              <th className="px-4 py-3">Date</th>
-              <th className="px-4 py-3">Address</th>
+      <div className="overflow-x-auto bg-white rounded-lg shadow-xl p-4">
+        <table className="min-w-full table-auto text-gray-800">
+          <thead className="bg-green-600 text-white rounded-t-lg">
+            <tr>
+              <th className="px-6 py-4 text-center">No.</th>
+              <th className="px-6 py-4">Image</th>
+              <th className="px-6 py-4">Full Name</th>
+              {/* <th className="px-6 py-4">Last Name</th> */}
+              <th className="px-6 py-4">User ID</th>
+              <th className="px-6 py-4">Email ID</th>
+              <th className="px-6 py-4">Phone Number</th>
+              <th className="px-6 py-4">Orders</th>
+              <th className="px-6 py-4">Date</th>
+              <th className="px-6 py-4">Address</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user, index) => (
               <tr
                 key={user.id}
-                className="border-b transition duration-200 hover:bg-gray-100"
+                className="border-b hover:bg-gray-100 transition duration-300 ease-in-out hover:scale-105 hover:shadow-lg"
               >
-                <td className="px-4 py-3 text-center">{index + 1}</td>
-                <td className="px-4 py-3">
+                <td className="px-6 py-4 text-center">{index + 1}</td>
+                <td className="px-6 py-4">
                   <img
                     src={user.profileImage || "/placeholder.svg"}
                     alt={`${user.firstName} ${user.lastName}`}
-                    className="w-12 h-12 rounded-full object-cover mx-auto"
+                    className="w-16 h-16 rounded-full object-cover mx-auto border-2 border-green-500 shadow-lg"
                   />
                 </td>
-                <td className="px-4 py-3 text-gray-800">{user.firstName}</td>
-                <td className="px-4 py-3 text-gray-800">{user.lastName}</td>
-                <td className="px-4 py-3 text-gray-800">{user._id}</td>
-                <td className="px-4 py-3 text-gray-800">{user.email}</td>
-                <td className="px-4 py-3 text-gray-800">{user.phoneNumber}</td>
-                <td className="px-4 py-3 text-center text-indigo-500">
+                <td className="px-6 py-4 text-blue-700">{user.firstName} {user.lastName}</td>
+                {/* <td className="px-6 py-4 text-blue-700">{user.lastName}</td> */}
+                <td className="px-6 py-4 text-purple-700">{user._id}</td>
+                <td className="px-6 py-4 text-green-600">{user.email}</td>
+                <td className="px-6 py-4 text-orange-600">{user.phoneNumber}</td>
+                <td className="px-6 py-4 text-center text-red-500">
                   {user.orders.length}
                 </td>
-                <td className="px-4 py-3 text-gray-800">
+                <td className="px-6 py-4 text-gray-700">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
-                <td className="px-4 py-3 text-gray-800">
+                <td className="px-6 py-4">
                   {Array.isArray(user.addresses) ? (
                     user.addresses.map((address, idx) => (
-                      <div key={idx} className="mb-2">
+                      <div key={idx} className="mb-3">
                         <p className="font-semibold text-sm text-indigo-600">
                           {address.addressName}
                         </p>
-                        <p className="text-sm">{`${address.streetAddress}, ${address.city}, ${address.state}, ${address.zipCode}, ${address.country}`}</p>
+                        <p className="text-sm text-gray-800">
+                          {`${address.streetAddress}, ${address.city}, ${address.state}, ${address.zipCode}, ${address.country}`}
+                        </p>
                       </div>
                     ))
                   ) : (
@@ -85,11 +88,10 @@ export default function AllUserList() {
           </tbody>
         </table>
         {users.length === 0 && (
-          <p className="text-center text-gray-500 mt-4">
-            No users found. Please try again later.
-          </p>
+          <p className="text-center text-gray-500 mt-6">No users found. Please try again later.</p>
         )}
-      </div>
+      {/* </div> */}
     </div>
+    </>
   );
-}
+}  

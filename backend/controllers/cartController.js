@@ -31,14 +31,32 @@ const handleAddCart=async (req, res) => {
     const existingCartItemIndex = cart.items.findIndex(
       (item) => item.product.toString() === productId
     );
-
+    console.log('cartitemindex',existingCartItemIndex );
+    
     if (existingCartItemIndex > -1) {
       cart.items[existingCartItemIndex].quantity += quantity;
       cart.items[existingCartItemIndex].totalPrice =
         cart.items[existingCartItemIndex].quantity * product.price;
     } else {
+      // cart.items.push({
+      //   product: productId,
+      //   quantity,
+      //   totalPrice: product.price * quantity,
+      // });
+         // Add a new product to the cart
       cart.items.push({
-        product: productId,
+        product: {
+          _id: product._id,
+          name: product.name,
+          price: product.price,
+          category: product.category,
+          description: product.description,
+          image: product.image,
+          color: product.color,
+          rating: product.rating,
+          stock: product.stock,
+          oldPrice: product.oldPrice,
+        },
         quantity,
         totalPrice: product.price * quantity,
       });
@@ -127,7 +145,6 @@ const handleUpdateCart = async (req, res) => {
   };
   
 
-
 // Remove an item from the cart
 const handleRemoveCart = async (req, res) => {
   try {
@@ -159,6 +176,7 @@ const handleRemoveCart = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 };
+
 
 // Clear the cart
 const handleClearCart = async (req, res) => {

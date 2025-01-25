@@ -18,27 +18,45 @@ export default function PaymentPage() {
   const [createOrder, { isLoading, isError, error }] = useCreateOrderMutation();
 
   const userId = useSelector((state) => state.auth.user._id);
-  const totalAmount = useSelector((state) => state.cart.grandTotal);
-  const cartId = useSelector((state) => state.cart.cartId);
+  const cart = useSelector((state) => state.cart); 
   const addresses = useSelector((state) => state.auth.addresses);
+  const addressInfo=addresses[0];
+console.log('cc',cart);
 
+  console.log('cccrtid',cart.cartId);
+  console.log('crtuserid',cart.user);
+  
+  
     const [clearCart] = useClearCartMutation();
   
-   const addressInfo=addresses[0];
-   const items=[cartId]
+
   console.log('User ID:', userId);
-  console.log('Total Amount:', totalAmount);
-  console.log('items:', items);
+  console.log('Total Amount:', cart.grandTotal);
   console.log('addressInfo:', addressInfo);
+
+const items = cart.products.map((product) => ({
+  product: {
+    ...product, // Spread the product object to directly copy all its properties
+  },
+  quantity: product.quantity || 1,
+  totalPrice: product.totalPrice || product.price * (product.quantity || 1),
+}));
+
+
+console.log('Items:', items);
+
 
   const newOrder = {
     userId,
-    items,
-    totalAmount,
+    items, // Array of items from the products
+    totalAmount: cart.grandTotal, 
     addressInfo,
     paymentMethod: selectedMethod,
   };
-  const teno = JSON.parse(localStorage.getItem("user"))
+  
+  
+
+  // const teno = JSON.parse(localStorage.getItem("user"))
   const handleOrderSubmit = async () => {
     if (!selectedMethod) {
       alert('Please select a payment method.');
@@ -52,7 +70,7 @@ export default function PaymentPage() {
       alert('Order placed successfully!');
   
       navigate('/ordered');
-      await clearCart(teno._id).unwrap(); 
+      await clearCart(userId).unwrap(); 
     } catch (err) {
       console.error('Error creating order:', err);
       alert('Failed to place the order. Please try again.');
@@ -91,7 +109,7 @@ export default function PaymentPage() {
         <div className="p-6 bg-rose-50">
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Order Total</span>
-            <span className="text-xl font-bold text-gray-900">${totalAmount}</span>
+            <span className="text-xl font-bold text-gray-900">${cart.grandTotal}</span>
           </div>
         </div>
        
@@ -104,7 +122,7 @@ export default function PaymentPage() {
                 ? 'border-rose-500 bg-rose-50'
                 : 'border-gray-200 hover:border-rose-200'
             }`}
-            onClick={() => setSelectedMethod('card')}
+            onClick={() => setSelectedMethod('Credit Card')}
           >
             <div className="flex items-center space-x-3">
               <div className="bg-rose-100 p-2 rounded-full">
@@ -125,7 +143,7 @@ export default function PaymentPage() {
                 ? 'border-rose-500 bg-rose-50'
                 : 'border-gray-200 hover:border-rose-200'
             }`}
-            onClick={() => setSelectedMethod('cash')}
+            onClick={() => setSelectedMethod('Cash On Delivery')}
           >
             <div className="flex items-center space-x-3">
               <div className="bg-rose-100 p-2 rounded-full">
@@ -196,9 +214,9 @@ export default function PaymentPage() {
             disabled={!selectedMethod}
             onClick={handleOrderSubmit}
           >
-            {selectedMethod === 'card'
+            {selectedMethod === 'Credit Card'
               ? `Pay ${totalAmount}`
-              : selectedMethod === 'cash'
+              : selectedMethod === 'Cash On Delivery'
               ? 'Place Order'
               : 'Select Payment Method'}
           </button>

@@ -7,29 +7,29 @@ import { useGetUserMutation } from '../redux/features/auth/authApi';
 
 // Mock data based on the Mongoose schema
 
-const mockOrders = [
-  {
-    _id: '1',
-    user: { _id: 'user1', name: 'John Doe' },
-    products: [
-      { product: { _id: 'prod1', name: 'Product 1', price: 10 }, quantity: 2 },
-      { product: { _id: 'prod2', name: 'Product 2', price: 15 }, quantity: 1 },
-    ],
-    totalAmount: 35,
-    status: 'Pending',
-    createdAt: new Date('2023-06-01'),
-  },
-  {
-    _id: '2',
-    user: { _id: 'user2', name: 'Jane Smith' },
-    products: [
-      { product: { _id: 'prod3', name: 'Product 3', price: 20 }, quantity: 3 },
-    ],
-    totalAmount: 60,
-    status: 'Shipped',
-    createdAt: new Date('2023-06-02'),
-  },
-];
+// const mockOrders = [
+//   {
+//     _id: '1',
+//     user: { _id: 'user1', name: 'John Doe' },
+//     products: [
+//       { product: { _id: 'prod1', name: 'Product 1', price: 10 }, quantity: 2 },
+//       { product: { _id: 'prod2', name: 'Product 2', price: 15 }, quantity: 1 },
+//     ],
+//     totalAmount: 35,
+//     status: 'Pending',
+//     createdAt: new Date('2023-06-01'),
+//   },
+//   {
+//     _id: '2',
+//     user: { _id: 'user2', name: 'Jane Smith' },
+//     products: [
+//       { product: { _id: 'prod3', name: 'Product 3', price: 20 }, quantity: 3 },
+//     ],
+//     totalAmount: 60,
+//     status: 'Shipped',
+//     createdAt: new Date('2023-06-02'),
+//   },
+// ];
 
 const statusColors = {
   Pending: 'bg-yellow-500',
@@ -45,6 +45,7 @@ export default function Orders() {
   //const  [ getSingleUserOrders]=useGetSingleUserOrdersQuery()
   const [userData, setUserData] = useState(null);
   const [getUser, { data, isLoading, isError, error }] = useGetUserMutation();
+  
   const openDialog = (order) => {
     setSelectedOrder(order);
     setIsDialogOpen(true);
@@ -82,6 +83,7 @@ export default function Orders() {
   const orderDetail = userData?.user.orders || [];
   console.log('resorderDetail', orderDetail);
 
+  console.log('qqq', orderDetail[16]?.items[0]?.quantity);
 
   return (
     <div className="container mx-auto py-10">
@@ -190,14 +192,15 @@ export default function Orders() {
                 </thead>
                 <tbody>
                   {/* Replace this section with actual product mapping */}
-                  {/* {selectedOrder.products.map((item) => (
-              <tr key={item.product._id} className="text-gray-700">
-                <td className="border border-gray-300 px-4 py-2">{item.product.name}</td>
+              
+                  {selectedOrder?.items?.map((item, index) => (
+              <tr key={item._id} className="text-gray-700">
+                <td className="border border-gray-300 px-4 py-2">Product{index + 1}</td>
                 <td className="border border-gray-300 px-4 py-2">{item.quantity}</td>
-                <td className="border border-gray-300 px-4 py-2">${item.product.price.toFixed(2)}</td>
-                <td className="border border-gray-300 px-4 py-2">${(item.quantity * item.product.price).toFixed(2)}</td>
+                <td className="border border-gray-300 px-4 py-2">${item.totalPrice.toFixed(2)}</td>
+                <td className="border border-gray-300 px-4 py-2">${(item.quantity * item.totalPrice.toFixed(2))}</td>
               </tr>
-            ))} */}
+            ))}
                 </tbody>
               </table>
             </div>

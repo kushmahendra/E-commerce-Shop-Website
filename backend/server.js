@@ -13,7 +13,7 @@ import adminRoute from './routes/adminRoute.js';
 import resetPasswordrRouter from './routes/resetPasswordRoute.js';
 import userOtpRoute from './routes/userOtpRoute.js';
 import orderRoute from './routes/ordersRoute.js';
-import cartItemRoute from './routes/cartItemRoute.js';
+// import cartItemRoute from './routes/cartItemRoute.js';
 import cartRoute from './routes/cartRoute.js';
 
 
@@ -52,7 +52,7 @@ app.use('/admin', adminRoute)
 app.use('/api', resetPasswordrRouter);
 app.use('/user',userOtpRoute);
 app.use('/api',orderRoute);
-app.use('/api',cartItemRoute)
+// app.use('/api',cartItemRoute)
 app.use('/api',cartRoute)
 
 const PORT = process.env.PORT

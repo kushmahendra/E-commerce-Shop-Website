@@ -33,17 +33,23 @@ const adminGenerateToken=async(adminId)=>
    }
 };
 
-
-
 const adminVerifyToken=async(req,res,next)=>
 {
     try{
-        //  Get the token from cookies
-        const token=req.cookies.token ||"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcyODA2YzAzNjFhN2YxMTNlZjBmZDEiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNTU3MzA0NiwiZXhwIjoxNzM2MTc3ODQ2fQ.TvsLaXl-vXnHKkkgPpFaJZWCY4QSsoIvH8b3wMs00zs"  // Optional chaining to prevent errors if cookies are undefined;
-        // const token =req.headers['authorization'].split(" ")[1] || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcyODA2YzAzNjFhN2YxMTNlZjBmZDEiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNTU3MzA0NiwiZXhwIjoxNzM2MTc3ODQ2fQ.TvsLaXl-vXnHKkkgPpFaJZWCY4QSsoIvH8b3wMs00zs"  // Optional chaining to prevent errors if cookies are undefined
-    
-       
-        console.log('Token:', token);
+
+        // 1. Extract token from Authorization header
+      const authHeader = req.headers.authorization;
+      console.log('verifytoken33', req.headers);
+      console.log('verifytoken22', req.headers.authorization);
+      if (!authHeader ) {
+        return res.status(401).json({ message: 'Authorization token missing or malformed' });
+      }
+  
+      const token = authHeader.split(' ')[1];
+        // //  Get the token from cookies
+        // // const token=req.cookies.token ||"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcyODA2YzAzNjFhN2YxMTNlZjBmZDEiLCJyb2xlIjoidXNlciIsImlhdCI6MTczNTU3MzA0NiwiZXhwIjoxNzM2MTc3ODQ2fQ.TvsLaXl-vXnHKkkgPpFaJZWCY4QSsoIvH8b3wMs00zs"  // Optional chaining to prevent errors if cookies are undefined;
+        // const token=localStorage.getItem('token')
+        console.log('Token33:', token);
 
         if (!token) {
             return res.status(401).json({ message: 'Token is missing or invalid' }); // Changed from .end to .json

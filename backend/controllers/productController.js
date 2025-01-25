@@ -21,7 +21,13 @@ const handleCreateProduct = async (req, res) => {
         } = req.body;
 
         // Validate required fields
-        if (!name || !price || !author || !stock) {
+        // if (!name || !price || !author || !stock) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: 'Name, price, and author are required fields.'
+        //     });
+        // }
+        if (!name || !price || !stock) {
             return res.status(400).json({
                 success: false,
                 message: 'Name, price, and author are required fields.'
@@ -126,8 +132,10 @@ const handleGetAllProducts=async(req,res)=>
 const getAllProducts = async (req, res) => {
     try {
         // Fetch all products from the database
-        const products = await Product.find();
-
+        // const products = await Product.find();
+          // Fetch all products from the database and sort by createdAt in descending order
+    const products = await Product.find().sort({ createdAt: -1 }); // Most recent first
+    
         return res.status(200).json({
             success: true,
             message: 'Products fetched successfully.',

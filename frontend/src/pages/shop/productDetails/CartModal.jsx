@@ -6,7 +6,6 @@ import { useGetSingleCartQuery, useUpdateCartMutation, useRemoveCartItemMutation
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const CartModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const teno = JSON.parse(localStorage.getItem("user"))
@@ -15,7 +14,6 @@ const CartModal = ({ isOpen, onClose }) => {
 
   const [updateCart] = useUpdateCartMutation();
   const [removeCartItem] = useRemoveCartItemMutation();
-
 
   useEffect(() => {
     if (cart) {

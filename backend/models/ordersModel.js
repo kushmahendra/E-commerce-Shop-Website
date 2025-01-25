@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { cartItemSchema } from './cartAndCartItemModel.js';
 
 
 const orderSchema = new mongoose.Schema({
@@ -8,13 +9,15 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
 
-  items: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Cart', 
-      required: true,
-    },
-  ],
+  items: [cartItemSchema],
+  // items: [
+    
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: 'Cart', 
+  //     required: true,
+  //   },
+  // ],
   addressInfo: {
     type: Object, 
     required: true,

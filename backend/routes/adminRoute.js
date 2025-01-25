@@ -11,3 +11,4 @@ adminRoute.put('/detail/update/:id',handleAdminUpdate);
 
 export default adminRoute;
 
+
