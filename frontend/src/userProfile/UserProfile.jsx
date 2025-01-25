@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useGetUserMutation, useUpdateUserInfoMutation } from "../redux/features/auth/authApi";
 
-import Orders from "./Orders";
-import WishList from "./WishList";
+// import Orders from "./Orders";
+// import WishList from "./WishList";
 import Addresses from "./Addresses";
 
 import { Upload } from 'lucide-react';
@@ -160,10 +160,10 @@ export default function UserProfile() {
 
   const renderComponent = () => {
     switch (activeComponent) {
-      case 'orders':
-        return <Orders />;
-      case 'wishList':
-        return <WishList />;
+      // case 'orders':
+      //   return <Orders />;
+      // case 'wishList':
+      //   return <WishList />;
       case 'addresses':
         return <Addresses />;
       default:
@@ -229,7 +229,7 @@ export default function UserProfile() {
             </div>
 
             {/* Main */}
-            <nav className="space-y-2 grid grid-cols-1 gap-1">
+            <nav className="space-y-8 grid grid-cols-1 gap-1">
               {/* <button onClick={() => setActiveComponent('profile')}  className="flex items-center px-4 py-2 text-gray-600  */}
               <button onClick={() => setOther(true)} 
               // className="flex items-center px-4 py-2 text-gray-600   hover:text-green-800 hover:bg-yellow-100  rounded-md"
@@ -243,7 +243,7 @@ export default function UserProfile() {
               {/* <button onClick={()=> setOther(!other)}  className="flex items-center px-4 py-2 text-gray-600   hover:text-green-800 hover:bg-yellow-100 rounded-md" >
                   Other
                </button> */}
-              <button onClick={() => { setActiveComponent('orders'); setOther(false) }} 
+              {/* <button onClick={() => { setActiveComponent('orders'); setOther(false) }} 
               // className="flex items-center px-4 py-2 text-gray-600   hover:text-green-800 hover:bg-yellow-100 rounded-md"
                className="flex items-center px-4 py-2 text-gray-600 hover:text-white hover:bg-gradient-to-r from-pink-400 to-red-500 rounded-md shadow transition"
               >
@@ -251,9 +251,9 @@ export default function UserProfile() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
                 Orders
-              </button>
+              </button> */}
 
-              <button onClick={() => { setActiveComponent('wishList'); setOther(false) }}
+              {/* <button onClick={() => { setActiveComponent('wishList'); setOther(false) }}
               //  className="flex items-center px-4 py-2 text-gray-600  hover:text-green-800 hover:bg-yellow-100  rounded-md"
                className="flex items-center px-4 py-2 text-gray-600 hover:text-white hover:bg-gradient-to-r from-orange-400 to-yellow-500 rounded-md shadow transition"
                >
@@ -261,7 +261,7 @@ export default function UserProfile() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
                 Wishlist
-              </button>
+              </button> */}
 
               <button onClick={() => { setActiveComponent('addresses'); setOther(false) }} 
 

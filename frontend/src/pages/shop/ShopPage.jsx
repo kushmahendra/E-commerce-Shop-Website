@@ -6,7 +6,7 @@ import { useFetchAllProductsQuery } from '../../redux/features/products/products
 
 const filters = {
     categories: ['all', 'accessories', 'dress', 'jewellery', 'cosmetics'],
-    colors: ['all', 'black', 'red', 'gold', 'blue', 'silver', 'beige', 'green'],
+    colors: ['all', 'black', 'red', 'gold', 'blue', 'silver', 'gray', 'green'],
     priceRanges: [
         { label: 'under $50', min: 0, max: 50 },
         { label: '$50', min: 50, max: 100 },
@@ -23,69 +23,45 @@ const ShopPage = () => {
         priceRange: ''
     })
 
-    const [currentPage,setCurrentPage]=useState(1)
-    const [ProductsPerPage]=useState(8);
+    const [currentPage, setCurrentPage] = useState(1)
+    const [ProductsPerPage] = useState(8);
 
-    const { category,color,priceRange }=filtersState;
-    const [minPrice,maxPrice]=priceRange.split('-').map(Number);
+    const { category, color, priceRange } = filtersState;
 
-const {data:{products=[],totalPages,totalProducts}={},error,isLoading}=useFetchAllProductsQuery({
-    category:category !== 'all' ? category:'',
-    color:color !=='all' ? color : '',
-    minPrice: isNaN(minPrice) ? '': minPrice,
-    maxPrice: isNaN(maxPrice) ? '': maxPrice,
-    page:currentPage,
-    limit:ProductsPerPage,
-})
+    // const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+     // Split price range into minPrice and maxPrice
+    const [minPrice, maxPrice] = priceRange && priceRange.split('-').map(Number) || [0, Infinity];
 
-    // useEffect(() => { applyFilters() }, [filtersState.category])
-    // const applyFilters = () => {
-    //     let filteredProducts = productsData
 
-      
-    //     //filter by category
-    //     if (filtersState.category && filtersState.category !== 'all') {
-    //         filteredProducts = filteredProducts.filter(product => product.category === filtersState.category)
-    //     }
+    const { data: { products = [], totalPages, totalProducts } = {}, error, isLoading } = useFetchAllProductsQuery({
+        category: category !== 'all' ? category : '',
+        color: color !== 'all' ? color : '',
+        minPrice: isNaN(minPrice) ? '' : minPrice,
+        maxPrice: isNaN(maxPrice) ? '' : maxPrice,
+        page: currentPage,
+        limit: ProductsPerPage,
+    })
 
-    //     //filter by color
-    //     if (filtersState.color && filtersState.color !== 'all') {
-    //         filteredProducts = filteredProducts.filter(product => product.color === filtersState.color)
-    //     }
-
-    //     //filtered by price range
-    //     if (filtersState.priceRange) {
-    //         const [minPrice, maxPrice] = filtersState.priceRange.split('-').map(Number);
-    //         filteredProducts = filteredProducts.filter(product => product.price >= minPrice && product.price <= maxPrice)
-
-    //     }
-    //     setProducts(filteredProducts)
-
-    // }
-    
-      //clear the filters
-      const clearFilters = () => 
-        {
+    //clear the filters
+    const clearFilters = () => {
         setFiltersState({
             category: 'all',
             color: 'all',
             priceRange: ''
         })
-       }
-//pagination
-const handlePageChange=(pageNumber)=>
-{
-if(pageNumber > 0 && pageNumber <= totalPages)
-{
-    setCurrentPage(pageNumber);
-}
-}
+    }
+    //pagination
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
+    }
 
-       if(isLoading)return <div>Loading...</div>
-       if(error) return <div>Error Loading products.</div>
+    if (isLoading) return <div>Loading...</div>
+    if (error) return <div>Error Loading products.</div>
 
-       const startProduct=(currentPage - 1)* ProductsPerPage + 1;
-       const endProduct=startProduct + products.length -1 ;
+    const startProduct = (currentPage - 1) * ProductsPerPage + 1;
+    const endProduct = startProduct + products.length - 1;
 
     return (
         <>
@@ -101,7 +77,7 @@ if(pageNumber > 0 && pageNumber <= totalPages)
                         filters={filters}
                         filtersState={filtersState}
                         setFiltersState={setFiltersState}
-                    clearFilters={clearFilters}
+                        clearFilters={clearFilters}
                     />
                     {/* <div>Shop Filtering</div> */}
                     {/* rIGHT sIDE */}
@@ -112,20 +88,20 @@ if(pageNumber > 0 && pageNumber <= totalPages)
                         {/* pagination controls */}
 
                         <div className='mt-6 flex justify-center'>
-                       <button disabled={currentPage === 1}
-                       onClick={()=>handlePageChange(currentPage - 1)}
-                        className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md mr-2 '>Previous</button>
-                       {
-                        [...Array(totalPages)].map((_,index)=>(
-                            <button key={index}
-                            onClick={()=>handlePageChange(index + 1)} className={`px-4 py-2  ${currentPage === index +1 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'} 
+                            <button disabled={currentPage === 1}
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md mr-2 '>Previous</button>
+                            {
+                                [...Array(totalPages)].map((_, index) => (
+                                    <button key={index}
+                                        onClick={() => handlePageChange(index + 1)} className={`px-4 py-2  ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'} 
                              rounded-md mx-1 `}
-                            >{index + 1}</button>
-                        ))
-                       }
-                       <button disabled={currentPage === totalPages}
-                       onClick={()=>handlePageChange(currentPage + 1)}
-                       className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md ml-2 '>Next</button>
+                                    >{index + 1}</button>
+                                ))
+                            }
+                            <button disabled={currentPage === totalPages}
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                className='px-4 py-2 bg-gray-300 text-gray-700 rounded-md ml-2 '>Next</button>
 
                         </div>
                     </div>

@@ -16,6 +16,9 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import CartModal from "../pages/shop/productDetails/CartModal";
 import Ordered from "../pages/shop/productDetails/Ordered";
 import ContactPage from "../components/ContactPage";
+import PaymentPage from "../userProfile/PaymentPage";
+import Orders from "../userProfile/Orders";
+import WishList from "../userProfile/WishList";
 
 
 const router = createBrowserRouter([
@@ -45,5 +48,8 @@ const router = createBrowserRouter([
     {path:'/ordered', element:<Ordered/>},
     {path:'/', element:<CartModal/>},
     {path:"/contact", element:<ContactPage/>},
+    {path:"/dashboard/payments" , element:<PaymentPage/>},
+    {path:"/dashboard/orders" , element:<Orders/>},
+    {path:"/wishlist", element:<WishList/>}
   ]);
   export default router

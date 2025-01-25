@@ -90,26 +90,34 @@ const handleGetAllProducts=async(req,res)=>
     try {
         const {category,color,minPrice,maxPrice,page=1,limit=10}=req.query
         let filter={}
+
+            // Filter by category if specified
         if(category && category !=='all')
         {
             filter.category=category;
         }
+
+            // Filter by color if specified
         if(color && color !=='all')
         {
             filter.color=color
         }
+
+        // Filter by price range if both minPrice and maxPrice are provided
         if(minPrice && maxPrice)
         {
             const min=parseFloat(minPrice);
             const max=parseFloat(maxPrice);
-            if(!isNAN(min) && !isNAN(max))
-            {
-                filter.price={$gte:min,$lte: max};
+
+              // Correct the check from isNAN to isNaN
+              if (!isNaN(min) && !isNaN(max)) {
+                filter.price = { $gte: min, $lte: max };
             }
         }
         const skip=(parseInt(page) - 1) * parseInt(limit);
         const totalProducts=await Product.countDocuments(filter);
         const totalPages= Math.ceil(totalProducts / parseInt(limit));
+
         const products=await Product.find(filter)
         .skip(skip)
         .limit(parseInt(limit))

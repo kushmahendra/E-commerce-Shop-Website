@@ -197,7 +197,7 @@ export default function Orders() {
               <tr key={item._id} className="text-gray-700">
                 <td className="border border-gray-300 px-4 py-2">Product{index + 1}</td>
                 <td className="border border-gray-300 px-4 py-2">{item.quantity}</td>
-                <td className="border border-gray-300 px-4 py-2">${item.totalPrice.toFixed(2)}</td>
+                <td className="border border-gray-300 px-4 py-2">${item?.totalPrice?.toFixed(2)}</td>
                 <td className="border border-gray-300 px-4 py-2">${(item.quantity * item.totalPrice.toFixed(2))}</td>
               </tr>
             ))}

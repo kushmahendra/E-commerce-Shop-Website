@@ -104,7 +104,7 @@ export default function AdminLogin() {
       
       <ToastContainer />
       <div className="sm:mx-auto sm:w-full mt-12 pt-12 sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-orange-600">
           {resetMode ? 'Reset Password' : showForgotPassword ? 'Forgot Password' : 'Admin Login'}
         </h2>
       </div>

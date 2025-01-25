@@ -47,7 +47,7 @@ const ShopFiltering = ({filters,filtersState, setFiltersState, clearFilters}) =>
         </div>
         {/* pricing */}
         <div className='flex flex-col space-y-2'>
-            <h4 className='font-medium text-lg'>Color</h4>
+            <h4 className='font-medium text-lg'>Price Range</h4>
             <hr/>
             {
                filters.priceRanges.map((range)=>
