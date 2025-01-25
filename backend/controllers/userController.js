@@ -83,7 +83,7 @@ const handleDeleteUser=async(req,res)=>
 const handleAllUsers=async(req,res)=>
 {
     try{
-        const users=await ShopUser.find({})
+        const users=await ShopUser.find().sort({ createdAt: -1 });
         res.status(200).send({message:"Get all users successfully",users})
     }
     catch(error)

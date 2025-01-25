@@ -185,7 +185,7 @@ const handleOrders=async(req,res)=>
 // };
 const handleGetAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find({})
+    const orders = await Order.find().sort({ orderDate: -1 })
       .populate('userId', 'firstName lastName email') // Assuming 'userId' is referencing a 'User' model
       .populate('items', 'name category  description price oldPrice image color  rating stock') // Assuming 'items' references products or items in the order
       .select('userId items addressInfo orderStatus paymentMethod paymentStatus totalAmount orderDate') // Select specific fields
