@@ -9,7 +9,7 @@ import orderApi from './features/orders/orderApi';
 import cartApi from './features/cart/cartApi';
 import orderReducer from './features/orders/orderSlice';
 import wishlistReducer from './features/wishlist/wishlistSlice';
-
+import { wishlistApi } from './features/wishlist/wishlistApi';
 
 
 export const store = configureStore({
@@ -24,10 +24,11 @@ export const store = configureStore({
     order: orderReducer,
     [cartApi.reducerPath]:cartApi.reducer,
     wishlist: wishlistReducer, 
+    [wishlistApi.reducerPath]:wishlistApi.reducer,
   
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware,productsApi.middleware,reviewsApi.middleware,resetPasswordApi.middleware,orderApi.middleware, cartApi.middleware),
+    getDefaultMiddleware().concat(authApi.middleware,productsApi.middleware,reviewsApi.middleware,resetPasswordApi.middleware,orderApi.middleware, cartApi.middleware,wishlistApi.middleware),
 });
 
 

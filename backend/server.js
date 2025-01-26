@@ -15,6 +15,7 @@ import userOtpRoute from './routes/userOtpRoute.js';
 import orderRoute from './routes/ordersRoute.js';
 // import cartItemRoute from './routes/cartItemRoute.js';
 import cartRoute from './routes/cartRoute.js';
+import wishlistRoute from './routes/wishlistRoute.js';
 
 
 dotenv.config();
@@ -55,7 +56,8 @@ app.use('/api', resetPasswordrRouter);
 app.use('/user',userOtpRoute);
 app.use('/api',orderRoute);
 // app.use('/api',cartItemRoute)
-app.use('/api',cartRoute)
+app.use('/api',cartRoute);
+app.use('/api',wishlistRoute)
 
 const PORT = process.env.PORT
 

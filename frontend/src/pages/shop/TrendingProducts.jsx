@@ -43,8 +43,14 @@ const TrendingProducts = () => {
    <> <ToastContainer/>
    <section className='section__container product__container'>
     <h2 className='section__header'>Trending Products</h2>
-    <p className='section__subheader mb-12'>Discover the Hottest Picks:
-         Elevate Your Style with our curated collection of Trending Women's Fashion Products</p>
+    {/* <p className='section__subheader mb-12'>
+      Discover the Hottest Picks:
+          Elevate Your Style with our curated collection of Trending Women's Fashion Products 
+     </p> */}
+          <p className='section__subheader mb-12'>
+          Upgrade Your Wardrobe:
+          Explore Trending Styles That Are Taking the Fashion World Storm-Only at Our Store!
+     </p> 
 
 {/* products card */}
 <div className='m-12'>

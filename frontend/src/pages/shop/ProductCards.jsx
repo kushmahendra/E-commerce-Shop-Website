@@ -7,12 +7,14 @@ import { useAddsToCartMutation } from '../../redux/features/cart/cartApi';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { addToWishlist } from '../../redux/features/wishlist/wishlistSlice';
+import { useAddToWishlistApiMutation } from '../../redux/features/wishlist/wishlistApi';
 
 const ProductCards = ({ products }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
 
   const [addsToCart, { isLoading }] = useAddsToCartMutation();
+  const [addToWishlistApi, { isLoading: isAddingToWishlist }] = useAddToWishlistApiMutation();
 
   const handleAddToCart = async (product) => {
     try {
@@ -44,18 +46,51 @@ const ProductCards = ({ products }) => {
     }
   };
 
-  //add to wishlist
-  const handleAddToWishlist = (product) => {
-    dispatch(addToWishlist(product));
-    toast.success("Product added to wishlist!", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "light",
-    });
+  // //add to wishlist
+  // const handleAddToWishlist = (product) => {
+  //   dispatch(addToWishlist(product));
+  //   toast.success("Product added to wishlist!", {
+  //     position: "top-right",
+  //     autoClose: 3000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     theme: "light",
+  //   });
+  // };
+ 
+   // Handle adding to wishlist with mutation
+   const handleAddToWishlist = async (product) => {
+    try {
+      const newData={
+        productId:product._id,
+        userId: user._id 
+      }
+      const response = await addToWishlistApi(newData).unwrap(); // Use the mutation
+      console.log('Response:', response);
+
+      toast.success("Product added to wishlist!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
+    } catch (error) {
+      console.error('Error adding product to wishlist:', error);
+      toast.error("Failed to add product to wishlist. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
+    }
   };
 
   return (
@@ -111,7 +146,6 @@ const ProductCards = ({ products }) => {
                   <i className="ri-heart-line"></i> {/* Heart Icon */}
                 </button>
               {/* </div> */}
-
 
             </div>
           </div>

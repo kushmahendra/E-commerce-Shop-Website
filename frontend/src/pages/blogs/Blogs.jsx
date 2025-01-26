@@ -8,7 +8,7 @@ const Blogs = () => {
     <section className='section__container blog__container'>
     <h2 className='section__header'>Latest From Blog</h2>
     <p className='section__subheader'> Elevate your wardrove with our freshest syle tips,trends and inspiration on our blog</p>
-    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>
+    <div className='grid grid-cols-1 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8'>
         {
             blogsData.map((blog,index)=>
             (

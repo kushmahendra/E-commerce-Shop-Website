@@ -68,8 +68,9 @@ const Search = () => {
       <section className="section__container bg-primary-light">
         <h2 className="section__header capitalize">Search products</h2>
         <p className="section__subheader">
-          Browse a diverse range of categories, from chic dresses to versatile
-          accessories. Elevate your style today!
+          {/* Browse a diverse range of categories, from chic dresses to versatile
+          accessories. Elevate your style today! */}
+          Browse our fashion collection, featuring elegant dresses and essential accessories, designed to enhance your style and confidence. Elevate your style today!
         </p>
       </section>
       <section className="section__container">
