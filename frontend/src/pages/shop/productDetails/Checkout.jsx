@@ -19,8 +19,8 @@ export default function PaymentPage() {
 
   const userId = useSelector((state) => state.auth.user._id);
   const cart = useSelector((state) => state.cart); 
-  const addresses = useSelector((state) => state.auth.addresses);
-  const addressInfo=addresses[0];
+  // const addresses = useSelector((state) => state.auth.addresses);
+  // const addressInfo=addresses[0];
 console.log('cc',cart);
 
   console.log('cccrtid',cart.cartId);
@@ -29,7 +29,9 @@ console.log('cc',cart);
   
     const [clearCart] = useClearCartMutation();
   
+const  localUser=JSON.parse(localStorage.getItem('user'))
 
+const addressInfo= localUser.addresses[0];
   console.log('User ID:', userId);
   console.log('Total Amount:', cart.grandTotal);
   console.log('addressInfo:', addressInfo);

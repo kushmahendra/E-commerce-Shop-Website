@@ -112,7 +112,8 @@ const CartModal = ({ isOpen, onClose }) => {
   }
 
   if (isError) {
-    return <p>Error fetching cart: {error?.data?.message || 'Something went wrong!'}</p>;
+    // return <p>Error fetching cart: {error?.data?.message || 'Something went wrong!'}</p>;
+    return <p>Error fetching cart: {'Something went wrong!'}</p>;
   }
 
   if (!products || products?.items?.length === 0) {

@@ -10,10 +10,10 @@ const productSchema = new mongoose.Schema({
     // image: { type: mongoose.Schema.Types.Mixed },
     color: {
         type: String,
-        enum: ['red', 'blue', 'green', 'yellow', 'black', 'white',  'orange', 'purple', 'pink', 'brown', 'golden', 'gray' ], // Allowed colors
+        enum: ['red', 'blue', 'green', 'yellow', 'black', 'white',  'orange', 'purple', 'pink', 'brown', 'golden', 'gray','silver' ], // Allowed colors
         default: 'black', // Default color
       },
-
+      
     rating: { type: Number, default: 0 },
     author: { type: mongoose.Types.ObjectId, ref: 'ShopUser' },
     // author: { type: mongoose.Types.ObjectId, ref: 'ShopUser', required: true },

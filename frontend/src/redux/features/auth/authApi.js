@@ -44,6 +44,20 @@ const authApi=createApi({
                     }
                 })
             }),
+            getAllUser: builder.query({
+              query: () => {
+                const token = localStorage.getItem("token"); // Fetch the token from local storage
+                return {
+                  url: "/users", // Dynamic user ID in the endpoint
+                  method: "GET", // HTTP GET method
+                  headers: {
+                    Authorization: `Bearer ${token}`, // Include the token in the request headers
+                  },
+                };
+              },
+
+              providesTags: ["ShopUser"], // Tags for caching and re-fetching data
+            }),
           
             getUser: builder.mutation({
                 query: (userId) => {
@@ -111,5 +125,5 @@ const authApi=createApi({
         })
 
 })
-export const {useRegisterUserMutation,useGetUserMutation ,useGetSingleUserQuery, useLoginUserMutation,useLogoutUserMutation,useDeleteUserMutation,useUpdateUserInfoMutation,useEditProfileMutation}=authApi;
+export const {useRegisterUserMutation,useGetAllUserQuery,useGetUserMutation ,useGetSingleUserQuery, useLoginUserMutation,useLogoutUserMutation,useDeleteUserMutation,useUpdateUserInfoMutation,useEditProfileMutation}=authApi;
 export default authApi;

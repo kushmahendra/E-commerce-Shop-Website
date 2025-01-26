@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useGetSingleUserOrdersQuery } from '../redux/features/orders/orderApi';
-import { useGetUserMutation } from '../redux/features/auth/authApi';
+import { useGetAllUserQuery, useGetUserMutation } from '../redux/features/auth/authApi';
 import { useNavigate } from 'react-router-dom';
 
 // Mock data based on the Mongoose schema
@@ -44,8 +44,11 @@ export default function Orders() {
   //const  [ getSingleUserOrders]=useGetSingleUserOrdersQuery()
   const [userData, setUserData] = useState(null);
   const [getUser, { data, isLoading, isError, error }] = useGetUserMutation();
-  const navigate=useNavigate()
-  
+  const { data23:userInfo} = useGetAllUserQuery();
+  console.log('userdetail',userInfo)
+
+  const navigate = useNavigate()
+
   const openDialog = (order) => {
     setSelectedOrder(order);
     setIsDialogOpen(true);
@@ -78,24 +81,20 @@ export default function Orders() {
     }
   }, [userId, getUser]);
 
-  // console.log('responsedata', orders);
 
   const orderDetail = userData?.user.orders || [];
   console.log('resorderDetail', orderDetail);
 
-  console.log('qqq', orderDetail[16]?.items[0]?.quantity);
-
   //back button
-  const handleBack=()=>
-    {
-      navigate('/')
-    }
+  const handleBack = () => {
+    navigate('/')
+  }
 
   return (<>
     <button onClick={handleBack} className='px-4 py- mt-1 mr-1 border-1 hover:bg-green-700 text-black rounded-lg'>
-    <i className="ri-arrow-left-line"></i></button>
+      <i className="ri-arrow-left-line"></i></button>
     <div className="container mx-auto py-6">
-      
+
       <h1 className="text-3xl font-bold mb-6 text-center align-middle">Order Management</h1>
       <div className="border rounded shadow">
         <div className="p-4 bg-gray-50 border-b">
@@ -201,15 +200,16 @@ export default function Orders() {
                 </thead>
                 <tbody>
                   {/* Replace this section with actual product mapping */}
-              
+
                   {selectedOrder?.items?.map((item, index) => (
-              <tr key={item._id} className="text-gray-700">
-                <td className="border border-gray-300 px-4 py-2">Product{index + 1}</td>
-                <td className="border border-gray-300 px-4 py-2">{item.quantity}</td>
-                <td className="border border-gray-300 px-4 py-2">${item?.totalPrice?.toFixed(2)}</td>
-                <td className="border border-gray-300 px-4 py-2">${(item.quantity * item.totalPrice.toFixed(2))}</td>
-              </tr>
-            ))}
+                    <tr key={item._id} className="text-gray-700">
+                      <td className="border border-gray-300 px-4 py-2">Product{index + 1}</td>
+                      <td className="border border-gray-300 px-4 py-2">{item.quantity}</td>
+                      <td className="border border-gray-300 px-4 py-2">${(item?.totalPrice / item.quantity).toFixed(2)}</td>
+
+                      <td className="border border-gray-300 px-4 py-2">${item?.totalPrice?.toFixed(2)}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -233,7 +233,7 @@ export default function Orders() {
       )}
 
     </div>
-    </>
+  </>
   );
 }
 

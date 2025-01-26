@@ -15,50 +15,50 @@ export default function ProductUpload({ onAddProduct }) {
     color: '',
     rating: '',
     image: null,
-    stock:'',
-    author: '',
+    stock: '',
+    author: '6772806c0361a7f113ef0fd1',
   });
 
   const [imagePreview, setImagePreview] = useState(null); // Store image preview
   const [uploading, setUploading] = useState(false); // Upload state
 
- // Handle Image Upload
-const handleImageUpload = async (e) => {
-  const file = e.target.files?.[0];
-  if (file) {
-    setUploading(true); // Start upload state
+  // Handle Image Upload
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploading(true); // Start upload state
 
-    
-    // const uploadData = new FormData();
-    // uploadData.append('image', file);
 
-    try {
-     
-      const result  = await uploadProfileImage(file);
-      console.log('hello world',result)
-      
-      // Update formData without overwriting other fields
-      setFormData((prevData) => ({
-        ...prevData,
-        image: result,
-      }));
-      setImagePreview(result)
+      // const uploadData = new FormData();
+      // uploadData.append('image', file);
 
-      toast.success('Image uploaded successfully!', {
-        autoClose: 5000,
-        hideProgressBar: false,
-      }); // Success toast
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      toast.error('Failed to upload image', {
-        autoClose: 5000,
-        hideProgressBar: false,
-      }); // Error toast
-    } finally {
-      setUploading(false); // End upload state
+      try {
+
+        const result = await uploadProfileImage(file);
+        console.log('hello world', result)
+
+        // Update formData without overwriting other fields
+        setFormData((prevData) => ({
+          ...prevData,
+          image: result,
+        }));
+        setImagePreview(result)
+
+        toast.success('Image uploaded successfully!', {
+          autoClose: 5000,
+          hideProgressBar: false,
+        }); // Success toast
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        toast.error('Failed to upload image', {
+          autoClose: 5000,
+          hideProgressBar: false,
+        }); // Error toast
+      } finally {
+        setUploading(false); // End upload state
+      }
     }
-  }
-};
+  };
 
 
   // Handle Form Submission
@@ -89,8 +89,8 @@ const handleImageUpload = async (e) => {
       color: '',
       rating: '',
       image: null,
-      stock:'',
-      author: '',
+      stock: '',
+      author: '6772806c0361a7f113ef0fd1'
     });
     setImagePreview(null);
   };
@@ -127,7 +127,7 @@ const handleImageUpload = async (e) => {
             onChange={handleImageUpload}
           />
         </div>
-  
+
         {/* Product Details Section */}
         <div className="space-y-6">
           <div>
@@ -140,7 +140,7 @@ const handleImageUpload = async (e) => {
               placeholder="Enter product name..."
             />
           </div>
-  
+
           <div>
             <label className="block text-sm font-medium mb-2 text-gray-700">Product Description</label>
             <textarea
@@ -150,7 +150,7 @@ const handleImageUpload = async (e) => {
               placeholder="Enter product description..."
             />
           </div>
-  
+
           {/* Category and Price */}
           <div className="flex gap-6">
             <div className="flex-1">
@@ -167,7 +167,7 @@ const handleImageUpload = async (e) => {
                 <option value="jewellery">Jewellery</option>
               </select>
             </div>
-  
+
             <div className="flex-1">
               <label className="block text-sm font-medium mb-2 text-gray-700">Product Price</label>
               <input
@@ -179,7 +179,7 @@ const handleImageUpload = async (e) => {
               />
             </div>
           </div>
-  
+
           {/* Old Price, Color, and Rating */}
           <div className="flex gap-6">
             <div className="flex-1">
@@ -192,7 +192,7 @@ const handleImageUpload = async (e) => {
                 placeholder="$25"
               />
             </div>
-  
+
             <div className="flex-1">
               <label className="block text-sm font-medium mb-2 text-gray-700">Color</label>
               <select
@@ -200,7 +200,7 @@ const handleImageUpload = async (e) => {
                 onChange={(e) => setFormData({ ...formData, color: e.target.value })}
                 className="w-full p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 transition-all"
               >
-                <option value="">Select color</option>
+                {/* <option value="">Select color</option>
                 <option value="red">red</option>
                 <option value="blue">blue</option>
                 <option value="green">green</option>
@@ -212,10 +212,27 @@ const handleImageUpload = async (e) => {
                 <option value="orange">orange</option>
                 <option value="golden">golden</option>
                 <option value="brown">brown</option>
+                <option value="gray">gray</option> */}
+
+                <option value="">Select color</option>
+                <option value="black">black</option>
+                <option value="white">white</option>
                 <option value="gray">gray</option>
+                <option value="silver">silver</option>
+                <option value="red">red</option>
+                <option value="orange">orange</option>
+                <option value="yellow">yellow</option>
+                <option value="green">green</option>
+                <option value="blue">blue</option>
+                <option value="purple">purple</option>
+                <option value="pink">pink</option>
+                <option value="brown">brown</option>
+                <option value="golden">golden</option>
+
               </select>
             </div>
-  
+
+
             <div className="flex-1">
               <label className="block text-sm font-medium mb-2 text-gray-700">Rating</label>
               <input
@@ -228,7 +245,7 @@ const handleImageUpload = async (e) => {
               />
             </div>
           </div>
-  
+
           {/* Stock */}
           <div>
             <label className="block text-sm font-medium mb-2 text-gray-700">Stock</label>
@@ -240,10 +257,10 @@ const handleImageUpload = async (e) => {
               placeholder="Enter stock number"
             />
           </div>
-  
+
           {/* Author */}
           <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">Author Name</label>
+            <label className="block text-sm font-medium mb-2 text-gray-700">Author Id</label>
             <input
               type="text"
               value={formData.author}
@@ -253,7 +270,7 @@ const handleImageUpload = async (e) => {
             />
           </div>
         </div>
-  
+
         {/* Submit Button */}
         <button
           type="submit"
@@ -265,7 +282,7 @@ const handleImageUpload = async (e) => {
       <ToastContainer />
     </div>
   );
-  
+
 
 }
 

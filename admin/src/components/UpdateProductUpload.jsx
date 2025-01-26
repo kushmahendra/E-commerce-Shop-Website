@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Upload } from 'lucide-react';
-import {Link, useLocation} from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { uploadProfileImage } from '../services/services';
-import {API_BASE_URL} from '../../constants/constant'
+import { API_BASE_URL } from '../../constants/constant'
 import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
-export default function UpdateProductUpload({  productId }) {
+export default function UpdateProductUpload({ productId }) {
   const location = useLocation();
   const productDetails = location.state;
 
@@ -28,49 +28,49 @@ export default function UpdateProductUpload({  productId }) {
   const [imagePreview, setImagePreview] = useState(productDetails?.image); // Store image preview
   const [uploading, setUploading] = useState(false); // Upload state
 
- // Handle Image Upload
-const handleImageUpload = async (e) => {
-  const file = e.target.files?.[0];
-  if (file) {
-    setUploading(true); // Start upload state
+  // Handle Image Upload
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploading(true); // Start upload state
 
-    
 
-    // const uploadData = new FormData();
-    // uploadData.append('image', file);
 
-    try {
-     
-      const result  = await uploadProfileImage(file);
-      console.log('hello world',result)
-      
-      // Update formData without overwriting other fields
-      setFormData((prevData) => ({
-        ...prevData,
-        image: result,
-      }));
-      setImagePreview(result)
-      toast.success('Image uploaded successfully!', {
-        autoClose: 5000,
-        hideProgressBar: false,
-      }); // Success toast
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      toast.error('Failed to upload image', {
-        autoClose: 5000,
-        hideProgressBar: false,
-      }); // Error toast
-    } finally {
-      setUploading(false); // End upload state
+      // const uploadData = new FormData();
+      // uploadData.append('image', file);
+
+      try {
+
+        const result = await uploadProfileImage(file);
+        console.log('hello world', result)
+
+        // Update formData without overwriting other fields
+        setFormData((prevData) => ({
+          ...prevData,
+          image: result,
+        }));
+        setImagePreview(result)
+        toast.success('Image uploaded successfully!', {
+          autoClose: 5000,
+          hideProgressBar: false,
+        }); // Success toast
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        toast.error('Failed to upload image', {
+          autoClose: 5000,
+          hideProgressBar: false,
+        }); // Error toast
+      } finally {
+        setUploading(false); // End upload state
+      }
     }
-  }
-};
+  };
 
 
-// // Handle Form Submission
-const handleSubmit = async(e) => {
+  // // Handle Form Submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Validate Required Fields
     if (!formData.name || !formData.price || !formData.image) {
       toast.error('Please fill out all required fields and upload an image.', {
@@ -79,27 +79,27 @@ const handleSubmit = async(e) => {
       }); // Error toast
       return;
     }
-  
+
     try {
-      const response = await fetch(API_BASE_URL+`/api/product/${productDetails?._id}`,{
-        method:"PUT",
-        headers:{
-          'Content-Type':'application/json'
-        },body:JSON.stringify(formData)
+      const response = await fetch(API_BASE_URL + `/api/product/${productDetails?._id}`, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json'
+        }, body: JSON.stringify(formData)
       }
       )
       const data = await response.json();
-      if (response.status===200) {
+      if (response.status === 200) {
         // Call the update handler
-        console.log(['data is',data])
+        console.log(['data is', data])
         toast.success('Product updated successfully!', {
           autoClose: 5000,
           hideProgressBar: false,
         }); // Success toast
-  
+
         // Reset Form State
       } else {
-        console.warn(['error',data])
+        console.warn(['error', data])
 
         toast.error('Failed to update product. Please try again.', {
           autoClose: 5000,
@@ -114,7 +114,7 @@ const handleSubmit = async(e) => {
       }); // Error toast
     }
   };
-  
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-pink-100">
@@ -129,7 +129,7 @@ const handleSubmit = async(e) => {
             </Link>
           </h2>
         </div>
-  
+
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Image Upload Section */}
           <div className="border-2 border-dashed border-indigo-300 rounded-lg p-8 text-center bg-gradient-to-br from-pink-100 to-indigo-50">
@@ -147,7 +147,7 @@ const handleSubmit = async(e) => {
             </label>
             <input id="file-upload" type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
           </div>
-  
+
           {/* Product Details Section */}
           <div className="space-y-6">
             <div>
@@ -160,7 +160,7 @@ const handleSubmit = async(e) => {
                 placeholder="Enter product name..."
               />
             </div>
-  
+
             <div>
               <label className="block text-sm text-indigo-600 mb-2">Product Description</label>
               <textarea
@@ -170,7 +170,7 @@ const handleSubmit = async(e) => {
                 placeholder="Enter product description..."
               />
             </div>
-  
+
             <div className="flex gap-6">
               <div className="flex-1">
                 <label className="block text-sm text-indigo-600 mb-2">Product Category</label>
@@ -186,7 +186,7 @@ const handleSubmit = async(e) => {
                   <option value="jewellery">Jewellery</option>
                 </select>
               </div>
-  
+
               <div className="flex-1">
                 <label className="block text-sm text-indigo-600 mb-2">Product Price</label>
                 <input
@@ -198,7 +198,7 @@ const handleSubmit = async(e) => {
                 />
               </div>
             </div>
-  
+
             <div className="flex gap-6">
               <div className="flex-1">
                 <label className="block text-sm text-indigo-600 mb-2">Old Price</label>
@@ -210,7 +210,7 @@ const handleSubmit = async(e) => {
                   placeholder="$25"
                 />
               </div>
-  
+
               <div className="flex-1">
                 <label className="block text-sm text-indigo-600 mb-2">Color</label>
                 <select
@@ -218,7 +218,7 @@ const handleSubmit = async(e) => {
                   onChange={(e) => setFormData({ ...formData, color: e.target.value })}
                   className="w-full p-3 border-2 border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 >
-                    <option value="">Select color</option>
+                  {/* <option value="">Select color</option>
                 <option value="red">red</option>
                 <option value="blue">blue</option>
                 <option value="green">green</option>
@@ -230,10 +230,26 @@ const handleSubmit = async(e) => {
                 <option value="orange">orange</option>
                 <option value="golden">golden</option>
                 <option value="brown">brown</option>
-                <option value="gray">gray</option>
-              </select>
+                <option value="gray">gray</option> */}
+                
+                  <option value="">select color</option>
+                  <option value="black">black</option>
+                  <option value="white">white</option>
+                  <option value="gray">gray</option>
+                  <option value="silver">silver</option>
+                  <option value="red">red</option>
+                  <option value="orange">orange</option>
+                  <option value="yellow">yellow</option>
+                  <option value="green">green</option>
+                  <option value="blue">blue</option>
+                  <option value="purple">purple</option>
+                  <option value="pink">pink</option>
+                  <option value="brown">brown</option>
+                  <option value="golden">golden</option>
+
+                </select>
               </div>
-  
+
               <div className="flex-1">
                 <label className="block text-sm text-indigo-600 mb-2">Rating</label>
                 <input
@@ -246,7 +262,7 @@ const handleSubmit = async(e) => {
                 />
               </div>
             </div>
-  
+
             {/* Stock */}
             <div>
               <label className="block text-sm text-indigo-600 mb-2">Stock</label>
@@ -258,7 +274,7 @@ const handleSubmit = async(e) => {
                 placeholder="Enter stock number"
               />
             </div>
-  
+
             {/* Author */}
             <div>
               <label className="block text-sm text-indigo-600 mb-2">Author Name</label>
@@ -271,7 +287,7 @@ const handleSubmit = async(e) => {
               />
             </div>
           </div>
-  
+
           {/* Submit Button */}
           <button
             type="submit"
@@ -284,7 +300,7 @@ const handleSubmit = async(e) => {
       <ToastContainer />
     </div>
   );
-  
+
 }
 
 
