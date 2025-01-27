@@ -19,6 +19,8 @@ import ContactPage from "../components/ContactPage";
 // import PaymentPage from "../userProfile/PaymentPage";
 import Orders from "../userProfile/Orders";
 import WishList from "../userProfile/WishList";
+import SinglePageProduct from "../pages/shop/productDetails/SinglePageProduct";
+import AboutUs from "../components/AboutUs";
 
 
 const router = createBrowserRouter([
@@ -50,6 +52,8 @@ const router = createBrowserRouter([
     {path:"/contact", element:<ContactPage/>},
     // {path:"/dashboard/payments" , element:<PaymentPage/>},
     {path:"/dashboard/orders" , element:<Orders/>},
-    {path:"/wishlist", element:<WishList/>}
+    {path:"/wishlist", element:<WishList/>},
+    {path:"/pages", element:<SinglePageProduct/>},
+    {path:"/about-us", element:<AboutUs/>},
   ]);
   export default router

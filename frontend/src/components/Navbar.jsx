@@ -60,8 +60,8 @@ const Navbar = () => {
           <ul className="flex flex-1 bg-text-blue-700  items-center space-x-8 list-none">
             <li><Link to="/"><span className='hover:text-green-700'>Home</span></Link></li>
             <li><Link to="/shop"><span className='hover:text-green-700'>Products</span></Link></li>
-            {/* <li><Link to="/pages"><span className='hover:text-green-700'>Pages</span></Link></li> */}
-            <li><Link to="/contact"><span className='hover:text-green-700'>About-Us</span></Link></li>
+            <li><Link to="/pages"><span className='hover:text-green-700'>Pages</span></Link></li>
+            <li><Link to="/about-us"><span className='hover:text-green-700'>About-Us</span></Link></li>
           </ul>
           <div className='nav__logo'>
             <Link to='/'>
