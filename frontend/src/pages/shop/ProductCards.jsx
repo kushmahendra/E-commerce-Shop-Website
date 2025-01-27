@@ -6,7 +6,7 @@ import { addToCart } from '../../redux/features/cart/cartSlice';
 import { useAddsToCartMutation } from '../../redux/features/cart/cartApi';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { addToWishlist } from '../../redux/features/wishlist/wishlistSlice';
+// import { addToWishlist } from '../../redux/features/wishlist/wishlistSlice';
 import { useAddToWishlistApiMutation } from '../../redux/features/wishlist/wishlistApi';
 
 const ProductCards = ({ products }) => {
@@ -69,7 +69,7 @@ const ProductCards = ({ products }) => {
       }
       const response = await addToWishlistApi(newData).unwrap(); // Use the mutation
       console.log('Response:', response);
-
+      // dispatch(addToWishlist(product));
       toast.success("Product added to wishlist!", {
         position: "top-right",
         autoClose: 3000,
@@ -81,15 +81,30 @@ const ProductCards = ({ products }) => {
       });
     } catch (error) {
       console.error('Error adding product to wishlist:', error);
-      toast.error("Failed to add product to wishlist. Please try again.", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
+   
+      if (error?.data?.message === "Product is already in wishlist") {
+        // Handle product already in wishlist
+        toast.info("Product is already in your wishlist.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+      } else {
+        // Handle generic error
+        toast.error("Failed to add product to wishlist. Please try again.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+      }
     }
   };
 

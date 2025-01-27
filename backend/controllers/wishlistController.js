@@ -20,7 +20,7 @@ const handleAddToWishlist = async (req, res) => {
       );
   
       if (productExists) {
-        return res.status(400).json({ message: 'Product already in wishlist' });
+        return res.status(400).json({ message: 'Product is already in wishlist' });
       }
   
       // Fetch product details
@@ -83,10 +83,17 @@ const handleAddToWishlist = async (req, res) => {
   console.log('userId in wishlist',userId );
   
     try {
-      const wishlist = await Wishlist.findOne({ userId }).populate('items.product');
+      const wishlist = await Wishlist.findOne({ userId }).populate('items.product')
+         
   
       if (!wishlist) {
         return res.status(400).json({ message: 'Wishlist not found' });
+      }
+      if (wishlist) {
+        // Sort items in descending order by the product's `createdAt`
+        wishlist.items.sort((a, b) => {
+          return new Date(b.product.createdAt) - new Date(a.product.createdAt);
+        });
       }
   
       res.status(200).json({message:"get all products successfully from  wishlist " ,wishlist });

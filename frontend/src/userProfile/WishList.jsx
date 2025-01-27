@@ -9,7 +9,6 @@ import { useGetAllWishlistItemsApiQuery, useRemoveFromWishlistApiMutation } from
 // import { removeFromWishlist } from "../redux/features/wishlist/wishlistSlice";
 
 
-
 export default function WishList() {
   // const wishlistItems = useSelector((state) => state.wishlist?.wishlistItems || []);
   // const [wishlistItems, setWishlistItems] = useState([]);
@@ -20,11 +19,32 @@ export default function WishList() {
   const userId=user?._id
   console.log('uuuid',userId);
   
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const {
+    data: wishlistProductItems = { wishlist: { items: [] } },
+    refetch,
+    isLoading: isFetching,
+  } = useGetAllWishlistItemsApiQuery(userId);
 
   const [removeFromWishlist, { isLoading: isRemoving }] = useRemoveFromWishlistApiMutation();
-  const { data: wishlistProductItems=[], isLoading: isFetching, error }= useGetAllWishlistItemsApiQuery(userId);
+  // const { data: wishlistProductItems=[], isLoading: isFetching, error }= useGetAllWishlistItemsApiQuery(userId);
   // const { data: wishlistItems, isLoading: isFetching, error } = useGetAllWishlistItemsApiQuery(user?._id);
   // const [getAllWishlistItemsApi, {isLoading: isFetching }] = useGetAllWishlistItemsApiQuery();
+
+  useEffect(() => {
+    // Refetch wishlist data whenever backend data changes
+    if (userId) {
+      refetch(); // Refetch data to keep the UI updated whenever there are changes in the backend
+    }
+  }, [userId, refetch]); // Trigger refetch whenever userId changes or the refetch function itself changes
+  
+// Sync local wishlistItems state with fetched data
+useEffect(() => {
+  if (wishlistProductItems?.wishlist?.items) {
+    setWishlistItems(wishlistProductItems.wishlist.items);
+    
+  }
+}, [wishlistProductItems]);
 
 //   useEffect(() => {
 //     const fetchAllWishlistItems = async () => {
@@ -39,8 +59,9 @@ export default function WishList() {
 //   }, [getAllWishlistItemsApi, userId]);
 
 // const wishlistItems=wishlistProductItems.wishlist ||[];
-const wishlistItems = wishlistProductItems?.wishlist?.items || []; 
+// const wishlistItems = wishlistProductItems?.wishlist?.items || []; 
 console.log('www',wishlistItems);
+// refetch(); // Refetch wishlist data to update the UI
 
   //addtocart
   const handleAddToCart = async (item) => {
@@ -88,6 +109,7 @@ console.log('www',wishlistItems);
         draggable: true,
         theme: "light",
       });
+      refetch(); // Refetch wishlist data to update the UI
     } catch (error) {
       console.error("Error removing product from wishlist:", error);
       toast.error(`Failed to remove ${item.name} from wishlist. Please try again.`, {
@@ -166,7 +188,7 @@ console.log('www',wishlistItems);
                       <button
                         // onClick={() => dispatch(removeFromWishlist(item._id))}
                          onClick={() => handleRemoveFromWishlist(item.product)}
-                        className="w-full py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-50"
+                        className="w-full py-2 px-4 border border-gray-300 rounded-md bg-red-500 hover:bg-red-600 text-white"
                       >
                         Remove
                       </button>

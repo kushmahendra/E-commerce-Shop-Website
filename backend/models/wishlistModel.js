@@ -5,6 +5,7 @@ const wishlistSchema = new mongoose.Schema({
     items: [
         {
             product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+            createdAt: { type: Date, default: Date.now }, // Track when the product was added to the wishlist
             // name: String,
             // category:String,
             // price: Number,
