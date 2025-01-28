@@ -15,8 +15,10 @@ const Footer = () => {
         <div className='footer__col'>
           <h4>CONTACT INFO</h4>
           <Link to="/contact">
-          <p class="text-lg font-semibold  py-2 px-4 rounded-lg animate-bounce">
-           <span className='hover:text-green-700'> Contact Us </span>
+          <p 
+          // class="text-lg font-semibold  py-2 px-4 rounded-lg animate-bounce"
+          >
+          Contact Us
           </p>
           </Link>
           <p>

@@ -292,33 +292,13 @@ const ProductPage = () => {
               </div>
 
               <div className="flex items-center space-x-4">
-                {/* <div className="flex items-center border border-gray-300 rounded-lg">
-                  <button onClick={decreaseQuantity} className="px-3 py-1 text-gray-600 hover:bg-gray-100">
-                    -
-                  </button>
-                  <span className="px-4 py-1">{quantity}</span>
-                  <button onClick={increaseQuantity} className="px-3 py-1 text-gray-600 hover:bg-gray-100">
-                    +
-                  </button>
-                </div> */}
+                
                 {/* <div className="flex flex-col"> */}
-                <button onClick={handleAddToCart} className="flex-1 bg-green-700 hover:bg-green-800  text-white py-2 rounded-lg text-center">
+                <button onClick={handleAddToCart} className="flex-1 bg-orange-500 hover:bg-orange-700  text-white py-2 rounded-lg text-center">
                   ADD TO CART
                 </button>
-                {/* <div className="flex flex-row justify-between mt-4">
-                <h1 className="text-gray-500 ">In stock:    <span className="text-blue-600">{product.stock} items</span> </h1>
-                <button className="text-gray-500 hover:text-orange-700"> <i className="ri-heart-line"></i> Add to Wishlist</button>
+  
               </div>
-              </div> */}
-              </div>
-
-              {/* <div className="flex text-end"> */}
-              {/* <div className="flex items-center justify-between mt-6"> */}
-              {/* <button className="text-gray-500 hover:underline">Size Guide</button> */}
-              {/* <button className="text-gray-500 hover:underline"> <i className="ri-heart-line"></i> Add to Wishlist</button> */}
-
-              {/* </div> */}
-              {/* </div> */}
             </div>
           </div>
 

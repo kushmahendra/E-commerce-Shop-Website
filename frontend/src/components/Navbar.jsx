@@ -6,6 +6,8 @@ import avatarImg from '../assets/avatar.png'
 import { logout } from '../redux/features/auth/authSlice';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Truck, FileText, Store, Mail, HelpCircle,User, Heart, Package  } from 'lucide-react';
+
 
 
 const Navbar = () => {
@@ -28,24 +30,22 @@ const Navbar = () => {
   }
 
   //page dropdown menus
-  const pagesDropDownMenus = [
-    { label: 'Delivery', path: '/delivery' },
-    { label: 'Terms and conditions', path: '/Terms-and-conditions' },
-    { label: 'Our Stores', path: '/stores' },
-    { label: 'Contact Us', path: '/contact' },
-    { label: 'FAQs', path: '/faqs' },
 
-  ]
+
+  const pagesDropDownMenus = [
+    { label: 'Delivery', path: '/delivery', icon: <Truck className="w-5 h-5" /> },
+    { label: 'Terms and conditions', path: '/Terms-and-conditions', icon: <FileText className="w-5 h-5" /> },
+    { label: 'Our Stores', path: '/stores', icon: <Store className="w-5 h-5" /> },
+    { label: 'Contact Us', path: '/contact', icon: <Mail className="w-5 h-5" /> },
+    { label: 'FAQs', path: '/faqs', icon: <HelpCircle className="w-5 h-5" /> },
+  ];
 
   //user dropdown menus
   const userDropDownMenus = [
-    // { label: 'Dashboard', path: '/adminDashboard' },
-    { label: 'profile', path: '/profile' },
-    { label: 'wishList', path: '/wishlist' },
-    // { label: 'Payments', path: '/dashboard/payments' },
-    { label: 'Orders', path: '/dashboard/orders' },
-  ]
-
+    { label: 'Profile', path: '/profile', icon: <User className="w-5 h-5" /> },
+    { label: 'WishList', path: '/wishlist', icon: <Heart className="w-5 h-5" /> },
+    { label: 'Orders', path: '/dashboard/orders', icon: <Package className="w-5 h-5" /> },
+  ];
   const dropDownMenus = [...userDropDownMenus]
 
   const handleLogout = async () => {
@@ -73,7 +73,7 @@ const Navbar = () => {
             <li><Link to="/test"><span className='hover:text-green-700'>Test</span></Link></li>
             {/* <li><Link to="/pages"><span className='hover:text-green-700'>Pages</span></Link></li> */}
 
-          
+
             <li className="relative group">
               <button
                 className="flex items-center space-x-2 hover:text-green-700 cursor-pointer"
@@ -103,8 +103,8 @@ const Navbar = () => {
                   onMouseLeave={() => setIsPagesDropDownOpen(false)}
                 >
                   {/* Header */}
-                  <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-4 py-3">
-                    <h3 className="text-lg font-bold">Pages Menu</h3>
+                  <div className="bg-gradient-to-r from-yellow-100 via-orange-100 to-pink-100 text-white px-4 py-3">
+                    <h3 className="text-lg font-bold"></h3>
                   </div>
 
                   {/* Menu Items */}
@@ -113,24 +113,11 @@ const Navbar = () => {
                       <li key={index}>
                         <Link
                           to={menu.path}
-                          className="flex items-center px-5 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300"
+                          className="flex items-center px-5 py-3 text-gray-700 hover:bg-blue-50  hover:text-red-600  transition-colors duration-300"
                           onClick={() => setIsPagesDropDownOpen(false)}
                         >
-                          <span className="w-8 h-8 bg-blue-100 text-blue-600 flex items-center justify-center rounded-full mr-3">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={2}
-                              stroke="currentColor"
-                              className="w-5 h-5"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M12 4.5v15m7.5-7.5h-15"
-                              />
-                            </svg>
+                          <span className="w-8 h-8 flex items-center justify-center rounded- mr-3">
+                            {menu.icon}
                           </span>
 
                           <span className="text-sm font-medium">{menu.label}</span>
@@ -180,75 +167,58 @@ const Navbar = () => {
                   src={user?.profileImage || avatarImg}
                   alt="" className='size-6 rounded-full cursor-pointer'
                 />
-                {
-                  isDropDownOpen && (
 
-                    <div className="absolute right-0 mt-4 w-60 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden z-50">
-                      {/* Header */}
-                      <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-4 py-3">
-                        <h3 className="text-lg font-bold">User Details</h3>
-                      </div>
+               {isDropDownOpen && (
+        <div className="absolute right-0 mt-4 w-60 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden z-50">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-yellow-100 via-red-100 to-orange-100 text-white px-4 py-3">
+            <h3 className="text-lg font-bold"></h3>
+          </div>
 
-                      {/* Menu Items */}
-                      <ul className="divide-y divide-gray-100">
-                        {
-                          dropDownMenus.map((menu, index) =>
-                          (
-                            <li key={index}>
-                              <Link onClick={() => setIsDropDownOpen(false)}
-
-                                className="flex items-center px-5 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300"
-                                to={menu.path}>
-                                <span className="w-8 h-8 bg-blue-100 text-blue-600 flex items-center justify-center rounded-full mr-3">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={2}
-                                    stroke="currentColor"
-                                    className="w-5 h-5"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M12 4.5v15m7.5-7.5h-15"
-                                    />
-                                  </svg>
-                                </span>
-
-                                <span className="text-sm font-medium">{menu.label}</span>
-                              </Link>
-                            </li>
-                          ))
-                        }
-                        <li><Link onClick={handleLogout}
-
-
-                          className="flex items-center px-5 py-3 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-300"
-                        >
-                          <span className="w-8 h-8 bg-red-100 text-red-600 flex items-center justify-center rounded-full mr-3">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={2}
-                              stroke="currentColor"
-                              className="w-5 h-5"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M17.25 9.75l-4.5 4.5m0 0l-4.5-4.5m4.5 4.5V4.5"
-                              />
-                            </svg>
-                          </span>
-                          <span className="text-sm font-medium">Logout</span>
-
-                        </Link></li>
-                      </ul>
-                    </div>
-                  )
-                }
+          {/* Menu Items */}
+          <ul className="divide-y divide-gray-100">
+            {userDropDownMenus.map((menu, index) => (
+              <li key={index}>
+                <Link
+                  onClick={() => setIsDropDownOpen(false)}
+                  className="flex items-center px-5 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-300"
+                  to={menu.path}
+                >
+                  <span className="w-8 h-8  flex items-center justify-center rounded-full mr-3">
+                    {menu.icon}
+                  </span>
+                  <span className="text-sm font-medium">{menu.label}</span>
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link
+                onClick={handleLogout}
+                // className="flex items-center px-5 py-3 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-300"
+                className="flex items-center px-5 py-3 text-yellow-100 hover:text-orange-100 transition-colors duration-300"
+            >
+                <span className="w-8 h-8  flex items-center justify-center  mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.25 9.75l-4.5 4.5m0 0l-4.5-4.5m4.5 4.5V4.5"
+                    />
+                  </svg>
+                </span>
+                <span className="text-sm font-medium">Logout</span>
+              </Link>
+            </li>
+          </ul>
+        </div>
+      )}
               </>) : (<Link to='/login'>
                 <i className="ri-user-line"></i> </Link>)
               }

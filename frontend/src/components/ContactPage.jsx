@@ -199,9 +199,9 @@ const ContactPage = () => {
         <div className='section__subheader space-x-4'>
           <span className='text-green-700 hover:text-green-900'><Link to='/'>--- Back to home ---</Link></span>
         </div>
-        <p className="text-lg font-medium text-red-600">
+        {/* <p className="text-lg font-medium text-red-600">
           Reach out to us anytime — we're here to help you!
-        </p>
+        </p> */}
       </div>
     </section>
     <section>
@@ -265,7 +265,7 @@ const ContactPage = () => {
         {/* Contact Info */}
         <div className="w-full md:w-1/2 space-y-6 pt-4">
           <h3 className="text-3xl font-extrabold text-gray-800 text-center font-sans tracking-wide">
-            Contact Info
+          Reach out to us anytime — we're here to help you!
           </h3>
           <div className="space-y-4 py-4 text-gray-600">
             <div className="flex items-center space-x-4">
