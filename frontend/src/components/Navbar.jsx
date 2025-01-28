@@ -70,6 +70,7 @@ const Navbar = () => {
           <ul className="flex flex-1 bg-text-blue-700  items-center space-x-8 list-none">
             <li><Link to="/"><span className='hover:text-green-700'>Home</span></Link></li>
             <li><Link to="/shop"><span className='hover:text-green-700'>Products</span></Link></li>
+            <li><Link to="/test"><span className='hover:text-green-700'>Test</span></Link></li>
             {/* <li><Link to="/pages"><span className='hover:text-green-700'>Pages</span></Link></li> */}
 
           
@@ -151,8 +152,9 @@ const Navbar = () => {
                 <h1 className="text-blue-800 font-bold">Cart</h1>
               </div> */}
               <div className="flex flex-row items-center space-x-2 transform transition-all duration-300 ease-in-out animate-bounce">
-                <h1 className="text-red-800 font-bold transition-opacity duration-300 ">Click</h1>
-                <h1 className="text-blue-800 font-bold transition-opacity duration-300 ">Cart</h1>
+                {/* <h1 className="text-red-800 font-bold transition-opacity duration-300 ">Click</h1>
+                <h1 className="text-blue-800 font-bold transition-opacity duration-300 ">Cart</h1> */}
+                <h1 className="text-green-800 font-bold transition-opacity duration-300 ">Fashion</h1>
               </div>
             </Link>
             {/* <Link to='/' className='ml-12'><img src={logoImg} alt="logo" className='w-1/12 h-1/4 rounded-lg' /></Link> */}
