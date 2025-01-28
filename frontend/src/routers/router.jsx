@@ -21,6 +21,10 @@ import Orders from "../userProfile/Orders";
 import WishList from "../userProfile/WishList";
 import SinglePageProduct from "../pages/shop/productDetails/SinglePageProduct";
 import AboutUs from "../components/AboutUs";
+import TermsAndConditions from "../components/TermsAndConditions";
+import DeliveryPage from "../components/DeliveryPage";
+import Stores from "../components/Stores";
+import Faqs from "../components/Faqs";
 
 
 const router = createBrowserRouter([
@@ -32,7 +36,13 @@ const router = createBrowserRouter([
         {path:'/categories/:categoryName',element: <CategoryPage/>},
         {path:'/search',element:<Search/>},
         {path:"/shop",element:<ShopPage/>},
-        {path:'/shop/:id', element:<SingleProduct/>}
+        {path:'/shop/:id', element:<SingleProduct/>},
+        {path:"/about-us", element:<AboutUs/>},
+        {path:"/contact", element:<ContactPage/>},
+        {path:"/terms-and-conditions", element:<TermsAndConditions/>},
+        {path:"/delivery", element:<DeliveryPage/>},
+        {path:"/stores",element:<Stores/>},
+        {path:"faqs", element:<Faqs/>},
              ] 
     },
     
@@ -40,6 +50,7 @@ const router = createBrowserRouter([
     {path:'/register',element:<Register/> },
     {path:'/forget', element:<ForgetPassword/>},
     {path:'/Otp', element:<OtpWithNewPassword/>},
+    
 
     {path:'/profile', element:(
       <ProtectedRoute>
@@ -49,11 +60,11 @@ const router = createBrowserRouter([
     {path:'/checkout',element:<Checkout/>},
     {path:'/ordered', element:<Ordered/>},
     {path:'/', element:<CartModal/>},
-    {path:"/contact", element:<ContactPage/>},
+ 
     // {path:"/dashboard/payments" , element:<PaymentPage/>},
     {path:"/dashboard/orders" , element:<Orders/>},
     {path:"/wishlist", element:<WishList/>},
     {path:"/pages", element:<SinglePageProduct/>},
-    {path:"/about-us", element:<AboutUs/>},
+  
   ]);
   export default router

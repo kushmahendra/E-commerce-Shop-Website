@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { sendContactData } from "../services/emailService";
 import { Mail, Phone, MapPin } from "lucide-react"
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const ContactPage = () => {
-const navigate=useNavigate()
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
+  //slides images
+  const [currentSlide, setCurrentSlide] = useState(0)
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -98,16 +101,16 @@ const navigate=useNavigate()
       ),
       color: "bg-blue-400",
     },
-    {
-      name: "LinkedIn",
-      url: "https://linkedin.com/yourshop",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-          <path d="M20.447 20.452h-3.554v-5.569c0-1.327-.025-3.036-1.85-3.036-1.853 0-2.137 1.445-2.137 2.938v5.667H9.354V9.354h3.414v1.515h.047c.476-.9 1.637-1.847 3.37-1.847 3.6 0 4.266 2.369 4.266 5.454v6.976zM5.337 7.433c-1.144 0-2.069-.926-2.069-2.069S4.193 3.295 5.337 3.295s2.068.926 2.068 2.069-1.044 2.069-2.068 2.069zm1.777 13.019H3.56V9.354h3.555v11.098zM22.225 0H1.771C.793 0 0 .77 0 1.723v20.553C0 23.23.793 24 1.771 24h20.451c.979 0 1.778-.77 1.778-1.724V1.723C24 .77 23.203 0 22.225 0z" />
-        </svg>
-      ),
-      color: "bg-blue-700",
-    },
+    // {
+    //   name: "LinkedIn",
+    //   url: "https://linkedin.com/yourshop",
+    //   icon: (
+    //     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+    //       <path d="M20.447 20.452h-3.554v-5.569c0-1.327-.025-3.036-1.85-3.036-1.853 0-2.137 1.445-2.137 2.938v5.667H9.354V9.354h3.414v1.515h.047c.476-.9 1.637-1.847 3.37-1.847 3.6 0 4.266 2.369 4.266 5.454v6.976zM5.337 7.433c-1.144 0-2.069-.926-2.069-2.069S4.193 3.295 5.337 3.295s2.068.926 2.068 2.069-1.044 2.069-2.068 2.069zm1.777 13.019H3.56V9.354h3.555v11.098zM22.225 0H1.771C.793 0 0 .77 0 1.723v20.553C0 23.23.793 24 1.771 24h20.451c.979 0 1.778-.77 1.778-1.724V1.723C24 .77 23.203 0 22.225 0z" />
+    //     </svg>
+    //   ),
+    //   color: "bg-blue-700",
+    // },
     {
       name: "Telegram",
       url: "https://t.me/yourshop",
@@ -140,109 +143,220 @@ const navigate=useNavigate()
     },
     // Repeat for other platforms (Facebook, Twitter, etc.)
   ];
-  const handleBack=()=>
-  {
-    navigate('/')
+
+  //slides images
+
+  const slides = [
+    {
+      image: "img020.jpg",
+      alt: "Sweatshirts and Jeans Advertisement",
+    },
+    {
+      image: "img013.jpg",
+      alt: "Vero Moda Advertisement",
+    },
+    {
+      image: "img014.jpg",
+      alt: "Fashion Sale Banner 3",
+    },
+    {
+      image: "img84.jpg",
+      alt: "Fashion Collection Banner 4",
+     
+    },
+    {
+      image: "img80.webp",
+      alt: "Fashion Deals Banner 5",
+    },
+  ]
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length)
+    }, 9000) // Change slide every 9 seconds
+
+    return () => clearInterval(timer)
+  }, [])
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index)
   }
+
+  // const handleBack = () => {
+  //   navigate('/')
+  // }
 
   return (<>
     <ToastContainer />
+    {/* <section className='section__container bg-primary-light'>
+        <h2 className='section__header capitalize' >Contact Us</h2>
+        </section> */}
+    <section className="bg-gradient-to-r from-yellow-200 via-orange-200 to-red-200 py-8 px-8 text-white">
+      <div className="max-w-4xl mx-auto text-center">
+        <h2 className="text-4xl font-bold capitalize tracking-wide mb-6">
+          Contact Us
+        </h2>
+        <div className='section__subheader space-x-4'>
+          <span className='text-green-700 hover:text-green-900'><Link to='/'>--- Back to home ---</Link></span>
+        </div>
+        <p className="text-lg font-medium text-red-600">
+          Reach out to us anytime — we're here to help you!
+        </p>
+      </div>
+    </section>
+    <section>
+      <div className="relative  my-4  overflow-hidden rounded-2xl">
+        {/* Carousel container */}
+        <div
+          className="relative h-[400px] ml-4  transition-transform duration-500 ease-out"
+          style={{ transform: `translateX(-${currentSlide * 100}%)`, width: `${slides.length * 118}%`, display: "flex" }}
+        >
+          {slides.map((slide, index) => (
+            <div key={index} className="relative w-full h-full rounded-2xl shrink-0">
+              <img
+                src={slide.image || "/placeholder.svg"}
+                alt={slide.alt}
+                fill
+                className="object-cover w-1/6 h-full "
+                priority={index === 0}
+              />
+            </div>
+          ))}
+        </div>
 
-    <div className="min-h-screen bg-gradient-to-r from-green-400 to-blue-500 p-4 text-white py-12 px-6 lg:px-8">
-    <button onClick={handleBack} className='px-4 py-2 bg-green-500 hover:bg-orange-500 text-white rounded-xl'><i className="ri-arrow-left-line">Back</i></button>
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-800 text-center mb-6">Contact Us</h1>
-        <div className="bg-[#ffd29d] shadow-lg rounded-lg">
-          <div className="px-8 py- sm:p-10">
-            {/* <p className="text-gray-600 mb-8">
-              We’d love to hear from you! Reach out through any of the following platforms:
-            </p> */}
-              {/* add */}
-              <div className="space-y-4 pb-8">
-          <div className="flex items-center space-x-4 text-gray-600">
-            <Mail className="w-6 h-6 text-orange-500" />
-            <span className="text-blue-800">contact@example.com</span>
+        {/* Navigation dots */}
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${currentSlide === index ? "bg-white scale-110" : "bg-white/50 hover:bg-white/75"
+                }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Previous/Next buttons */}
+        <button
+          onClick={() => goToSlide((currentSlide - 1 + slides.length) % slides.length)}
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white transition-all"
+          aria-label="Previous slide"
+        >
+          ←
+        </button>
+        <button
+          onClick={() => goToSlide((currentSlide + 1) % slides.length)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white transition-all"
+          aria-label="Next slide"
+        >
+          →
+        </button>
+      </div>
+    </section>
+
+
+    {/* <div className="min-h-screen bg-gradient-to-r from-green-400 to-blue-500 p-6 lg:px-8 py-12 text-white"> */}
+    <div className="max-w-full mx-4">
+
+      {/* Contact Info & Social Platforms */}
+      <div className="bg-[#ffd29d] shadow-lg rounded-lg p-6 mb-8 flex flex-col md:flex-row justify-between gap-8">
+
+        {/* Contact Info */}
+        <div className="w-full md:w-1/2 space-y-6 pt-4">
+          <h3 className="text-3xl font-extrabold text-gray-800 text-center font-sans tracking-wide">
+            Contact Info
+          </h3>
+          <div className="space-y-4 py-4 text-gray-600">
+            <div className="flex items-center space-x-4">
+              <Mail className="w-6 h-6 text-orange-500" />
+              <span className="text-white">contact@example.com</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Phone className="w-6 h-6 text-blue-400" />
+              <span className="text-white">+1 (123) 456-7890</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <MapPin className="w-6 h-6 text-green-400" />
+              <span className="text-white">123 Main St, Anytown, USA</span>
+            </div>
           </div>
-          <div className="flex items-center space-x-4 text-gray-600">
-            <Phone className="w-6 h-6 text-blue-400" />
-            <span className="text-black">+1 (123) 456-7890</span>
-          </div>
-          <div className="flex items-center space-x-4 text-gray-600">
-            <MapPin className="w-6 h-6 text-green-400" />
-            <span className="text-blue-800">123 Main St, Anytown, USA</span>
+
+          {/* Social Media Platforms */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 py-8 gap-6">
+            {socialMedia.map((platform) => (
+              <a
+                key={platform.name}
+                href={platform.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center justify-center px-4 py-3 rounded-lg text-white shadow-md transition-transform transform hover:scale-105 ${platform.color}`}
+              >
+                {platform.icon}
+                <span className="ml-3 font-medium">{platform.name}</span>
+              </a>
+            ))}
           </div>
         </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-8">
-              {socialMedia.map((platform) => (
-                <a
-                  key={platform.name}
-                  href={platform.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex items-center justify-center px-4 py-3 rounded-lg text-white shadow-md transition-transform transform hover:scale-105 ${platform.color}`}
-                >
-                  {platform.icon}
-                  <span className="ml-3 font-medium">{platform.name}</span>
-                </a>
-              ))}
-            </div>
-          
 
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Send us a Message</h3>
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="your@email.com"
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows="4"
-                  className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Your message"
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className="w-full py-3 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 transition-all"
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
+        {/* Send Us a Message Form */}
+        <div className="w-full md:w-1/2 bg-white rounded-lg shadow-lg p-6">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">Send Us a Message</h3>
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Your name"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="your@email.com"
+              />
+            </div>
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                rows="4"
+                className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Your message"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              className="w-full py-3 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 transition-all"
+            >
+              Send Message
+            </button>
+          </form>
         </div>
       </div>
+      {/* </div> */}
     </div>
+
   </>
   );
 };

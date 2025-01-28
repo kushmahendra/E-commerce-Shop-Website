@@ -140,14 +140,14 @@ console.log('www',wishlistItems);
         <i className="ri-arrow-left-line"></i> Back
       </button>
       <div className="flex-1 bg-white rounded-lg shadow-sm p-6">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-full mx-auto">
           <h1 className="text-2xl font-semibold mb-6">My Wishlist</h1>
           {wishlistItems?.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-500">Your wishlist is empty</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
               {wishlistItems?.map((item) => (
                 <div
                   key={item.product._id}

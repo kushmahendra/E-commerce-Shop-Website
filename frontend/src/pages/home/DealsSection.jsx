@@ -1,12 +1,13 @@
 import React from 'react'
 
-import dealsImg from '../../assets/deals.png'
+// import dealsImg from '../../assets/deals.png'
 
 const DealsSection = () => {
   return (
 <section className='section__container deals__container'>
     <div className='deals__image'>
-        <img src={dealsImg} alt="" />
+        {/* <img src={dealsImg} alt="" /> */}
+        <img src="img388.png" alt="" />
     </div>
     <div className='deals__content'>
         <h5>Get Up To 20% Discount</h5>

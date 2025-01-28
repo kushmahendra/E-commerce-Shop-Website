@@ -37,16 +37,19 @@ const Footer = () => {
         <div className='footer__col'>
           <h4>COMPANY</h4>
           <a href="/">Home</a>
-          <a href="/">About Us</a>
+          <a href="/about-us">About Us</a>
+
           <a href="/">Work With Us</a>
-          <a href="/">Our Bags</a>
-          <a href="/">Terms & Conditions</a>
+          <a href="/stores">Our Stores</a>
+          <a href="/terms-and-conditions">Terms & Conditions</a>
+          <a href="/faqs">FAQs</a>
         </div>
 
         <div className='footer__col'>
           <h4>USEFULL LINK</h4>
-          <a href="/">Help</a>
+          <a href="/contact">Help</a>
           <a href="/">Track Your Order</a>
+          <a href="/delivery">Delivery</a>
           <a href="/">Men</a>
           <a href="/">Women</a>
           <a href="/">Dresses</a>

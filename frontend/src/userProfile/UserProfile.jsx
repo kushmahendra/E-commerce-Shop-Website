@@ -22,7 +22,7 @@ export default function UserProfile() {
     lastName: "",
     email: "",
     phoneNumber: "",
-    bio: "",
+    // bio: "",
     image: null,
   });
 
@@ -55,7 +55,7 @@ export default function UserProfile() {
           lastName: response?.user?.lastName || "",
           email: response?.user?.email || "",
           phoneNumber: response?.user?.phoneNumber || "",
-          bio: response?.user?.bio || "",
+          // bio: response?.user?.bio || "",
           image: response?.user?.profileImage || null,
         });
         dispatch(setAddress(response.user.addresses))
@@ -127,7 +127,7 @@ export default function UserProfile() {
       await updateUserInfo({
         userId,
         profileImage: formData?.image,
-        bio: formData?.bio,
+        // bio: formData?.bio,
         profession: formData?.profession,
         firstName: formData?.firstName,
         lastName: formData?.lastName,
@@ -185,8 +185,8 @@ export default function UserProfile() {
   return (<>
     <ToastContainer />
     <div className="min-h-screen bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row gap-8">
+      <div className="max-w-full mx-auto  px-4 py-8">
+        <div className="flex flex-col md:flex-row gap-8 py-12">
 
           {/* Sidebar */}
           <div className="w-full md:w-64 bg-white rounded-lg shadow-sm p-6">
@@ -379,7 +379,7 @@ export default function UserProfile() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {/* <label className="block text-sm font-medium text-gray-700 mb-2">
                     Bio
                   </label>
                   <textarea
@@ -388,8 +388,8 @@ export default function UserProfile() {
                     onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                     rows={4}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                  <div className="flex justify-end">
+                  /> */}
+                  <div className="flex justify-end py-8">
                     <button
                       type="submit"
                       className={`px-6 py-2 ${isUpdating ? 'bg-gray-400' : 'bg-blue-500'} text-white rounded-md`}

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 // import bannerImg from '../../assets/header.png'
-import bannerImg from '../../assets/img812.png'
+// import bannerImg from '../../assets/img812.png'
 
 const Banner = () => {
   return (
-    <div className='max-w-[1400px]  py-20  min-h-[618px] bg-primary-light rounded-b-lg grid grid-cols-2 gap-12 items-center'>
+    <div className='max-w-full  py-20  min-h-[618px] bg-primary-light rounded-b-lg grid grid-cols-2 gap-12 items-center'>
     <div className='header__content pl-4'>
         <h4 className='uppercase'>Up To 20% Discount</h4>
         <h1>Girls Fashion</h1>
@@ -15,7 +15,8 @@ const Banner = () => {
           <button className='btn'><Link to='/shop'>EXPLORE NOW</Link></button>   
     </div>
     <div className='header__image'>
-        <img src={bannerImg} alt="banner image" />
+        {/* <img src={bannerImg} alt="banner image" /> */}
+        <img src="img8122.png" alt="banner image" />
     </div>
         
     </div>
