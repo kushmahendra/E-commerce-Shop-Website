@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
-export default function ProductCarousel() {
+export default function SaleOff() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const products = [
-    { id: 1, name: "Cotton Twill Suit", price: 29.0, rating: 4, image: "img418.jpg", isNew: true },
+    { id: 1, name: "Cotton Twill Swetter", price: 29.0, rating: 4, image: "img418.jpg", isNew: true },
     { id: 2, name: "Crest Design Women's", price: 11.9, rating: 4, image: "img419.jpg", isNew: true },
-    { id: 3, name: "Haggar Men's Heather", price: 11.9, rating: 4, image: "img420.jpg", isNew: true },
-    { id: 4, name: "Men's Heritage Pique Polo", price: 11.9, rating: 4, image: "img421.jpg", isNew: true },
-    { id: 5, name: "Men's Heritage Pique Polo", price: 11.9, rating: 4, image: "img422.jpg", isNew: true },
+    { id: 3, name: "Traditional Saree with Jewelry", price: 11.9, rating: 4, image: "img420.jpg", isNew: true },
+    { id: 4, name: "Elegant Earrings for Women ", price: 11.9, rating: 4, image: "img421.jpg", isNew: true },
+    { id: 5, name: "Necklace Women`s", price: 11.9, rating: 4, image: "img422.jpg", isNew: true },
   
   ];
 
@@ -27,16 +27,16 @@ export default function ProductCarousel() {
     visibleProducts.push(...products.slice(0, itemsPerPage - visibleProducts.length));
   }
 
-  const renderStars = (rating) => {
-    return [...Array(5)].map((_, index) => (
-      <span key={index} className={`text-xl ${index < rating ? "text-yellow-400" : "text-gray-300"}`}>
-        ★
-      </span>
-    ))
-  }
+//   const renderStars = (rating) => {
+//     return [...Array(5)].map((_, index) => (
+//       <span key={index} className={`text-xl ${index < rating ? "text-yellow-400" : "text-gray-300"}`}>
+//         ★
+//       </span>
+//     ))
+//   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12 relative">
+    <div className="max-w-7xl mx-auto px-4 py-12 my-8 relative">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold mb-4">SALE OFF</h2>
         <p className="text-gray-600">Mirum est notare quam littera gothica quam nunc putamus parum claram!</p>
@@ -70,9 +70,8 @@ export default function ProductCarousel() {
               />
             </div>
             <h3 className="font-medium text-lg mb-2">{product.name}</h3>
-            <p className="flex mb-2">{renderStars(product.rating)}</p>
+            {/* <p className="flex mb-2">{renderStars(product.rating)}</p> */}
             <p className="text-lg font-bold">${product.price.toFixed(2)}</p>
-          
           </div>
         ))}
       </div>

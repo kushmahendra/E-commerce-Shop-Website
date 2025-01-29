@@ -6,7 +6,7 @@ const Stores = () => {
     const stores = [
         {
           name: "Coconut Grove",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI-W6d0pSfsov4vQOqKLVsowvcoGr61kkR4w&s",
+          image: "https://plus.unsplash.com/premium_photo-1661319067088-61e0b9e079b0?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xvdGhpbmclMjBzdG9yZXxlbnwwfHwwfHx8MA%3D%3D",
           address: {
             street: "2999 SW 32nd Avenue",
             city: "Miami",
@@ -26,7 +26,7 @@ const Stores = () => {
         },
         {
           name: "Dade County",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrSeiQC1OERK1oVZFeJLqsVyjIi8dWGl9ZYg&s",
+          image: "https://images.unsplash.com/photo-1521335629791-ce4aec67dd15?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNsb3RoaW5nJTIwc3RvcmV8ZW58MHx8MHx8fDA%3D",
           address: {
             street: "3030 SW 8th St Miami",
             city: "Miami",

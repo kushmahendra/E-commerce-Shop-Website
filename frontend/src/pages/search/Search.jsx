@@ -95,8 +95,8 @@ const Search = () => {
 
         {/* Display products or a "No products found" message */}
         {filteredProducts.length === 0 ? (
-          <div className="w-full h-full flex justify-center items-center bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-500 p-4 rounded-lg shadow-lg">
-            <p className="text-center text-2xl font-semibold text-white">
+          <div className="w-full h-full flex justify-center items-center bg-gradient-to-r from-pink-100 via-yellow-100 to-orange-100 p-4 rounded-lg shadow-lg">
+            <p className="text-center text-2xl font-semibold text-orange-800 animate-pulse">
               Oops! <span className="block mt-2 text-xl">Product is not available</span>
             </p>
           </div>

@@ -111,11 +111,12 @@ const AboutUs = () => {
                 />
               </div>
             </section>
-            <img src="https://media.istockphoto.com/id/1409960242/photo/billboard-mock-up-ready-for-your-design-advertisement-preview-vertical-sign.jpg?s=612x612&w=0&k=20&c=EbDSHpxNZMnoZUByfvM_c408TtKGuwQJKTHq6uGjQmM=" 
+          </main>
+          {/* <div className="my-8 rounded-lg ">
+          <img src="img508.jpg" 
             alt="brides"
             className="mb-12 h-1/2" />
-
-          </main>
+          </div> */}
           <section className="py-16 px-4 border-2 rounded-lg mx-4 border-gray-200">
       <div className="max-w-full mx-auto text-center">
         <h2 className="text-5xl font-bold mb-6">Our Teams</h2>

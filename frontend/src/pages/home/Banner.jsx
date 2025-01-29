@@ -45,25 +45,25 @@ const banners = [
     description:"Step into a world where style meets personality, and every outfit tells a story. From playful patterns to timeless classics, girls' fashion is not just about clothes—it's about confidence, charm, and creativity. Whether it’s a twirl-worthy dress for a sunny afternoon, cozy chic layers for crisp evenings, or bold accessories to make a statement, every detail matters.",
    image: "accessories13.png",
     buttonText: "BROWSE COLLECTION",
-    link: "accessories",
+    link: "/categories/accessories",
   },
   {
     id: 3,
     title: "Up To 25% Discount",
-    heading: "Dress  ",
+    heading: "Dress ",
     description:"Step into a world where style meets personality, and every outfit tells a story. From playful patterns to timeless classics, girls' fashion is not just about clothes—it's about confidence, charm, and creativity. Whether it’s a twirl-worthy dress for a sunny afternoon, cozy chic layers for crisp evenings, or bold accessories to make a statement, every detail matters.",
     image: "dress3.png",
     buttonText: "BROWSE COLLECTION",
-    link: "dress",
+    link: "/categories/dress",
   },
   {
     id: 3,
     title: "Up To 25% Discount",
-    heading: "Jwellery ",
+    heading: "Jewellery ",
     description:"Step into a world where style meets personality, and every outfit tells a story. From playful patterns to timeless classics, girls' fashion is not just about clothes—it's about confidence, charm, and creativity. Whether it’s a twirl-worthy dress for a sunny afternoon, cozy chic layers for crisp evenings, or bold accessories to make a statement, every detail matters.",
-    image: "jwellery90.png",
+    image: "img506.png",
     buttonText: "BROWSE COLLECTION",
-    link: "jwellery",
+    link: "/categories/jewellery",
   },
   {
     id: 3,
@@ -72,7 +72,7 @@ const banners = [
     description:"Step into a world where style meets personality, and every outfit tells a story. From playful patterns to timeless classics, girls' fashion is not just about clothes—it's about confidence, charm, and creativity. Whether it’s a twirl-worthy dress for a sunny afternoon, cozy chic layers for crisp evenings, or bold accessories to make a statement, every detail matters.",
     image: "cosmetic2.png",
     buttonText: "BROWSE COLLECTION",
-    link: "Cosmetics",
+    link: "/categories/Cosmetics",
   },
 ];
 
@@ -99,7 +99,7 @@ const Test = () => {
   };
 
   return (
-    <div className="relative max-w-full min-h-[618px] overflow-hidden bg-primary-light rounded-b-lg">
+    <div className="relative max-w-full min-h-[618px] overflow-hidden bg-primary-light mt-20 rounded-b-lg">
       {/* Carousel Wrapper */}
       <div
         className="flex transition-transform pt-44 duration-700"

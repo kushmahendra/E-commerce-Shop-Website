@@ -8,6 +8,9 @@ import DealsSection from './DealsSection'
 import PromoBanner from './PromoBanner'
 import Blogs from '../blogs/Blogs'
 import { ToastContainer } from 'react-toastify'
+import VideoBanner from './VideoBanner'
+import SaleOff from './SaleOff'
+
 
 
 const Home = () => {
@@ -21,6 +24,8 @@ const Home = () => {
       <ProductCards />
       <DealsSection />
       <PromoBanner />
+      <VideoBanner/>
+      <SaleOff/>
       <Blogs />
     </>
   )

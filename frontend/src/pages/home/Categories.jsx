@@ -10,7 +10,7 @@ const Categories = () => {
     const categories=[
         {name:'Accessories',path:'accessories',image:category1},
         {name:'Dress Collection',path:'dress',image:category2},
-        {name:'Jwellery',path:'jwellery',image:category3},
+        {name:'Jewellery',path:'jewellery',image:category3},
         {name:'Cosmetics',path:'Cosmetics',image:category4},
     ]
   return (

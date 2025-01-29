@@ -148,35 +148,36 @@ const ContactPage = () => {
 
   const slides = [
     {
-      image: "img020.jpg",
-      alt: "Sweatshirts and Jeans Advertisement",
-    },
-    {
       image: "img013.jpg",
       alt: "Vero Moda Advertisement",
     },
+    {
+      image: "img417.jpg",
+      alt: "Sweatshirts and Jeans Advertisement",
+    },
+  
     {
       image: "img014.jpg",
       alt: "Fashion Sale Banner 3",
     },
     {
-      image: "img84.jpg",
+      image: "img516.png",
       alt: "Fashion Collection Banner 4",
-     
+
     },
     {
-      image: "img80.webp",
+      image: "img520.png",
       alt: "Fashion Deals Banner 5",
     },
   ]
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length)
-    }, 9000) // Change slide every 9 seconds
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setCurrentSlide((prev) => (prev + 1) % slides.length)
+  //   }, 9000) // Change slide every 9 seconds
 
-    return () => clearInterval(timer)
-  }, [])
+  //   return () => clearInterval(timer)
+  // }, [])
 
   const goToSlide = (index) => {
     setCurrentSlide(index)
@@ -191,7 +192,7 @@ const ContactPage = () => {
     {/* <section className='section__container bg-primary-light'>
         <h2 className='section__header capitalize' >Contact Us</h2>
         </section> */}
-    <section className="bg-gradient-to-r from-yellow-200 via-orange-200 to-red-200 py-8 px-8 text-white">
+    {/* <section className="bg-gradient-to-r from-yellow-200 via-orange-200 to-red-200 py-8 px-8 text-white">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-4xl font-bold capitalize tracking-wide mb-6">
           Contact Us
@@ -199,16 +200,20 @@ const ContactPage = () => {
         <div className='section__subheader space-x-4'>
           <span className='text-green-700 hover:text-green-900'><Link to='/'>--- Back to home ---</Link></span>
         </div>
-        {/* <p className="text-lg font-medium text-red-600">
-          Reach out to us anytime — we're here to help you!
-        </p> */}
       </div>
-    </section>
+    </section> */}
+    
+    <section className='section__container bg-primary-light'>
+        <h2 className='section__header capitalize' >Contact</h2>
+        <div className='section__subheader space-x-2'>
+          <span className='hover:text-primary'><Link to='/'>Home</Link></span> /contact
+        </div>
+        </section>
     <section>
       <div className="relative  my-4  overflow-hidden rounded-2xl">
         {/* Carousel container */}
         <div
-          className="relative h-[400px] ml-4  transition-transform duration-500 ease-out"
+          className="relative h-[100px] ml-4  transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${currentSlide * 100}%)`, width: `${slides.length * 118}%`, display: "flex" }}
         >
           {slides.map((slide, index) => (
@@ -240,18 +245,26 @@ const ContactPage = () => {
         {/* Previous/Next buttons */}
         <button
           onClick={() => goToSlide((currentSlide - 1 + slides.length) % slides.length)}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white transition-all"
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full 
+  bg-white shadow-lg hover:bg-gray-200 text-black transition-all duration-300 hover:scale-110"
           aria-label="Previous slide"
         >
-          ←
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 18l-6-6 6-6"></path>
+          </svg>
         </button>
+
         <button
           onClick={() => goToSlide((currentSlide + 1) % slides.length)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white transition-all"
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full 
+  bg-white shadow-lg hover:bg-gray-200 text-black transition-all duration-300 hover:scale-110"
           aria-label="Next slide"
         >
-          →
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 18l6-6-6-6"></path>
+          </svg>
         </button>
+
       </div>
     </section>
 
@@ -260,25 +273,25 @@ const ContactPage = () => {
     <div className="max-w-full mx-4">
 
       {/* Contact Info & Social Platforms */}
-      <div className="bg-[#ffd29d] shadow-lg rounded-lg p-6 mb-8 flex flex-col md:flex-row justify-between gap-8">
+      <div className="bg- shadow-lg rounded-lg p-6 mb-8 flex flex-col md:flex-row justify-between gap-8">
 
         {/* Contact Info */}
         <div className="w-full md:w-1/2 space-y-6 pt-4">
           <h3 className="text-3xl font-extrabold text-gray-800 text-center font-sans tracking-wide">
-          Reach out to us anytime — we're here to help you!
+            Reach out to us anytime — we're here to help you!
           </h3>
           <div className="space-y-4 py-4 text-gray-600">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-8">
               <Mail className="w-6 h-6 text-orange-500" />
-              <span className="text-white">contact@example.com</span>
+              <span className="">contact@example.com</span>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-8">
               <Phone className="w-6 h-6 text-blue-400" />
-              <span className="text-white">+1 (123) 456-7890</span>
+              <span className="">+1 (123) 456-7890</span>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-8">
               <MapPin className="w-6 h-6 text-green-400" />
-              <span className="text-white">123 Main St, Anytown, USA</span>
+              <span className="">123 Main St, Anytown, USA</span>
             </div>
           </div>
 
