@@ -155,6 +155,7 @@ const ProductPage = () => {
   return (
     <>
       <ToastContainer />
+      <div className='mt-20'>
       <section className='section__container bg-primary-light'>
         <h2 className='section__header capitalize' >Single Product Page</h2>
         <div className='section__subheader space-x-2'>
@@ -214,10 +215,10 @@ const ProductPage = () => {
               <div>
                 <h2 className="text-2xl font-semibold text-gray-800">{product.name}</h2>
                 <p className="text-gray-600 mt-2">{product.description}</p>
-                <div className="flex items-center space-x-2 mt-2">
+                {/* <div className="flex items-center space-x-2 mt-2">
                   <RatingStars rating={product.rating} />
                   <span className="text-gray-500">({productReviews.length} Reviews)</span>
-                </div>
+                </div> */}
                 <div className="flex items-center space-x-4 mt-4">
                   {product.oldPrice && <span className="text-gray-500 line-through">${product.oldPrice}</span>}
                   <span className="text-2xl font-semibold text-red-500">${product.price}</span>
@@ -277,7 +278,7 @@ const ProductPage = () => {
                   <div className="flex flex-row justify-between mt-6">
 
                     <button className="text-gray-700 hover:text-orange-900">Add to Wishlist <i className="ri-heart-line text-red-600"></i>  </button>
-                    <h1 className="text-gray-700 font-medium">In stock <span className="text-blue-600"> {product.stock}</span> </h1>
+                    {/* <h1 className="text-gray-700 font-medium">In stock <span className="text-blue-600"> {product.stock}</span> </h1> */}
                   </div>
                 </div>
               </div>
@@ -307,6 +308,7 @@ const ProductPage = () => {
             <ReviewsCard productReviews={productReviews} />
           </div>
         </div>
+      </div>
       </div>
     </>
   );

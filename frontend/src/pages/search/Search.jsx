@@ -65,6 +65,7 @@ const Search = () => {
 
   return (
     <>
+    <div className='mt-20'>
       <section className="section__container bg-primary-light">
         <h2 className="section__header capitalize">Search products</h2>
         <p className="section__subheader">
@@ -105,6 +106,7 @@ const Search = () => {
         )}
 
       </section>
+      </div>
     </>
   );
 };

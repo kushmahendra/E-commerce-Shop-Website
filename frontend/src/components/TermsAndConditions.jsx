@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 const TermsAndConditions = () => {
   return (<>
+  <div className='mt-20'>
      <section className='section__container bg-primary-light'>
         <h2 className='section__header capitalize' >Terms-And-Conditions</h2>
         <div className='section__subheader space-x-2'>
@@ -48,6 +49,7 @@ const TermsAndConditions = () => {
         </p>
       </section>
     </div>
+  </div>
   </div>
   </>
   )

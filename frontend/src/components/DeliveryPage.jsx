@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 const DeliveryPage = () => {
   return (
     <>
+    <div className='mt-20'>
     <section className='section__container bg-primary-light'>
         <h2 className='section__header capitalize' >Delivery</h2>
         <div className='section__subheader space-x-2'>
@@ -36,6 +37,7 @@ const DeliveryPage = () => {
           <p className="leading-relaxed">Boxes are amply sized and your items are well-protected.</p>
         </div>
       </div>
+    </div>
     </div>
     </>
   )

@@ -48,6 +48,7 @@ const Stores = () => {
 
   return (
 <>
+<div className='mt-20'>
 <section className='section__container bg-primary-light'>
         <h2 className='section__header capitalize' >Our Stores</h2>
         <div className='section__subheader space-x-2'>
@@ -95,6 +96,7 @@ const Stores = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
 </>
   )

@@ -338,8 +338,8 @@ nav {
 }
 
 .deals__countdown__card {
-  height: 80px;
-  width: 80px;
+  height: 82px;
+  width: 82px;
   display: grid;
   place-content: center;
   text-align: center;

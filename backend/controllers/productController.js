@@ -4,6 +4,7 @@ import Reviews from '../models/reviewsModel.js';
 
 //create products
 
+
 const handleCreateProduct = async (req, res) => {
     try {
         // Destructure and validate request body
