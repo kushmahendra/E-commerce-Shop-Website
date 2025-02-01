@@ -12,7 +12,7 @@ export default function ProductList({ products, onRemoveProduct }) {
       {/* Table Container */}
       <div className="bg-white rounded-lg overflow-hidden shadow-md">
         {/* Table Header */}
-        <div className="grid grid-cols-[80px,1fr,1fr,1fr,1fr,1fr,1fr,80px,80px] bg-purple-600 text-white font-semibold 
+        <div className="grid grid-cols-[80px,1fr,1fr,1fr,1fr,1fr,1fr,1fr,80px,80px] bg-purple-600 text-white font-semibold 
         text-center py-4 px-2">
           <div>Image</div>
           <div>Product Name</div>
@@ -21,6 +21,7 @@ export default function ProductList({ products, onRemoveProduct }) {
           <div>Old Price</div>
           <div>Color</div>
           {/* <div>Rating</div> */}
+          <div>Size</div>
           <div>Stock</div>
           <div>Remove</div>
           <div>Edit</div>
@@ -30,10 +31,10 @@ export default function ProductList({ products, onRemoveProduct }) {
         {/* {products.products.map((product) => ( */}
         {products.map((product) => (
           <div key={product.id} className="border-b last:border-none">
-            <div className="grid grid-cols-[80px,1fr,1fr,1fr,1fr,1fr,1fr,80px,80px] gap-2 py-4 px-1 items-center text-center hover:bg-purple-50 transition-all duration-300">
+            <div className="grid grid-cols-[80px,1fr,1fr,1fr,1fr,1fr,1fr,1fr,80px,80px] gap-2 py-4 px-1 items-center text-center hover:bg-purple-50 transition-all duration-300">
               {/* Product Image */}
               <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden border shadow-md mx-auto">
-                {product.image ? (
+                {/* {product.image ? (
                   <img
                     src={
                       typeof product.image === 'string'
@@ -42,7 +43,16 @@ export default function ProductList({ products, onRemoveProduct }) {
                     }
                     alt={product.title}
                     className="w-full h-full object-cover"
-                  />
+                  /> */}
+                   {product.images && product.images.length > 0 ? (
+                  product.images.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`Product ${index + 1}`}
+                      className="w-16 h-16 object-cover rounded-lg border shadow-md"
+                    />
+                  ))
                 ) : (
                   <div className="flex items-center justify-center w-full h-full text-gray-400">
                     No Image
@@ -75,6 +85,9 @@ export default function ProductList({ products, onRemoveProduct }) {
 
               {/* Product Rating */}
               {/* <div className="text-yellow-500 font-bold">{product.rating}</div> */}
+
+              {/* sizes */}
+              <div className="text-yellow-500 font-bold">{product.sizes[0]}</div>
 
               {/* Product Stock */}
               <div className="text-yellow-500 font-bold">{product.stock}</div>

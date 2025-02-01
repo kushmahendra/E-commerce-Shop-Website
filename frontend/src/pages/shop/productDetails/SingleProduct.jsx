@@ -114,37 +114,49 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReviewsCard from "../reviews/ReviewsCard";
 import RatingStars from "../../../components/RatingStars";
+import { useAddsToCartMutation } from "../../../redux/features/cart/cartApi";
 
-const ProductPage = () => {
+const SingleProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data, error, isLoading } = useFetchProductByIdQuery(id);
-  const images = [
-    "/images/white-dress.png",
-    "/images/cream-dress.png",
-    "/images/black-trim-dress.png",
-    "/images/black-dress.png",
-    "/images/green-dress.png",
-  ];
+    const [addsToCart] = useAddsToCartMutation();
+    const user = JSON.parse(localStorage.getItem("user"));
+  console.log('uuiddd', user._id);
+  
   const product = data?.product || {};
   const productReviews = data?.reviews || [];
-  // const images = product?.images || [];
+  const images = product?.images || [];
+
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(null);
+  // const images=product?.images
 
   const increaseQuantity = () => setQuantity(quantity + 1);
   const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async(product,selectedSize) => {
     try {
-      const cartProduct = { ...product, quantity };
-      dispatch(addToCart(cartProduct));
+      // const cartProduct = { ...product, quantity };
+      console.log('ppp',product);
+      
+      // const cartProduct = { ...product,selectedImage: images[selectedImage]};
+      const cartProduct = { userId: user._id, ...product,size:selectedSize };
+      console.log('ddd',cartProduct)
+      const response = await addsToCart({ userId: user._id, ...product,size:selectedSize }).unwrap();
+      // dispatch(addToCart(cartProduct));
+      console.log('rrrrss',response);
+      
+      dispatch(response);
+       dispatch(addToCart(response));
       toast.success("Product added to cart successfully", { position: "top-right", autoClose: 3000 });
     } catch (error) {
       toast.error("Failed to add product to cart", { position: "top-right", autoClose: 3000 });
     }
   };
+
 
   const handlePrevImage = () => setSelectedImage((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   const handleNextImage = () => setSelectedImage((prev) => (prev === images.length - 1 ? 0 : prev + 1));
@@ -152,6 +164,7 @@ const ProductPage = () => {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading product details</p>;
 
+  
   return (
     <>
       <ToastContainer />
@@ -197,7 +210,8 @@ const ProductPage = () => {
                 </button>
               </div>
               <div className="flex overflow-x-auto space-x-2 mt-4">
-                {images.map((image, index) => (
+                {
+                images.map((image, index) => (
                   <img
                     key={index}
                     src={image}
@@ -206,7 +220,8 @@ const ProductPage = () => {
                       }`}
                     onClick={() => setSelectedImage(index)}
                   />
-                ))}
+                ))
+                }
               </div>
             </div>
 
@@ -253,13 +268,28 @@ const ProductPage = () => {
                 </div>
               </div>  */}
                   {/* Sizes */}
-                  <div>
+                  {/* <div>
                     <h4 className="text-gray-700 font-medium">Size</h4>
                     <div className="flex space-x-2 mt-2">
                       {['S', 'M', 'L', 'XL'].map(size => (
                         <button
                           key={size}
                           className="px-3 py-1 border border-gray-300 rounded-lg hover:border-black"
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+                  </div> */}
+                   {/* Sizes Selection */}
+                   <div>
+                    <h4 className="text-gray-700 font-medium">Size</h4>
+                    <div className="flex space-x-2 mt-2">
+                      {['S', 'M', 'L', 'XL'].map(size => (
+                        <button
+                          key={size}
+                          className={`px-3 py-1 border ${selectedSize === size ? "border-black" : "border-gray-300"} rounded-lg hover:border-black`}
+                          onClick={() => setSelectedSize(size)}
                         >
                           {size}
                         </button>
@@ -295,7 +325,16 @@ const ProductPage = () => {
               <div className="flex items-center space-x-4">
                 
                 {/* <div className="flex flex-col"> */}
-                <button onClick={handleAddToCart} className="flex-1 bg-orange-500 hover:bg-orange-700  text-white py-2 rounded-lg text-center">
+                <button 
+                // onClick={handleAddToCart}
+
+
+                onClick={(e) => {
+                                e.stopPropagation();
+                                handleAddToCart( product,selectedSize  )
+                              }
+                            }
+                 className="flex-1 bg-orange-500 hover:bg-orange-700  text-white py-2 rounded-lg text-center">
                   ADD TO CART
                 </button>
   
@@ -314,4 +353,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default SingleProduct;

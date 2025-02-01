@@ -8,6 +8,7 @@ const cartApi = createApi({
         baseUrl: `${getBaseUrl()}/api`,
         credentials: 'include', // Include cookies if needed
     }),
+    
     tagTypes: ['Cart'],
     endpoints: (builder) => ({
         addsToCart: builder.mutation({
@@ -51,6 +52,7 @@ const cartApi = createApi({
         }),
     }),
 });
+
 
 export const {
     useAddsToCartMutation,

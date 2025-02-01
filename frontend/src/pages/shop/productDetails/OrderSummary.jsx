@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 // import { clearCart } from '../../../redux/features/cart/cartSlice';
-import { useClearCartMutation } from '../../../redux/features/cart/cartApi';
+import { useClearCartMutation, useGetSingleCartQuery } from '../../../redux/features/cart/cartApi';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,14 +12,38 @@ const OrderSummary = () => {
   // console.log('prd',products)
 
   const navigate = useNavigate();
+   const teno = JSON.parse(localStorage.getItem("user"))
+    
+    const { data: cart,  } = useGetSingleCartQuery(teno._id);
+    console.log('cartdata',cart);
+    
 
-  const { selectedItems, totalPrice, tax, taxRate, grandTotal } = useSelector((store) => store.cart);
+  const { selectedItems, totalPrice, tax, taxRate, grandTotal } = useSelector((store) => store.cart)
+
+
+  // // Set tax rate (modify as needed)
+  // const taxRate = 0.05; // 5%
+
+  // // Ensure cart data exists before calculating
+  // const selectedItems = cart?.items?.length || 0;
+
+  // const totalPrice = cart?.items?.reduce(
+  //   (total, item) => total + item.quantity * item.product.price, 
+  //   0
+  // ) || 0;
+
+  // const tax = totalPrice * taxRate;
+  // const grandTotal = totalPrice + tax;
+
+  // console.log('Values:', selectedItems, totalPrice, tax, taxRate, grandTotal);
+
   console.log('tp', totalPrice);
   // const dispatch=useDispatch()
+console.log('values', selectedItems, totalPrice, tax, taxRate, grandTotal);
 
   
 
-  const teno = JSON.parse(localStorage.getItem("user"))
+  // const teno = JSON.parse(localStorage.getItem("user"))
   console.log('User:', teno);
   console.log('ajjj', teno._id)
 

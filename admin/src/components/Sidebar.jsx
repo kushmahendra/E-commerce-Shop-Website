@@ -1,4 +1,4 @@
-import { Plus, List, User,ShoppingCart, LogOut } from 'lucide-react';
+import { Plus, List, User,ShoppingCart,DollarSign , LogOut } from 'lucide-react';
 
 export default function Sidebar({ activeTab, onTabChange }) {
   const tabs = [
@@ -7,6 +7,7 @@ export default function Sidebar({ activeTab, onTabChange }) {
     { id: 'add', icon: Plus, label: 'Add Items' },
     { id: 'orders', icon: ShoppingCart, label: 'Orders' },
     { id: 'alluser', icon: User, label: 'UserList' },
+    { id: 'revenueManagement', icon: DollarSign , label: 'Revenue' },
     { id: 'logout', icon: LogOut, label: 'Logout' },
   ];
 

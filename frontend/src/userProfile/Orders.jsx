@@ -91,8 +91,14 @@ export default function Orders() {
   }
 
   return (<>
-    <button onClick={handleBack} className='px-4 py- mt-1 mr-1 border-1 hover:bg-green-700 text-black rounded-lg'>
-      <i className="ri-arrow-left-line"></i></button>
+
+       <button
+        onClick={handleBack}
+        className="px-4 py-1 mt-1 mr-1 border hover:bg-green-700 hover:text-white  text-black rounded-lg"
+      >
+        <i className="ri-arrow-left-line"></i> Back
+      </button>
+
     <div className="container mx-auto py-6">
 
       <h1 className="text-3xl font-bold mb-6 text-center align-middle">Order Management</h1>

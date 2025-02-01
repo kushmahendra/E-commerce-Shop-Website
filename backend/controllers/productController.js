@@ -14,7 +14,9 @@ const handleCreateProduct = async (req, res) => {
             description,
             price,
             oldPrice,
-            image,
+            // image,
+            images,
+            sizes,
             color,
             rating,
             stock,
@@ -28,7 +30,7 @@ const handleCreateProduct = async (req, res) => {
         //         message: 'Name, price, and author are required fields.'
         //     });
         // }
-        if (!name || !price || !stock) {
+        if (!name || !price) {
             return res.status(400).json({
                 success: false,
                 message: 'Name, price, and author are required fields.'
@@ -40,14 +42,37 @@ const handleCreateProduct = async (req, res) => {
         const parsedOldPrice = oldPrice ? parseFloat(oldPrice) : undefined;
         const parsedRating = rating ? parseFloat(rating) : 0;
 
-        // Handle image field appropriately
-        let imageField;
-        if (typeof image === 'string') {
-            imageField = image;
-        } else if (typeof image === 'object') {
-            imageField = image; // Accept objects for mixed type
-        } else {
-            imageField = null; // Default fallback
+        // // Handle image field appropriately
+        // let imageField;
+        // if (typeof image === 'string') {
+        //     imageField = image;
+        // } else if (typeof image === 'object') {
+        //     imageField = image; // Accept objects for mixed type
+        // } else {
+        //     imageField = null; // Default fallback
+        // }
+
+         // Ensure `images` is an array
+         let imageList = [];
+         if (Array.isArray(images)) {
+             imageList = images;
+         } else if (typeof images === 'string') {
+             imageList = [images]; // Convert single string to array
+         }
+
+            // Validate `sizes` and ensure it matches allowed values
+        const allowedSizes = ['S', 'M', 'L', 'XL', 'XXL'];
+        let selectedSizes = [];
+
+        if (Array.isArray(sizes)) {
+            selectedSizes = sizes.filter(size => allowedSizes.includes(size));
+        } else if (typeof sizes === 'string' && allowedSizes.includes(sizes)) {
+            selectedSizes = [sizes];
+        }
+
+        // Apply default size if no valid size is provided
+        if (selectedSizes.length === 0) {
+            selectedSizes = ['M'];
         }
 
         // Create a new product instance
@@ -57,9 +82,11 @@ const handleCreateProduct = async (req, res) => {
             description,
             price: parsedPrice,
             oldPrice: parsedOldPrice,
-            image: imageField,
+            // image: imageField,
+            images: imageList,
             color,
             rating: parsedRating,
+            sizes: selectedSizes, // Ensuring only valid sizes are stored
             stock,
             author
         });
@@ -187,12 +214,30 @@ const handleUpdateProduct=async(req,res)=>
 {
     try {
         const productId=req.params.id;
-        const upadateProduct= await Product.findByIdAndUpdate(productId,{...req.body},{new:true});
+        const updateData = { ...req.body };
+         // Ensure images field is handled as an array
+         if (req.body.images) {
+            updateData.images = Array.isArray(req.body.images) ? req.body.images : [req.body.images];
+        }
+
+         // Ensure `sizes` contains only allowed values
+         const allowedSizes = ['S', 'M', 'L', 'XL', 'XXL'];
+         if (req.body.sizes) {
+             if (Array.isArray(req.body.sizes)) {
+                 updateData.sizes = req.body.sizes.filter(size => allowedSizes.includes(size));
+             } else if (typeof req.body.sizes === 'string' && allowedSizes.includes(req.body.sizes)) {
+                 updateData.sizes = [req.body.sizes];
+             }
+         }
+
+        const upadateProduct= await Product.findByIdAndUpdate(productId,updateData,{new:true});
         console.log('hi',upadateProduct);
+
         if(! upadateProduct)
         {
         return res.status(404).send({message:'Product not found'})
         }
+        
         res.status(200).send({message:"Product updated successfully",product:upadateProduct})
     } catch (error) {
         console.log("Error updating the product",error);

@@ -6,8 +6,15 @@ const productSchema = new mongoose.Schema({
     description: { type: String },
     price: { type: Number, required: true }, 
     oldPrice: { type: Number },
-    image: { type: String,default: "" },  // Image URL will be stored here
-    // image: { type: mongoose.Schema.Types.Mixed },
+    // image: { type: String,default: "" },  // Image URL will be stored here
+    images: [{ type: String, default: [] }],  // Store multiple image URLs
+    // selectedImage:{ type: String,default: "" },
+    sizes: { 
+      type: [String], 
+      enum: ['S', 'M', 'L', 'XL', 'XXL'], 
+      default: ['M']  // Default size set to 'M'
+  },
+  
     color: {
         type: String,
         enum: ['red', 'blue', 'green', 'yellow', 'black', 'white',  'orange', 'purple', 'pink', 'brown', 'golden', 'gray','silver' ], // Allowed colors
@@ -19,7 +26,7 @@ const productSchema = new mongoose.Schema({
     // author: { type: mongoose.Types.ObjectId, ref: 'ShopUser', required: true },
     stock: {
         type: Number,
-        required: true,
+        // required: true,
         default: 0,
       },
       createdAt: { type: Date, default: Date.now },

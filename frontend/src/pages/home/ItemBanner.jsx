@@ -1,4 +1,4 @@
-"use client"
+
 
 function CategoryBox({ title, items }) {
   return (
@@ -25,7 +25,7 @@ function CategoryBox({ title, items }) {
   )
 }
 
-export default function Text() {
+export default function ItemBanner() {
   const categories = [
     {
       title: "Discover the latest trends",
@@ -114,7 +114,12 @@ export default function Text() {
   ]
 
   return (
+    <>
+    <div className="">
+      <h1 className="font-semibold text-center text-3xl ">More Shopping</h1>
+      <p className="py-2 text-center">Shop more, style more—endless trends await!</p>
     <main className="min-h-screen bg-gray-50 py-12">
+
       <div className="container mx-auto p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {categories.map((category, index) => (
@@ -123,6 +128,8 @@ export default function Text() {
         </div>
       </div>
     </main>
+    </div>
+    </>
   )
 }
 

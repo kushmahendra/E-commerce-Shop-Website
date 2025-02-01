@@ -34,7 +34,7 @@ const handleAddToWishlist = async (req, res) => {
         product: product._id,
         name: product.name,
         price: product.price,
-        image: product.image,
+        images: product.images[0],
         stock: product.stock,
         color: product.color,
         category: product.category,
@@ -89,12 +89,24 @@ const handleAddToWishlist = async (req, res) => {
       if (!wishlist) {
         return res.status(400).json({ message: 'Wishlist not found' });
       }
-      if (wishlist) {
+
+      // if (wishlist) {
+      //   // Sort items in descending order by the product's `createdAt`
+      //   wishlist.items.sort((a, b) => {
+      //     return new Date(b.product.createdAt) - new Date(a.product.createdAt);
+      //   });
+      // }
+
+      if (wishlist && Array.isArray(wishlist.items)) {
         // Sort items in descending order by the product's `createdAt`
         wishlist.items.sort((a, b) => {
-          return new Date(b.product.createdAt) - new Date(a.product.createdAt);
+          const dateA = new Date(a?.product?.createdAt).getTime() || 0;
+          const dateB = new Date(b?.product?.createdAt).getTime() || 0;
+          
+          return dateB - dateA; // Newest first
         });
       }
+      
   
       res.status(200).json({message:"get all products successfully from  wishlist " ,wishlist });
     } catch (error) {

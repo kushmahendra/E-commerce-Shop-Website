@@ -10,6 +10,7 @@ import { API_BASE_URL } from '../../constants/constant';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';  // Import toast CSS
 import AllUserList from '../components/AllUserList';
+import RevenueManagement from '../components/RevenueManagement';
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('list');
@@ -213,6 +214,7 @@ export default function Dashboard() {
         {activeTab === 'add' && <ProductUpload onAddProduct={handleAddProduct} />}
         {activeTab === 'orders' && <OrderList />}
         {activeTab === 'alluser' && <AllUserList />}
+        {activeTab === 'revenueManagement' && <RevenueManagement />}
         {activeTab === 'logout' && handleLogout()}
       </main>
       <ToastContainer />

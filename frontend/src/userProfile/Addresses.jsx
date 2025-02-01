@@ -29,6 +29,40 @@ export default function Addresses() {
  
   const [updateUserInfo, { isLoading: isUpdating }] = useUpdateUserInfoMutation();
  
+  const fetchAddressDetails = async (zipCode) => {
+    if (zipCode.length < 4) return;
+
+    try {
+      const response = await fetch(`https://api.zippopotam.us/in/${zipCode}`);
+      const data = await response.json();
+      
+      if (data.places) {
+        const place = data.places[0];
+        setNewAddress({
+          ...newAddress,
+          city: place["place name"],
+          state: place["state"],
+          country: data.country
+        });
+      } else {
+        setNewAddress({
+          ...newAddress,
+          city: "",
+          state: "",
+          country: ""
+        });
+      }
+    } catch (error) {
+      toast.error("Error fetching address details");
+    }
+  };
+
+  useEffect(() => {
+    if (newAddress.zipCode.length >= 4) {
+      fetchAddressDetails(newAddress.zipCode);
+    }
+  }, [newAddress.zipCode]);
+
 
   const handleSubmit =async (e) => {
     e.preventDefault()

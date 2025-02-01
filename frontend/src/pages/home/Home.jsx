@@ -10,6 +10,7 @@ import Blogs from '../blogs/Blogs'
 import { ToastContainer } from 'react-toastify'
 import VideoBanner from './VideoBanner'
 import SaleOff from './SaleOff'
+import ItemBanner from './ItemBanner'
 
 
 
@@ -24,6 +25,7 @@ const Home = () => {
       <ProductCards />
       <DealsSection />
       <PromoBanner />
+      <ItemBanner/>
       <VideoBanner/>
       <SaleOff/>
       <Blogs />

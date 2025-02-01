@@ -57,6 +57,7 @@ const TrendingProducts = () => {
 <ProductCards products={products && products.slice(0,visibleProducts)}/>
 </div>
 
+
 {/* load more products btn */}
 <div className='product__btn'>
   {

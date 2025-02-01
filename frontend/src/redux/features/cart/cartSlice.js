@@ -17,21 +17,52 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            const isExist = state.products.find((product) => product._id === action.payload.id);
-            console.log('payload', action.payload)
-            console.log('state data', state.products)
+            console.log('my added product',action.payload)
+            const isExist = state.products.find((product) => product._id === action.payload._id);
+            console.log('my product',products)
+
             if (!isExist) {
-                state.products.push({ product: action.payload, quantity: 1 })
+                state.products.push({...action.payload, quantity: 1 })
+                console.log('himanshu',{...action.payload,quantity:1})
 
             }
             else {
                 console.log("Items already added")
             }
+            
             state.selectedItems = state.products.length
             state.totalPrice = state.products.reduce((total, item) => { return Number(total + item.quantity * item.product.price) }, 0)
             state.tax = state.taxRate * state.totalPrice
             state.grandTotal = state.totalPrice + state.tax
         },
+        // addToCart: (state, action) => {
+        //     console.log('Adding product:', action.payload);
+        
+        //     // Find if product already exists in cart.items
+        //     const isExist = state.cart.items.find((item) => item.product === action.payload._id);
+        
+        //     if (!isExist) {
+        //         const newItem = {
+        //             product: action.payload._id,
+        //             quantity: 1,
+        //             totalPrice: action.payload.price, // Calculate total price correctly
+        //             _id: action.payload.cartItemId || new Date().toISOString(), // Ensure unique _id
+        //         };
+        
+        //         state.cart.items.push(newItem);
+        //         console.log('New item added:', newItem);
+        //     } else {
+        //         console.log("Item already exists in cart");
+        //     }
+        
+        //     // Update cart summary
+        //     state.cart.selectedItems = state.cart.items.length;
+        //     state.cart.totalCartPrice = state.cart.items.reduce((total, item) => total + item.totalPrice, 0);
+        //     state.cart.tax = state.taxRate * state.cart.totalCartPrice;
+        //     state.cart.grandTotal = state.cart.totalCartPrice + state.cart.tax;
+        // }
+        // ,
+    
         setProducts: (state, action) => {
             console.log('sfjshfja', action.payload)
             state.products = action.payload; // This will set the products to the payload from the action
@@ -40,6 +71,7 @@ const cartSlice = createSlice({
             state.tax = state.totalPrice * state.taxRate; // Calculate tax based on the total price
             state.grandTotal = state.totalPrice + state.tax; // Calculate grand total
         },
+         
         setCartId(state, action) {
             state.cartId = action.payload; // Reducer to set cartId
         },
@@ -101,7 +133,6 @@ export const setTax = (state) => setTotalPrice(state) * state.taxRate;
 export const setGrandTotal = (state) => {
     return setTotalPrice(state) + setTotalPrice(state) * state.taxRate;
 }
-
 
 
 export const { addToCart, setCartId, updateQuantity, cartFetch, removeFromCart, clearCart, setProducts } = cartSlice.actions;

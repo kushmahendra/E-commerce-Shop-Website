@@ -184,8 +184,22 @@ export default function UserProfile() {
 
   return (<>
     <ToastContainer />
-    <div className="min-h-screen bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100">
-      <div className="max-w-full mx-auto  px-4 py-8">
+  
+    <div className="flex flex-col py-6 justify-center items-center text-center px-6">
+      {/* Welcome Text with Flower Icon */}
+      <h1 className="text-xl font-extrabold mb-4 animate-scaleContinuous flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white shadow-lg">
+        
+        Welcome back, User! ✋💐
+      </h1>
+      
+      {/* Subtitle Text with Background */}
+      <p >
+        We are thrilled to have you back. Let's continue where you left off.
+      </p>
+    </div>
+
+    <div className=" bg-gradient-to-r from-green-100 via-orange-100 to-pink-100">
+      <div className="max-w-full mx-auto  px-4 py-">
         <div className="flex flex-col md:flex-row gap-8 py-12">
 
           {/* Sidebar */}

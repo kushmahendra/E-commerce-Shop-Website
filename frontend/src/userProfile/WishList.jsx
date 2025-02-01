@@ -125,8 +125,9 @@ console.log('www',wishlistItems);
   };
   
   const handleBack = () => {
-    navigate("/");
+    navigate('/');
   };
+
 
   return (
     <>
@@ -135,7 +136,7 @@ console.log('www',wishlistItems);
     <div>
       <button
         onClick={handleBack}
-        className="px-4 py-1 mt-1 mr-1 border hover:bg-green-700 text-black rounded-lg"
+        className="px-4 py-1 mt-1 mr-1 border hover:bg-green-700 text-black rounded-lg hover:text-white "
       >
         <i className="ri-arrow-left-line"></i> Back
       </button>
