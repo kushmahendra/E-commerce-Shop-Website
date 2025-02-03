@@ -1,21 +1,23 @@
 import React, { useEffect } from 'react'
 import OrderSummary from './OrderSummary';
 import { createDispatchHook, useDispatch, useSelector } from 'react-redux';
-import { updateQuantity, removeFromCart, addToCart, cartFetch, setProducts, setCartId } from '../../../redux/features/cart/cartSlice';
+// import { updateQuantity, removeFromCart, addToCart, cartFetch, setProducts, setCartId } from '../../../redux/features/cart/cartSlice';
+import { updateQuantity, removeFromCart, addToCart, setProducts, setCartId } from '../../../redux/features/cart/cartSlice';
 import { useGetSingleCartQuery, useUpdateCartMutation, useRemoveCartItemMutation } from '../../../redux/features/cart/cartApi';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const CartModal = ({ isOpen, onClose }) => {
+const CartModal = ({products, isOpen, onClose }) => {
   const dispatch = useDispatch();
   const teno = JSON.parse(localStorage.getItem("user"))
 
-  const products = useSelector((state) => state.cart.products)
+  // const products = useSelector((state) => state.cart.products)
   
   const { data: cart, isLoading, isError } = useGetSingleCartQuery(teno._id);
 
   const [updateCart] = useUpdateCartMutation();
   const [removeCartItem] = useRemoveCartItemMutation();
+  
 
   // useEffect(() => {
   //   if (cart) {
@@ -157,17 +159,27 @@ const CartModal = ({ isOpen, onClose }) => {
                     <div className='flex flex-row items-center justify-between ' >
                       <span className='mr-4 px-1 bg-primary text-white rounded-full'>0 {index + 1}</span>
                       {/* <img src={item.product.image} alt="" className='size-12 object-cover mr-4' /> */}
-                      <img src={item && item?.product?.images[0]} alt="" className='size-12 object-cover mr-4' />
+                      <img src={item && item?.product?.images[0]} alt="" className='size-16 object-cover mr-4' />
 
+                     <div className='flex flex-col gap-'>
 
-                      <div className='flex flex-col' >
-                        <h5 className='text-lg font-medium'>{item?.product?.name}</h5>
+                      <div className='' >
+                        <h5 className='text-xl font-medium'>{item?.product?.name}</h5>
                         {/* <h5 className='text-lg font-medium'>
                           {item.product.name.length > 16
                             ? `${item.product.name.slice(0, 16)}...`
                             : item.product.name}
                         </h5> */}
-                        <p className='text-gray-600 text-sm'>${Number(item?.product?.price).toFixed(2)}</p>
+                        {/* <p className='text-gray-600 text-lg'>${Number(item?.product?.price).toFixed(2)}</p> */}
+                      </div>
+
+                      <div className='flex flex-row' >
+                        <h5 className='text-sm font-medium text-gray-800'>Size : <span className='text-gray-500'>{item?.product?.sizes} , </span></h5>
+                      
+                        <p className='text-gray-800  font-medium  text-sm'> Color : <span className='text-gray-500'>{item?.product?.color}</span></p>
+                      </div>
+
+                      <p ><span className='text-gray-600 text-sm'>${Number(item?.product?.price).toFixed(2)}</span></p>
                       </div>
                     </div>
 

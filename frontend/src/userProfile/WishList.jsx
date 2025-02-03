@@ -63,15 +63,37 @@ useEffect(() => {
 console.log('www',wishlistItems);
 // refetch(); // Refetch wishlist data to update the UI
 
+//userId, productId, quantity=1, size = 'M',color = "black", image 
+
   //addtocart
+
+  // const handleAddToCart = async (item.product._id,item.product.sizes[0],item.product.images[0],item.product.color) => {
+  //   try {
+  //     console.log('Items',item.product._id);
+  //     console.log('Size',item.product.sizes[0]);
+  //     console.log('image',item.product.images[0]);
+  //     console.log('color',item.product.color);
+      
+  //     const response = await 
+  //     addsToCart({ productId:item.product._id, userId,size:item.product.sizes[0],image:item.product.images[0],color:item.product.color}).unwrap();
+  //     console.log("Product added to cart:", response);
   const handleAddToCart = async (item) => {
-    try {
-      const response = await addsToCart({ ...item, userId}).unwrap();
+  if (!item?.product) return;
+  try {
+  const { _id, sizes, images, color } = item.product;
+     const response= await addsToCart({
+        productId: _id,
+        userId,
+        size: sizes?.[0] || "M",
+        image: images?.[0] || "",
+        color: color || "black",
+      }).unwrap();
       console.log("Product added to cart:", response);
   
-      dispatch(addToCart({ ...item, userId: user._id }));
+      // dispatch(addToCart({ ...item, userId: user._id }));
+      dispatch(addToCart(response));
   
-      toast.success(`${item.name} added to cart successfully!`, {
+      toast.success(`${item?.product?.name} added to cart successfully!`, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -82,7 +104,7 @@ console.log('www',wishlistItems);
       });
     } catch (error) {
       console.error("Error adding product to cart:", error);
-      toast.error(`Failed to add ${item.name} to cart. Please try again.`, {
+      toast.error(`Failed to add ${item?.product?.name} to cart. Please try again.`, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -97,10 +119,10 @@ console.log('www',wishlistItems);
    // Remove from wishlist
    const handleRemoveFromWishlist = async (item) => {
     try {
-      const response = await removeFromWishlist({ productId: item._id, userId }).unwrap();
+      const response = await removeFromWishlist({ productId: item?.product?._id, userId }).unwrap();
       console.log("Product removed from wishlist:", response);
       
-      toast.success(`${item.name} removed from wishlist`, {
+      toast.success(`${item?.product?.name} removed from wishlist`, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -112,7 +134,7 @@ console.log('www',wishlistItems);
       refetch(); // Refetch wishlist data to update the UI
     } catch (error) {
       console.error("Error removing product from wishlist:", error);
-      toast.error(`Failed to remove ${item.name} from wishlist. Please try again.`, {
+      toast.error(`Failed to remove ${item?.product?.name} from wishlist. Please try again.`, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -151,44 +173,47 @@ console.log('www',wishlistItems);
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
               {wishlistItems?.map((item) => (
                 <div
-                  key={item.product._id}
+                  key={item?.product?._id}
                   className="bg-white rounded-lg shadow-sm overflow-hidden"
                 >
                   <div className="aspect-square relative">
                     <img
-                      src={item.product.image}
-                      alt={item.product.name}
+                      src={item?.product?.images[0]}
+                      alt={item?.product?.name}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="p-4">
-                    <h3 className="font-medium mb-2">{item.product.name}</h3>
+                    <h3 className="font-medium mb-2">{item?.product?.name}</h3>
                     <p className="text-lg font-semibold mb-2">
                       ${item?.product?.price?.toFixed(2)}
                     </p>
                     <p
                       className={`text-sm mb-4 ${
-                        item.product.stock ? "text-green-600" : "text-red-600"
+                        item?.product?.stock ? "text-green-600" : "text-red-600"
                       }`}
                     >
-                      {item.product.stock ? "In Stock" : "Out of Stock"}
+                      {item?.product?.stock ? "In Stock" : "Out of Stock"}
                     </p>
                     <div className="space-y-2">
                  
                        <button
                         className={`w-full py-2 px-4 rounded-md ${
-                          item.product.stock
+                          item?.product?.stock
                             ? "bg-blue-600 text-white hover:bg-blue-700"
                             : "bg-gray-100 text-gray-400 cursor-not-allowed"
                         }`}
-                        disabled={!item.product.stock || isLoading}
-                        onClick={() => handleAddToCart(item.product)}
+                        disabled={!item?.product?.stock || isLoading}
+                        onClick={() =>
+                          handleAddToCart(item)
+                          //  handleAddToCart(item.product._id,item.product.sizes[0],item.product.images[0],item.product.color)
+                          }
                       >
                         {isLoading ? "Adding..." : "Add to Cart"}
                       </button>
                       <button
                         // onClick={() => dispatch(removeFromWishlist(item._id))}
-                         onClick={() => handleRemoveFromWishlist(item.product)}
+                         onClick={() => handleRemoveFromWishlist(item)}
                         className="w-full py-2 px-4 border border-gray-300 rounded-md bg-red-500 hover:bg-red-600 text-white"
                       >
                         Remove

@@ -11,30 +11,35 @@ import { useAddToWishlistApiMutation } from '../../redux/features/wishlist/wishl
 
 
 const ProductCards = ({ products }) => {
-  const [selectedSize, setSelectedSize] = useState('M'); 
   console.log('Newproduct',products)
   const user = JSON.parse(localStorage.getItem("user"));
+  console.log('user Id',user._id);
+  
   const dispatch = useDispatch();
 
   const [addsToCart, { isLoading }] = useAddsToCartMutation();
   const [addToWishlistApi, { isLoading: isAddingToWishlist }] = useAddToWishlistApiMutation();
 
 
-  const handleAddToCart = async (product,size = 'M') => {
+  const handleAddToCart = async (product,size = 'M',image = '',color) => {
     try {
-      console.log('img',product.images[0]);
-      console.log('PProduct:', product);
-      const response = await addsToCart({ ...product, userId: user._id,size }).unwrap();
+      console.log('img',image);
+      console.log('PProduct:', product._id);
+      console.log('colorName',color);
+      
+      const response = await addsToCart({ productId: product._id, userId: user._id,size,image ,color}).unwrap();
     
       console.log('new Response:', response);
 
-      // dispatch(addToCart({ ...product, userId: user._id, selectedImageIndex  }));
-      dispatch(addToCart(response));
-      // const cartProduct = { ...product, selectedImage: product.images[selectedImage] };
-      // console.log('Ppproduct:', cartProduct);
-      // const response = await addsToCart({ ...cartProduct, userId: user._id }).unwrap();
-      // dispatch(addToCart(cartProduct));
-
+           // Extract cart items from the response
+           const cart = response.cart;
+           console.log('updatedItems',cart);
+           
+           // Dispatch action with the updated cart items
+           dispatch(addToCart({
+            cart
+           }));
+        
       toast.success("Product added to cart successfully!", {
         position: "top-right",
         autoClose: 3000,
@@ -58,19 +63,6 @@ const ProductCards = ({ products }) => {
     }
   };
 
-  // //add to wishlist
-  // const handleAddToWishlist = (product) => {
-  //   dispatch(addToWishlist(product));
-  //   toast.success("Product added to wishlist!", {
-  //     position: "top-right",
-  //     autoClose: 3000,
-  //     hideProgressBar: false,
-  //     closeOnClick: true,
-  //     pauseOnHover: true,
-  //     draggable: true,
-  //     theme: "light",
-  //   });
-  // };
  
    // Handle adding to wishlist with mutation
    const handleAddToWishlist = async (product) => {
@@ -177,7 +169,7 @@ const ProductCards = ({ products }) => {
                     // onClick={() => handleAddToCart(product)}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleAddToCart( product,product.sizes[0])
+                      handleAddToCart( product,product.sizes[0],product.images[0],product.color)
                   }}
                     disabled={isLoading}
                     className="text-sm rounded-md bg-orange-500 px- py-2 w-full text-white hover:bg-orange-700"

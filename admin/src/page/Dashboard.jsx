@@ -214,7 +214,7 @@ export default function Dashboard() {
         {activeTab === 'add' && <ProductUpload onAddProduct={handleAddProduct} />}
         {activeTab === 'orders' && <OrderList />}
         {activeTab === 'alluser' && <AllUserList />}
-        {activeTab === 'revenueManagement' && <RevenueManagement />}
+        {activeTab === 'revenueManagement' && <RevenueManagement products={products} />}
         {activeTab === 'logout' && handleLogout()}
       </main>
       <ToastContainer />

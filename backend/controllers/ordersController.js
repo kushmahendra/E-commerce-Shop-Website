@@ -24,6 +24,7 @@ const handleCreateOrders = async (req, res) => {
   try {
     const { userId, items, totalAmount, addressInfo, paymentMethod } = req.body;
 
+
     // Log input data for debugging
     console.log('User ID:', userId);
     console.log('Items:', items);
@@ -38,23 +39,39 @@ const handleCreateOrders = async (req, res) => {
 
     // Fetch the cart to verify items
     const cart = await Cart.findOne({ user: userId });
+
     if (!cart) {
       return res.status(400).json({ message: 'Cart not found for this user' });
     }
 
      // Prepare items for the order
   
-    const orderItems = await Promise.all(items.map(async (item) => {
-      const productDetails = item.product;  // Get product details
+    // const orderItems = await Promise.all(items.map(async (item) => {
+    //   const productDetails = item.product;  // Get product details
 
-      // Spread the productDetails into the order item, and add quantity and totalPrice
-      return {
-        ...productDetails, // Spread product data here
-        quantity: item.quantity,
-        totalPrice: item.totalPrice,
-      };
-    }));
+    //   // Spread the productDetails into the order item, and add quantity and totalPrice
+    //   return {
+    //     ...productDetails, // Spread product data here
+    //     quantity: item.quantity,
+    //     totalPrice: item.totalPrice,
+    //   };
+    // }));
+    
+    // Prepare items for the order with product validation
+    const orderItems = await Promise.all(
+      items.map(async (item) => {
+        if (!item.product || !item.product._id) {
+          throw new Error("Invalid product data in cart items");
+        }
 
+        return {
+          product: item.product._id, // Ensure only the product ID is stored
+          name: item.product.name, // Store product name for reference
+          quantity: item.quantity,
+          totalPrice: item.totalPrice,
+        };
+      })
+    );
         // Create the order
         const newOrder = await Order.create({
           userId,
@@ -73,8 +90,6 @@ const handleCreateOrders = async (req, res) => {
       { $push: { orders: newOrder._id } },
       { new: true }
     );
-
-    
      // // Clear the user's cart after successful order creation
     await ShopUser.findByIdAndUpdate(
       userId,
@@ -187,7 +202,12 @@ const handleGetAllOrders = async (req, res) => {
   try {
     const orders = await Order.find().sort({ orderDate: -1 })
       .populate('userId', 'firstName lastName email') // Assuming 'userId' is referencing a 'User' model
-      .populate('items', 'name category  description price oldPrice image color  rating stock') // Assuming 'items' references products or items in the order
+      // .populate('items', 'name category  description price oldPrice images color  rating stock') // Assuming 'items' references products or items in the order
+      .populate({
+        path: 'items.product', // Correct way to populate product inside items array
+        model: 'Product',
+        select: 'name category description price oldPrice images color rating stock',
+      })
       .select('userId items addressInfo orderStatus paymentMethod paymentStatus totalAmount orderDate') // Select specific fields
       .exec();
     
@@ -228,7 +248,11 @@ const handleSingleUserOrders = async (req, res) => {
     }
 
     // Query by _id
-    const order = await Order.findById(id);
+    const order = await Order.findById(id).populate({
+      path: 'items.product', // Correct way to populate product inside items array
+      model: 'Product',
+      select: 'name category description price oldPrice images color rating stock',
+    });
 
     if (!order) {
       // Fallback to query by userId
@@ -260,6 +284,7 @@ const  handleUpdateStatus= async (req, res) => {
     res.status(400).json({ message: 'Error updating order', error: error.message });
   }
 };
+
 
 // 5. Delete an Order
 const  handleDeleteOrder= async (req, res) => {

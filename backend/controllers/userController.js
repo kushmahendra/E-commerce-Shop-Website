@@ -94,7 +94,14 @@ const handleGetUser = async (req, res) => {
 
     // const user = await ShopUser.findById(id);
     // Fetch the user by ID and populate the 'orders' field
-    const user = await ShopUser.findById(id).populate('orders');
+    // const user = await ShopUser.findById(id).populate('orders') ;
+    const user = await ShopUser.findById(id)
+      .populate({
+        path: 'orders',
+        populate: {
+          path: 'items.product' // Populate the 'product' field inside the 'items' array
+        }
+      });
 
     if (!user) {
       return res.status(404).send({ message: "User not found" });

@@ -52,7 +52,8 @@ const Stores = () => {
 <section className='section__container bg-primary-light'>
         <h2 className='section__header capitalize' >Our Stores</h2>
         <div className='section__subheader space-x-2'>
-          <span className='hover:text-primary'><Link to='/'>Home</Link></span> /stores
+          <span className='hover:text-primary'><Link to='/'>Home</Link></span> 
+          <i className="ri-arrow-right-s-line"></i> stores
         </div>
         </section>
 <div className="max-w-full  mx-8 px-4 py-8 sm:px-6 lg:px-8">

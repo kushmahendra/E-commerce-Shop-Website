@@ -3,8 +3,6 @@ import Product from '../models/productModel.js';
 import Reviews from '../models/reviewsModel.js';
 
 //create products
-
-
 const handleCreateProduct = async (req, res) => {
     try {
         // Destructure and validate request body
@@ -14,9 +12,8 @@ const handleCreateProduct = async (req, res) => {
             description,
             price,
             oldPrice,
-            // image,
-            images,
-            sizes,
+            images,        
+            sizes,        
             color,
             rating,
             stock,
@@ -42,25 +39,19 @@ const handleCreateProduct = async (req, res) => {
         const parsedOldPrice = oldPrice ? parseFloat(oldPrice) : undefined;
         const parsedRating = rating ? parseFloat(rating) : 0;
 
-        // // Handle image field appropriately
-        // let imageField;
-        // if (typeof image === 'string') {
-        //     imageField = image;
-        // } else if (typeof image === 'object') {
-        //     imageField = image; // Accept objects for mixed type
-        // } else {
-        //     imageField = null; // Default fallback
-        // }
+    
+        // Ensure `images` is an array
+        let imageList = [];
+        if (Array.isArray(images)) {
+            imageList = images;
+        } else if (typeof images === 'string') {
+            imageList = [images]; // Convert single string to array
+        }
 
-         // Ensure `images` is an array
-         let imageList = [];
-         if (Array.isArray(images)) {
-             imageList = images;
-         } else if (typeof images === 'string') {
-             imageList = [images]; // Convert single string to array
-         }
+      // Automatically select the first image as `selectedImage`
+         const selectedImage = imageList.length > 0 ? imageList[0] : null;
 
-            // Validate `sizes` and ensure it matches allowed values
+        // Validate `sizes` and ensure it matches allowed values
         const allowedSizes = ['S', 'M', 'L', 'XL', 'XXL'];
         let selectedSizes = [];
 
@@ -75,6 +66,10 @@ const handleCreateProduct = async (req, res) => {
             selectedSizes = ['M'];
         }
 
+
+        // Ensure color is valid (default to black if empty)
+        const selectedColor = color || "black";
+
         // Create a new product instance
         const newProduct = new Product({
             name,
@@ -83,15 +78,15 @@ const handleCreateProduct = async (req, res) => {
             price: parsedPrice,
             oldPrice: parsedOldPrice,
             // image: imageField,
-            images: imageList,
-            color,
+            images:selectedImage,           
+            color:selectedColor,        
             rating: parsedRating,
-            sizes: selectedSizes, // Ensuring only valid sizes are stored
+            sizes:selectedSizes,
             stock,
             author
         });
 
-        
+
         // Save the product to the database
         const savedProduct = await newProduct.save();
 
@@ -113,46 +108,42 @@ const handleCreateProduct = async (req, res) => {
 
 
 //get all products
-const handleGetAllProducts=async(req,res)=>
-{
+const handleGetAllProducts = async (req, res) => {
     try {
-        const {category,color,minPrice,maxPrice,page=1,limit=10}=req.query
-        let filter={}
+        const { category, color, minPrice, maxPrice, page = 1, limit = 10 } = req.query
+        let filter = {}
 
-            // Filter by category if specified
-        if(category && category !=='all')
-        {
-            filter.category=category;
+        // Filter by category if specified
+        if (category && category !== 'all') {
+            filter.category = category;
         }
 
-            // Filter by color if specified
-        if(color && color !=='all')
-        {
-            filter.color=color
+        // Filter by color if specified
+        if (color && color !== 'all') {
+            filter.color = color
         }
 
         // Filter by price range if both minPrice and maxPrice are provided
-        if(minPrice && maxPrice)
-        {
-            const min=parseFloat(minPrice);
-            const max=parseFloat(maxPrice);
+        if (minPrice && maxPrice) {
+            const min = parseFloat(minPrice);
+            const max = parseFloat(maxPrice);
 
-              // Correct the check from isNAN to isNaN
-              if (!isNaN(min) && !isNaN(max)) {
+            // Correct the check from isNAN to isNaN
+            if (!isNaN(min) && !isNaN(max)) {
                 filter.price = { $gte: min, $lte: max };
             }
         }
-        const skip=(parseInt(page) - 1) * parseInt(limit);
-        const totalProducts=await Product.countDocuments(filter);
-        const totalPages= Math.ceil(totalProducts / parseInt(limit));
+        const skip = (parseInt(page) - 1) * parseInt(limit);
+        const totalProducts = await Product.countDocuments(filter);
+        const totalPages = Math.ceil(totalProducts / parseInt(limit));
 
-        const products=await Product.find(filter)
-        .skip(skip)
-        .limit(parseInt(limit))
-        .populate('author','email')
-        .sort({createdAt: -1})
-        res.status(200).send({products,totalPages,totalProducts})
-    
+        const products = await Product.find(filter)
+            .skip(skip)
+            .limit(parseInt(limit))
+            .populate('author', 'email')
+            .sort({ createdAt: -1 })
+        res.status(200).send({ products, totalPages, totalProducts })
+
     } catch (error) {
         console.error('Error while fetching all product:', error.message);
         res.status(500).json({
@@ -169,9 +160,9 @@ const getAllProducts = async (req, res) => {
     try {
         // Fetch all products from the database
         // const products = await Product.find();
-          // Fetch all products from the database and sort by createdAt in descending order
-    const products = await Product.find().sort({ createdAt: -1 }); // Most recent first
-    
+        // Fetch all products from the database and sort by createdAt in descending order
+        const products = await Product.find().sort({ createdAt: -1 }); // Most recent first
+
         return res.status(200).json({
             success: true,
             message: 'Products fetched successfully.',
@@ -190,108 +181,100 @@ const getAllProducts = async (req, res) => {
 
 
 //single product
-const handleSingleProduct=async(req,res)=>
-{
+const handleSingleProduct = async (req, res) => {
     try {
-        const productId=req.params.id;
-        console.log('id',productId)
-        const product=await Product.findById(productId).populate('author','email userName');
-        if(!product)
-        {
-            return res.status(404).send({message:'Product not found'});
+        const productId = req.params.id;
+        console.log('id', productId)
+        const product = await Product.findById(productId).populate('author', 'email userName');
+        if (!product) {
+            return res.status(404).send({ message: 'Product not found' });
         }
-        const reviews=await Reviews.find({productId}).populate('userId','userName email');
-        res.status(200).send({product,reviews});
-        
+        const reviews = await Reviews.find({ productId }).populate('userId', 'userName email');
+        res.status(200).send({ product, reviews });
+
     } catch (error) {
-        console.log("Error fetching the product",error);
-        res.status(500).send({message:"Failed to fetch product"})
+        console.log("Error fetching the product", error);
+        res.status(500).send({ message: "Failed to fetch product" })
     }
 };
 
 //update a product
-const handleUpdateProduct=async(req,res)=>
-{
+const handleUpdateProduct = async (req, res) => {
     try {
-        const productId=req.params.id;
+        const productId = req.params.id;
         const updateData = { ...req.body };
-         // Ensure images field is handled as an array
-         if (req.body.images) {
+        // Ensure images field is handled as an array
+        if (req.body.images) {
             updateData.images = Array.isArray(req.body.images) ? req.body.images : [req.body.images];
         }
 
-         // Ensure `sizes` contains only allowed values
-         const allowedSizes = ['S', 'M', 'L', 'XL', 'XXL'];
-         if (req.body.sizes) {
-             if (Array.isArray(req.body.sizes)) {
-                 updateData.sizes = req.body.sizes.filter(size => allowedSizes.includes(size));
-             } else if (typeof req.body.sizes === 'string' && allowedSizes.includes(req.body.sizes)) {
-                 updateData.sizes = [req.body.sizes];
-             }
-         }
-
-        const upadateProduct= await Product.findByIdAndUpdate(productId,updateData,{new:true});
-        console.log('hi',upadateProduct);
-
-        if(! upadateProduct)
-        {
-        return res.status(404).send({message:'Product not found'})
+        // Ensure `sizes` contains only allowed values
+        const allowedSizes = ['S', 'M', 'L', 'XL', 'XXL'];
+        if (req.body.sizes) {
+            if (Array.isArray(req.body.sizes)) {
+                updateData.sizes = req.body.sizes.filter(size => allowedSizes.includes(size));
+            } else if (typeof req.body.sizes === 'string' && allowedSizes.includes(req.body.sizes)) {
+                updateData.sizes = [req.body.sizes];
+            }
         }
-        
-        res.status(200).send({message:"Product updated successfully",product:upadateProduct})
+
+        const upadateProduct = await Product.findByIdAndUpdate(productId, updateData, { new: true });
+        console.log('hi', upadateProduct);
+
+        if (!upadateProduct) {
+            return res.status(404).send({ message: 'Product not found' })
+        }
+
+        res.status(200).send({ message: "Product updated successfully", product: upadateProduct })
     } catch (error) {
-        console.log("Error updating the product",error);
-        res.status(500).send({message:"Failed to update product"})
+        console.log("Error updating the product", error);
+        res.status(500).send({ message: "Failed to update product" })
     }
 };
 
 //Delete product
-const handleDeleteProduct=async(req,res)=>
-{
-try {
-    const productId=req.params.id;
-    const deleteProduct=await Product.findByIdAndDelete(productId);
-    if(!deleteProduct)
-    {
-        return res.status(404).send({message:"Product not found"});
+const handleDeleteProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const deleteProduct = await Product.findByIdAndDelete(productId);
+        if (!deleteProduct) {
+            return res.status(404).send({ message: "Product not found" });
+        }
+        await Reviews.deleteMany({ productId: productId });
+        res.status(200).send({ message: "Product deleted successfully" });
+
+    } catch (error) {
+        console.log("Error deleting the product", error);
+        res.status(500).send({ message: "Failed to eleting product" })
     }
-    await Reviews.deleteMany({productId: productId});
-    res.status(200).send({message:"Product deleted successfully"});
-    
-} catch (error) {
-    console.log("Error deleting the product",error);
-    res.status(500).send({message:"Failed to eleting product"})
-}
 };
 
 //get related products
-const handleRelatedProduct=async(req,res)=>
-{
+const handleRelatedProduct = async (req, res) => {
     try {
-        const {id}=req.params
-        if(!id){
-            return res.status(404).send({message:"Product Id is required"})
+        const { id } = req.params
+        if (!id) {
+            return res.status(404).send({ message: "Product Id is required" })
         }
-        const product=await Product.findById(id);
-        if(!product)
-        {
-            return res.status(404).send({message:"Product not found"})
+        const product = await Product.findById(id);
+        if (!product) {
+            return res.status(404).send({ message: "Product not found" })
         }
-        const titleRegex=new RegExp(product.name.split(' ').filter((word)=> word.length > 1).join('|'),'i');
+        const titleRegex = new RegExp(product.name.split(' ').filter((word) => word.length > 1).join('|'), 'i');
 
-        const relatedProducts=await Product.find({
-            _id:{$ne:id},
-            $or:[{name:{$regex:titleRegex}},
-                {category:product.category},
+        const relatedProducts = await Product.find({
+            _id: { $ne: id },
+            $or: [{ name: { $regex: titleRegex } },
+            { category: product.category },
             ],
         });
 
         res.status(200).send(relatedProducts);
     } catch (error) {
-        console.log("Error fetching the related product",error);
-        res.status(500).send({message:"Failed to fetch related product"})
+        console.log("Error fetching the related product", error);
+        res.status(500).send({ message: "Failed to fetch related product" })
     }
 }
 
 
-export { handleCreateProduct,handleGetAllProducts,handleSingleProduct,handleUpdateProduct,handleDeleteProduct,handleRelatedProduct,getAllProducts};
+export { handleCreateProduct, handleGetAllProducts, handleSingleProduct, handleUpdateProduct, handleDeleteProduct, handleRelatedProduct, getAllProducts };

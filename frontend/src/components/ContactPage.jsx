@@ -207,7 +207,8 @@ const ContactPage = () => {
     <section className='section__container bg-primary-light'>
         <h2 className='section__header capitalize' >Contact</h2>
         <div className='section__subheader space-x-2'>
-          <span className='hover:text-primary'><Link to='/'>Home</Link></span> /contact
+          <span className='hover:text-primary'><Link to='/'>Home</Link></span> 
+          <i className="ri-arrow-right-s-line"></i> contact
         </div>
         </section>
     <section>
@@ -277,27 +278,39 @@ const ContactPage = () => {
       <div className="bg- shadow-lg rounded-lg p-6 mb-8 flex flex-col md:flex-row justify-between gap-8">
 
         {/* Contact Info */}
-        <div className="w-full md:w-1/2 space-y-6 pt-4">
-          <h3 className="text-3xl font-extrabold text-gray-800 text-center font-sans tracking-wide">
+        <div className="w-full md:w-1/2 space-y-8 pt-4">
+          <h3 className="text-3xl  font-extrabold text-gray-800 text-center font-sans tracking-wide">
             Reach out to us anytime — we're here to help you!
           </h3>
-          <div className="space-y-4 py-4 text-gray-600">
+          <div className="space-y-8 py-4 text-gray-600">
+
             <div className="flex items-center space-x-8">
-              <Mail className="w-6 h-6 text-orange-500" />
-              <span className="">contact@example.com</span>
+              <Mail className="w-8 h-8 text-orange-500" />
+              <div className="flex flex-col">
+                <h1 className="text-black font-bold">Email Us</h1>
+                <p> <span className="">contact@example.com</span></p>
+              </div>
             </div>
+
             <div className="flex items-center space-x-8">
-              <Phone className="w-6 h-6 text-blue-400" />
+              <Phone className="w-8 h-8 text-blue-400" />
+              <div className="flex flex-col">
+              <h1 className="text-black font-bold">Call Us</h1>
               <span className="">+1 (123) 456-7890</span>
+              </div>
             </div>
+
             <div className="flex items-center space-x-8">
-              <MapPin className="w-6 h-6 text-green-400" />
+              <MapPin className="w-8 h-8 text-green-400" />
+              <div className="flex flex-col">
+              <h1 className="text-black font-bold">Our Location</h1>
               <span className="">123 Main St, Anytown, USA</span>
+            </div>
             </div>
           </div>
 
           {/* Social Media Platforms */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 py-8 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 pt-6 gap-6">
             {socialMedia.map((platform) => (
               <a
                 key={platform.name}
@@ -315,8 +328,8 @@ const ContactPage = () => {
 
         {/* Send Us a Message Form */}
         <div className="w-full md:w-1/2 bg-white rounded-lg shadow-lg p-6">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">Send Us a Message</h3>
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <h3 className="text-2xl font-extrabold text-gray-800 mb-12">Send Us a Message</h3>
+          <form className="space-y-8" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Name

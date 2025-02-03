@@ -9,11 +9,13 @@ const productSchema = new mongoose.Schema({
     // image: { type: String,default: "" },  // Image URL will be stored here
     images: [{ type: String, default: [] }],  // Store multiple image URLs
     // selectedImage:{ type: String,default: "" },
+ 
     sizes: { 
       type: [String], 
       enum: ['S', 'M', 'L', 'XL', 'XXL'], 
       default: ['M']  // Default size set to 'M'
   },
+
   
     color: {
         type: String,
@@ -21,6 +23,8 @@ const productSchema = new mongoose.Schema({
         default: 'black', // Default color
       },
       
+   
+
     rating: { type: Number, default: 0 },
     author: { type: mongoose.Types.ObjectId, ref: 'ShopUser' },
     // author: { type: mongoose.Types.ObjectId, ref: 'ShopUser', required: true },

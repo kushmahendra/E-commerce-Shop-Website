@@ -13,6 +13,7 @@ const handleAddToWishlist = async (req, res) => {
       if (!wishlist) {
         wishlist = new Wishlist({ userId, items: [] });
       }
+      
   
       // Check if the product is already in the wishlist
       const productExists = wishlist.items.some(
@@ -40,6 +41,7 @@ const handleAddToWishlist = async (req, res) => {
         category: product.category,
         description: product.description,
       });
+
   
       await wishlist.save();
   

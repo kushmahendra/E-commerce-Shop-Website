@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 
+
 const OrderSummary = () => {
   // const products=useSelector((store)=> store.cart.products);
   // console.log('prd',products)
@@ -18,26 +19,38 @@ const OrderSummary = () => {
     console.log('cartdata',cart);
     
 
-  const { selectedItems, totalPrice, tax, taxRate, grandTotal } = useSelector((store) => store.cart)
+    // const { cartData9 } = useSelector((store) => store.cart) || {};
 
+    // console.log('cartData9',cartData9);
+    
 
-  // // Set tax rate (modify as needed)
-  // const taxRate = 0.05; // 5%
+  // const { selectedItems, totalPrice, tax, taxRate, grandTotal } = useSelector((store) => store.cart)
 
-  // // Ensure cart data exists before calculating
-  // const selectedItems = cart?.items?.length || 0;
+  // const {
+  //   selectedItems = 0, 
+  //   totalPrice = 0, 
+  //   tax = 0, 
+  //   taxRate = 0.05, 
+  //   grandTotal = 0 
+  // } = useSelector((store) => store.cart.cart) || {};
+  
+  
+  // Set tax rate (modify as needed)
+  const taxRate = 0.05; // 5%
 
-  // const totalPrice = cart?.items?.reduce(
-  //   (total, item) => total + item.quantity * item.product.price, 
-  //   0
-  // ) || 0;
+  // Ensure cart data exists before calculating
+  const selectedItems = cart?.items?.length || 0;
 
-  // const tax = totalPrice * taxRate;
-  // const grandTotal = totalPrice + tax;
+  const totalPrice = cart?.items?.reduce(
+    (total, item) => total + item.quantity * item.product.price, 
+    0
+  ) || 0;
+
+  const tax = totalPrice * taxRate;
+  const grandTotal = totalPrice + tax;
 
   // console.log('Values:', selectedItems, totalPrice, tax, taxRate, grandTotal);
 
-  console.log('tp', totalPrice);
   // const dispatch=useDispatch()
 console.log('values', selectedItems, totalPrice, tax, taxRate, grandTotal);
 
@@ -102,17 +115,17 @@ console.log('values', selectedItems, totalPrice, tax, taxRate, grandTotal);
 
           <div className="flex justify-between text-sm">
             <span>Total Price:</span>
-            <span> ${totalPrice.toFixed(2)}</span>
+            <span> ${totalPrice?.toFixed(2)}</span>
           </div>
 
           <div className="flex justify-between text-sm">
             <span>Tax ({taxRate * 100}%):</span>
-            <span> ${tax.toFixed(2)}</span>
+            <span> ${tax?.toFixed(2)}</span>
           </div>
 
           <div className="flex justify-between font-semibold pt-2 border-t">
             <span>Grand Total:</span>
-            <span>${grandTotal.toFixed(2)}</span>
+            <span>${grandTotal?.toFixed(2)}</span>
           </div>
 
           {/* <div className='px-4 mb-6'> */}

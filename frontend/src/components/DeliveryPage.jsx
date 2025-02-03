@@ -8,7 +8,8 @@ const DeliveryPage = () => {
     <section className='section__container bg-primary-light'>
         <h2 className='section__header capitalize' >Delivery</h2>
         <div className='section__subheader space-x-2'>
-          <span className='hover:text-primary'><Link to='/'>Home</Link></span> /delivery
+          <span className='hover:text-primary'><Link to='/'>Home</Link></span>
+          <i className="ri-arrow-right-s-line"></i>delivery
         </div>
         </section>
      <div className="max-w-full mx-auto px-6 py-12">

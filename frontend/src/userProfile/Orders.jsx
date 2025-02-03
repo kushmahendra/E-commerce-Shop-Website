@@ -4,31 +4,6 @@ import { useGetSingleUserOrdersQuery } from '../redux/features/orders/orderApi';
 import { useGetAllUserQuery, useGetUserMutation } from '../redux/features/auth/authApi';
 import { useNavigate } from 'react-router-dom';
 
-// Mock data based on the Mongoose schema
-
-// const mockOrders = [
-//   {
-//     _id: '1',
-//     user: { _id: 'user1', name: 'John Doe' },
-//     products: [
-//       { product: { _id: 'prod1', name: 'Product 1', price: 10 }, quantity: 2 },
-//       { product: { _id: 'prod2', name: 'Product 2', price: 15 }, quantity: 1 },
-//     ],
-//     totalAmount: 35,
-//     status: 'Pending',
-//     createdAt: new Date('2023-06-01'),
-//   },
-//   {
-//     _id: '2',
-//     user: { _id: 'user2', name: 'Jane Smith' },
-//     products: [
-//       { product: { _id: 'prod3', name: 'Product 3', price: 20 }, quantity: 3 },
-//     ],
-//     totalAmount: 60,
-//     status: 'Shipped',
-//     createdAt: new Date('2023-06-02'),
-//   },
-// ];
 
 const statusColors = {
   Pending: 'bg-yellow-500',
@@ -80,7 +55,6 @@ export default function Orders() {
       fetchUser();
     }
   }, [userId, getUser]);
-
 
   const orderDetail = userData?.user.orders || [];
   console.log('resorderDetail', orderDetail);
@@ -164,7 +138,7 @@ export default function Orders() {
 
       {isDialogOpen && selectedOrder && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-70 flex justify-center items-center">
-          <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-2xl max-w-lg w-full p-8 border border-gray-300">
+          <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-2xl max-w-2xl w-full p-8 border border-gray-300">
 
             {/* Header */}
             <h2 className="text-2xl font-bold text-blue-700 mb-4 border-b-2 border-blue-200 pb-2">Order Details</h2>
@@ -198,7 +172,9 @@ export default function Orders() {
               <table className="table-auto w-full border-collapse border border-gray-300 mt-3 text-sm">
                 <thead className="bg-blue-100 text-blue-800">
                   <tr>
+                  <th className="border border-gray-300 px-4 py-2">Image</th>
                     <th className="border border-gray-300 px-4 py-2">Product</th>
+                    <th className="border border-gray-300 px-4 py-2">Name</th>
                     <th className="border border-gray-300 px-4 py-2">Quantity</th>
                     <th className="border border-gray-300 px-4 py-2">Price</th>
                     <th className="border border-gray-300 px-4 py-2">Subtotal</th>
@@ -209,8 +185,11 @@ export default function Orders() {
 
                   {selectedOrder?.items?.map((item, index) => (
                     <tr key={item._id} className="text-gray-700">
+                        <td className="border border-gray-300 px-4 py-2 ">
+                          <img src={item?.product?.images[0]} alt="" className='border border-green-500' /></td>
                       <td className="border border-gray-300 px-4 py-2">Product{index + 1}</td>
-                      <td className="border border-gray-300 px-4 py-2">{item.quantity}</td>
+                      <td className="border border-gray-300 px-4 py-2">{item?.product?.name}</td>
+                      <td className="border text-center border-gray-300 px-4 py-2">{item.quantity}</td>
                       <td className="border border-gray-300 px-4 py-2">${(item?.totalPrice / item.quantity).toFixed(2)}</td>
 
                       <td className="border border-gray-300 px-4 py-2">${item?.totalPrice?.toFixed(2)}</td>

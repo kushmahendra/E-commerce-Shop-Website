@@ -32,11 +32,11 @@ export default function AllUserList() {
             <tr>
               <th className="px-6 py-4 text-center">No.</th>
               <th className="px-6 py-4">Image</th>
-              <th className="px-6 py-4">Full Name</th>
+              <th className="px-6 py-4">Name</th>
               {/* <th className="px-6 py-4">Last Name</th> */}
               <th className="px-6 py-4">User ID</th>
               <th className="px-6 py-4">Email ID</th>
-              <th className="px-6 py-4">Phone Number</th>
+              <th className="px-6 py-4">Contact</th>
               <th className="px-6 py-4">Orders</th>
               <th className="px-6 py-4">Date</th>
               <th className="px-6 py-4">Address</th>
@@ -77,6 +77,15 @@ export default function AllUserList() {
                         <p className="text-sm text-gray-800">
                           {`${address.streetAddress}, ${address.city}, ${address.state}, ${address.zipCode}, ${address.country}`}
                         </p>
+                       
+                          {/* <p className="font-semibold text-lg text-indigo-700">
+                       
+                            <span>     {address.addressName} ,{address.streetAddress},</span>
+
+                            <span className="text-blue-500">{address.city}, {address.state},</span>
+
+                         <span className="text-red-500">{address.zipCode}, {address.country}</span></p> */}
+
                       </div>
                     ))
                   ) : (

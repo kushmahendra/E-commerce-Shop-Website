@@ -116,7 +116,7 @@ export default function ItemBanner() {
   return (
     <>
     <div className="">
-      <h1 className="font-semibold text-center text-3xl ">More Shopping</h1>
+      <h1 className="font-semibold text-center text-3xl ">Featured Products</h1>
       <p className="py-2 text-center">Shop more, style more—endless trends await!</p>
     <main className="min-h-screen bg-gray-50 py-12">
 

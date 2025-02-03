@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCreateOrderMutation } from '../../../redux/features/orders/orderApi';
 import { addOrder } from '../../../redux/features/orders/orderSlice';
-import { useClearCartMutation } from '../../../redux/features/cart/cartApi';
+import { useClearCartMutation, useGetSingleCartQuery } from '../../../redux/features/cart/cartApi';
 
 export default function PaymentPage() {
   const [selectedMethod, setSelectedMethod] = useState('');
@@ -15,17 +15,16 @@ export default function PaymentPage() {
   const navigate=useNavigate();
   const dispatch = useDispatch();
 
+
+
+ const teno = JSON.parse(localStorage.getItem("user"))
+     
+     const { data: cart,  } = useGetSingleCartQuery(teno._id);
+     console.log('checkout cartdata',cart);
+
+    const userId=teno._id
+
   const [createOrder, { isLoading, isError, error }] = useCreateOrderMutation();
-
-  const userId = useSelector((state) => state.auth.user._id);
-  const cart = useSelector((state) => state.cart); 
-  // const addresses = useSelector((state) => state.auth.addresses);
-  // const addressInfo=addresses[0];
-console.log('cc',cart);
-
-  console.log('cccrtid',cart.cartId);
-  console.log('crtuserid',cart.user);
-  
   
     const [clearCart] = useClearCartMutation();
   
@@ -33,30 +32,73 @@ const  localUser=JSON.parse(localStorage.getItem('user'))
 
 const addressInfo= localUser.addresses[0];
   console.log('User ID:', userId);
-  console.log('Total Amount:', cart.grandTotal);
+  // console.log('Total Amount:', cart.grandTotal);
   console.log('addressInfo:', addressInfo);
 
-const items = cart.products.map((product) => ({
-  product: {
-    ...product, // Spread the product object to directly copy all its properties
-  },
-  quantity: product.quantity || 1,
-  totalPrice: product.totalPrice || product.price * (product.quantity || 1),
-}));
+// Ensure `cart` exists before accessing properties
+const items = cart?.items?.map((item) => ({
+  product: { ...item.product }, // Spread product properties
+  quantity: item.quantity || 1,
+  totalPrice: item.totalPrice || item.product.price * (item.quantity || 1),
+})) || [];
 
+const taxRate = 0.05;
+const grandTotal=cart?.totalCartPrice + taxRate
 
-console.log('Items:', items);
+console.log('grandTotal',grandTotal);
 
+console.log("Items:", items);
 
   const newOrder = {
     userId,
     items, // Array of items from the products
-    totalAmount: cart.grandTotal, 
+    totalAmount: grandTotal,
     addressInfo,
     paymentMethod: selectedMethod,
   };
   
   
+
+//   const userId = useSelector((state) => state.auth.user._id);
+//   const cart = useSelector((state) => state.cart); 
+//   // const addresses = useSelector((state) => state.auth.addresses);
+//   // const addressInfo=addresses[0];
+// console.log('cc',cart);
+
+//   console.log('cccrtid',cart.cartId);
+//   console.log('crtuserid',cart.user);
+  
+  
+//     const [clearCart] = useClearCartMutation();
+  
+// const  localUser=JSON.parse(localStorage.getItem('user'))
+
+// const addressInfo= localUser.addresses[0];
+//   console.log('User ID:', userId);
+//   console.log('Total Amount:', cart.grandTotal);
+//   console.log('addressInfo:', addressInfo);
+
+// const items = cart.products.map((product) => ({
+//   product: {
+//     ...product, // Spread the product object to directly copy all its properties
+//   },
+//   quantity: product.quantity || 1,
+//   totalPrice: product.totalPrice || product.price * (product.quantity || 1),
+// }));
+
+
+// console.log('Items:', items);
+
+
+//   const newOrder = {
+//     userId,
+//     items, // Array of items from the products
+//     totalAmount: cart.grandTotal, 
+//     addressInfo,
+//     paymentMethod: selectedMethod,
+//   };
+  
+
 
   // const teno = JSON.parse(localStorage.getItem("user"))
   const handleOrderSubmit = async () => {
@@ -112,7 +154,7 @@ console.log('Items:', items);
         <div className="p-6 bg-rose-50">
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Order Total</span>
-            <span className="text-xl font-bold text-gray-900">${cart.grandTotal}</span>
+            <span className="text-xl font-bold text-gray-900">${grandTotal}</span>
           </div>
         </div>
        

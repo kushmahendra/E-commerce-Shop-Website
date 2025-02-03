@@ -8,7 +8,7 @@ const TermsAndConditions = () => {
         <h2 className='section__header capitalize' >Terms-And-Conditions</h2>
         <div className='section__subheader space-x-2'>
           <span className='hover:text-primary'><Link to='/'>Home</Link></span>
-          /Terms and conditions of use
+          <i className="ri-arrow-right-s-line"></i> Terms and conditions of use
         </div>
         </section>
     <div className="max-w-full mx-4 py-12 px-4 sm:px-6 lg:px-8">

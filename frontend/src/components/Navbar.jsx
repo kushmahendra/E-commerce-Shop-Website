@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import CartModal from '../pages/shop/productDetails/CartModal';
@@ -7,11 +7,32 @@ import { logout } from '../redux/features/auth/authSlice';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Truck, FileText, Store, Mail, HelpCircle, User, Heart, Package } from 'lucide-react';
-
+import { useGetSingleCartQuery } from '../redux/features/cart/cartApi';
 
 
 const Navbar = () => {
-  const products = useSelector((state) => state.cart.products);
+  const user22 = JSON.parse(localStorage.getItem("user"));
+  console.log('user Id',user22._id);
+  // const products = useSelector((state) => state.cart.products);
+
+   // Fetch cart data using the user's ID
+  const { data: cartData, isLoading, isError } = useGetSingleCartQuery(user22._id);
+  console.log('cccdd',cartData);
+  
+  // Define items after fetching cartData
+  const items = cartData?.items || [];
+
+  // Log the data to see the structure of the response
+  useEffect(() => {
+    if (cartData) {
+      console.log('Fetched cart data:', cartData);
+    }
+  }, [cartData]);
+  
+//  const items = cartData?.items
+//   console.log('cartItems',items);
+
+
   const user = useSelector((state) => state.auth.user);
   console.log('userrrr', user);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -162,7 +183,8 @@ const Navbar = () => {
             <span>
               <button onClick={handleCartToggle} className='hover:text-primary'>
                 <i className="ri-shopping-bag-line"></i>
-                <sup className='text-sm inline-block px-1.5 text-white rounded-full bg-primary text-center'>{products.length}</sup>
+                {/* <sup className='text-sm inline-block px-1.5 text-white rounded-full bg-primary text-center'>{products.length}</sup> */}
+                <sup className='text-sm inline-block px-1.5 text-white rounded-full bg-primary text-center'>{items?.length || 0}</sup>
               </button>
             </span>
 
@@ -236,10 +258,12 @@ const Navbar = () => {
             </div>
           </div>
         </nav>
-        {isCartOpen && <CartModal products={products} isOpen={isCartOpen} onClose={handleCartToggle} />}
+        {/* {isCartOpen && <CartModal products={products} isOpen={isCartOpen} onClose={handleCartToggle} />} */}
+        {isCartOpen && <CartModal products={items} isOpen={isCartOpen} onClose={handleCartToggle} />}
       </header>
     </>
   )
+
 }
 
 export default Navbar

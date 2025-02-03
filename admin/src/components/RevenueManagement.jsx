@@ -1,6 +1,8 @@
-"use client"
-
 import { Package, ShoppingBag, DollarSign, Users, TrendingUp } from "lucide-react"
+import { useEffect, useState } from "react";
+import axios from 'axios'
+import { API_BASE_URL } from "../../constants/constant";
+import { format } from "date-fns"; // Helps format dates easily
 
 const monthlyData = {
   income: [42000, 45678, 41200, 38900, 52300, 45678, 48000, 51000, 49500, 53200, 50100, 55000],
@@ -10,7 +12,29 @@ const monthlyData = {
   months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 }
 
-export default function RevenueManagement() {
+export default function RevenueManagement({ products }) {
+
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const fetchAllUsers = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/orders`);
+        console.log('order response', response);
+
+        setOrders(response?.data || []); // Ensure users array is set correctly
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchAllUsers();
+  }, []);
+
+  // Calculate total revenue
+  const totalRevenue = orders.reduce((acc, order) => acc + (order.totalAmount || 0), 0);
+  console.log('pdinfo', products);
+
   // Helper function to get percentage change
   const getPercentageChange = (current, previous) => {
     const change = ((current - previous) / previous) * 100
@@ -39,6 +63,27 @@ export default function RevenueManagement() {
     </div>
   )
 
+//monthly calculated
+  const calculateMonthlyRevenue = (orders, targetMonth, targetYear) => {
+    return orders
+      .filter((order) => {
+        const orderDate = new Date(order.orderDate);
+        return (
+          orderDate.getMonth() === targetMonth && orderDate.getFullYear() === targetYear
+        );
+      })
+      .reduce((total, order) => total + (order.totalAmount || 0), 0);
+  };
+  
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+  
+  const monthlyRevenue = calculateMonthlyRevenue(orders, currentMonth, currentYear);
+
+
+  console.log("Total Revenue:", totalRevenue);
+  console.log("Monthly Revenue:", monthlyRevenue);
+
   return (
     <div className="p-6 max-w-7xl mx-auto mt-20 space-y-8 bg-gray-50 min-h-screen">
       <h1 className="font-bold text-2xl">Revenue Management</h1>
@@ -52,8 +97,8 @@ export default function RevenueManagement() {
             <span className="text-sm text-gray-500">Total Products</span>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-bold">1,234</h3>
-            <p className="text-sm text-gray-500 mt-1">+12 new today</p>
+            <h3 className="text-3xl font-bold">{products?.length || 0}</h3>
+            <p className="text-sm text-gray-500 mt-1">+3 new today</p>
           </div>
         </div>
 
@@ -65,8 +110,8 @@ export default function RevenueManagement() {
             <span className="text-sm text-gray-500">Total Orders</span>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-bold">856</h3>
-            <p className="text-sm text-gray-500 mt-1">43 pending approval</p>
+            <h3 className="text-3xl font-bold"> {orders?.length || 0}</h3>
+            <p className="text-sm text-gray-500 mt-1">7 pending approval</p>
           </div>
         </div>
 
@@ -78,7 +123,8 @@ export default function RevenueManagement() {
             <span className="text-sm text-gray-500">Total Revenue</span>
           </div>
           <div className="mt-4">
-            <h3 className="text-3xl font-bold">$45,678</h3>
+
+            <h3 className="text-3xl font-bold ">${totalRevenue?.toFixed(2)}</h3>
             <p className="text-sm text-green-500 mt-1">+8% from last month</p>
           </div>
         </div>
@@ -100,7 +146,7 @@ export default function RevenueManagement() {
       {/* Graphs Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Monthly Income Graph */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        {/* <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div className="flex justify-between items-center mb-6">
             <div>
               <h3 className="text-lg font-semibold">Monthly Income</h3>
@@ -114,7 +160,24 @@ export default function RevenueManagement() {
             </div>
           </div>
           {renderGraph(monthlyData.income, "blue", 55000)}
-        </div>
+        </div> */}
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+    <div className="flex justify-between items-center mb-6">
+      <div>
+        <h3 className="text-lg font-semibold">Monthly Income</h3>
+        <p className="text-sm text-gray-500">Last 12 months</p>
+      </div>
+      <div className="flex items-center gap-2">
+        <TrendingUp className="w-4 h-4 text-green-500" />
+        <span className="text-sm text-green-500">
+          {/* Use the percentage change between current and previous month */}
+          +{getPercentageChange(monthlyRevenue, calculateMonthlyRevenue(orders, currentMonth - 1, currentYear))}%
+        </span>
+      </div>
+    </div>
+    {/* Render the graph with the monthly revenue data */}
+    {renderGraph([monthlyRevenue], "blue", 55000)} {/* Only current month's data */}
+  </div>
 
         {/* Monthly Orders Graph */}
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
