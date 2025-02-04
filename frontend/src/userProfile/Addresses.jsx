@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useGetSingleUserQuery,  useUpdateUserInfoMutation } from "../redux/features/auth/authApi";
 import { setAddress } from "../redux/features/auth/authSlice";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -59,7 +59,14 @@ export default function Addresses() {
 
   useEffect(() => {
     if (newAddress.zipCode.length >= 4) {
-      fetchAddressDetails(newAddress.zipCode);
+      const unsubscribe = setTimeout(()=>{
+        fetchAddressDetails(newAddress.zipCode);
+
+      },500)
+
+      return()=>{
+        clearTimeout(unsubscribe)
+      }
     }
   }, [newAddress.zipCode]);
 
@@ -308,7 +315,7 @@ export default function Addresses() {
             </div>
           ))}
         </div>
-        <ToastContainer />
+       
       </div>
     </div>
   )

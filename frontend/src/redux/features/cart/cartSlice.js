@@ -180,7 +180,7 @@
 
 
 
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice,current } from '@reduxjs/toolkit';
 
 const initialState = {
     cartId: null, // Cart ID for backend tracking
@@ -204,29 +204,43 @@ const cartSlice = createSlice({
             console.log('New Item:', newItem);
         
             // Extract necessary properties from newItem
-            const { product, quantity, totalPrice } = newItem;
-            const newItemColor = Array.isArray(product.color) ? product.color.join(',') : product.color;
-            const newItemSize = Array.isArray(product.sizes) ? product.sizes.join(',') : product.sizes;
+            const {  quantity, totalPrice } = newItem;
+
+            const {product:product} = newItem?.cart?.items.at(-1);
+            console.log('himanshu',product)
+
+            const newItemColor = product?.color;
+            const newItemSize = product?.sizes;
+
+            console.log('kushi', current(state.cart)); 
+
 
         
             // Find existing item in the cart based on product ID, color, and size
             const existingItemIndex = state.cart.items.findIndex(
                 (item) =>
                     item.product._id === product._id &&
-                    (Array.isArray(item.product.color) ? item.product.color.join(',') : item.product.color) === newItemColor &&
-                    (Array.isArray(item.product.sizes) ? item.product.sizes.join(',') : item.product.sizes) === newItemSize
+                    (item.product.color) === newItemColor &&
+                    (item.product.sizes[0]) === newItemSize[0]
             );
 
             console.log('existingItemIndex',existingItemIndex);
             
             if (existingItemIndex >= 0) {
                 // Update quantity and total price if the product already exists in the cart
-                state.cart.items[existingItemIndex].quantity += quantity;
-                state.cart.items[existingItemIndex].totalPrice =
-                    state.cart.items[existingItemIndex].quantity * product.price;
+                state.cart.items[existingItemIndex] = {
+                    ...state.cart.items[existingItemIndex], // Preserve existing item properties
+                    quantity: state.cart.items[existingItemIndex].quantity + 1,
+                    totalPrice: (state.cart.items[existingItemIndex].quantity + 1) * product.price,
+                };
+
+
+                    console.log(' my fnal from the existing cart item',current(state.cart.items))
             } else {
                 // Add the new product to the cart
                 state.cart.items.push({ ...newItem, totalPrice: quantity * product.price });
+                console.log(' my fnal from the non existing cart item')
+
             }
         
             // Update the cart summary
@@ -275,7 +289,6 @@ const cartSlice = createSlice({
 
 
         setProducts: (state, action) => {
-            console.log('Setting products:', action.payload);
             state.cart.items = action.payload;
             state.cart.selectedItems = action.payload.length;
             state.cart.totalPrice = action.payload.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);

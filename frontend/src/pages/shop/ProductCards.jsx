@@ -4,16 +4,14 @@ import RatingStars from '../../components/RatingStars';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/features/cart/cartSlice';
 import { useAddsToCartMutation } from '../../redux/features/cart/cartApi';
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 // import { addToWishlist } from '../../redux/features/wishlist/wishlistSlice';
 import { useAddToWishlistApiMutation } from '../../redux/features/wishlist/wishlistApi';
 
 
 const ProductCards = ({ products }) => {
-  console.log('Newproduct',products)
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log('user Id',user._id);
   
   const dispatch = useDispatch();
 
@@ -23,11 +21,9 @@ const ProductCards = ({ products }) => {
 
   const handleAddToCart = async (product,size = 'M',image = '',color) => {
     try {
-      console.log('img',image);
-      console.log('PProduct:', product._id);
-      console.log('colorName',color);
+     
       
-      const response = await addsToCart({ productId: product._id, userId: user._id,size,image ,color}).unwrap();
+      const response = await addsToCart({ productId: product._id, userId: user._id,size,image ,color:color}).unwrap();
     
       console.log('new Response:', response);
 
@@ -43,11 +39,7 @@ const ProductCards = ({ products }) => {
       toast.success("Product added to cart successfully!", {
         position: "top-right",
         autoClose: 3000,
-        hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
       });
     } catch (error) {
       console.error('Error adding product to cart:', error);
@@ -114,7 +106,6 @@ const ProductCards = ({ products }) => {
 
   return (
     <>
-      <ToastContainer />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {products && products.map((product, index) => (
           <div
@@ -201,7 +192,7 @@ const ProductCards = ({ products }) => {
 
   // return (
   //   <>
-  //     <ToastContainer />
+  //    
   //     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
   //       {products && products.map((product, index) => (
   //         <div
@@ -296,7 +287,7 @@ export default ProductCards;
 // import { useDispatch } from 'react-redux';
 // import { addToCart } from '../../redux/features/cart/cartSlice';
 // import { useAddsToCartMutation } from '../../redux/features/cart/cartApi';
-// import { toast, ToastContainer } from "react-toastify";
+// import { toast} from "react-toastify";
 // import 'react-toastify/dist/ReactToastify.css';
 // // import { addToWishlist } from '../../redux/features/wishlist/wishlistSlice';
 // import { useAddToWishlistApiMutation } from '../../redux/features/wishlist/wishlistApi';
@@ -408,7 +399,7 @@ export default ProductCards;
 
 //   return (
 //     <>
-//       <ToastContainer />
+
 //       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 //         {products && products.map((product, index) => (
 //           <div

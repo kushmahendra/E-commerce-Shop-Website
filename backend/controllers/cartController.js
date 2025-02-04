@@ -48,6 +48,10 @@ const handleAddCart=async (req, res) => {
       select: "name price images category description stock sizes color", // Select only required fields
     });
 
+
+    console.log('huhuhuhuhu',cart);
+    
+
     if (!cart) {
       cart = new Cart({ user: userId, items: [] });
     }
@@ -59,7 +63,13 @@ const handleAddCart=async (req, res) => {
 
  // Check if the product with the same size and color already exists in the cart
  const existingCartItemIndex = cart.items.findIndex(
-  (item) => item.product._id.toString() === productId && item.sizes === size && item.color === color
+  (item) => {
+    
+    
+    console.log('sfjhjhsjfsf',item.product._id.toString()===productId.toString())
+    return item.product._id.toString() === productId.toString() && item.product.sizes[0] === size && item.product.color === color 
+    // item.product._id === productId && item.product.sizes[0] === size && item.product.color === color
+  }
 );
 
 

@@ -3,7 +3,7 @@ import OrderSummary from './OrderSummary';
 import { createDispatchHook, useDispatch, useSelector } from 'react-redux';
 import { updateQuantity, removeFromCart, addToCart, cartFetch, setProducts, setCartId } from '../../../redux/features/cart/cartSlice';
 import { useGetSingleCartQuery, useUpdateCartMutation, useRemoveCartItemMutation } from '../../../redux/features/cart/cartApi';
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const CartModal = ({ isOpen, onClose }) => {
@@ -126,7 +126,7 @@ const CartModal = ({ isOpen, onClose }) => {
   // console.log('\safhasjkfhsajkfhk', products[0]?.product?.images[0])
   return (
     <>
-      <ToastContainer />
+  
       <div
         className={`fixed z-[1000] inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}

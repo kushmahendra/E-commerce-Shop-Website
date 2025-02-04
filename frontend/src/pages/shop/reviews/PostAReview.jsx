@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useFetchProductByIdQuery } from '../../../redux/features/products/productsApi';
 import { useGetReviewsByUserIdQuery, usePostReviewMutation } from '../../../redux/features/reviews/reviewsApi';
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -68,7 +68,7 @@ const PostAReview = ({ isModalOpen, handleClose }) => {
     handleClose();
   }
   return (<>
-    <ToastContainer />
+  
     <div className={`fixed inset-0 bg-black/90 flex items-center justify-center z-40 px-2 ${isModalOpen ? 'block' : 'hidden'}`}>
 
       <div className=' bg-white p-6 rounded-md shadow-lg  w-96 z-50'>

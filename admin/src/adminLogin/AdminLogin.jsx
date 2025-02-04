@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { forgotPassword, resetPassword } from '../services/emailService';
 import { API_BASE_URL } from '../../constants/constant';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';  // Don't forget to import the CSS!
 
 export default function AdminLogin() {
@@ -43,7 +43,7 @@ export default function AdminLogin() {
     } catch (error) {
       console.error('Login error:', error);
       toast.error('Login failed. Please check your credentials and try again.', {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
     }
@@ -56,14 +56,14 @@ export default function AdminLogin() {
     try {
       await forgotPassword(resetEmail);
       toast.success('Reset link sent to your email!', {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
       setShowForgotPassword(false);
       setResetMode(true);
     } catch (error) {
       toast.error('Failed to send reset link. Please try again.', {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
     }
@@ -75,20 +75,20 @@ export default function AdminLogin() {
       const response = await resetPassword(resetEmail, newPassword, otp);
       if (response.status === 400) {
         toast.error('The OTP has expired. Please request a new one.', {
-          autoClose: 5000,
+          autoClose: 2000,
           hideProgressBar: false,
         });
         setOtp(''); 
         return; 
       }
       toast.success('Password reset successful', {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
       setResetMode(false);  
     } catch (error) {
       toast.error("An error occurred during the password reset process.", {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
     }
@@ -102,7 +102,6 @@ export default function AdminLogin() {
      >
        <div>
       
-      <ToastContainer />
       <div className="sm:mx-auto sm:w-full mt-12 pt-12 sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-orange-600">
           {resetMode ? 'Reset Password' : showForgotPassword ? 'Forgot Password' : 'Admin Login'}

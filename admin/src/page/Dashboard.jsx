@@ -7,7 +7,7 @@ import OrderList from '../components/OrderList';
 import { uploadProfileImage } from '../services/services';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../constants/constant';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';  // Import toast CSS
 import AllUserList from '../components/AllUserList';
 import RevenueManagement from '../components/RevenueManagement';
@@ -47,7 +47,7 @@ export default function Dashboard() {
       if (response.ok) {
         setAvatar(result)
         toast.success('Avatar uploaded successfully!', {
-          autoClose: 5000,
+          autoClose: 2000,
           hideProgressBar: false,
         });
         localStorage.setItem("profile_img", result)
@@ -55,7 +55,7 @@ export default function Dashboard() {
       }
       else {
         toast.error('Failed to update profile image', {
-          autoClose: 5000,
+          autoClose: 2000,
           hideProgressBar: false,
         });
       }
@@ -63,7 +63,7 @@ export default function Dashboard() {
 
       console.error('Error uploading avatar:', error);
       toast.error('Failed to upload avatar.', {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
     } finally {
@@ -91,7 +91,7 @@ export default function Dashboard() {
       } catch (error) {
         console.error('Failed to fetch products:', error);
         toast.error('Failed to fetch products.', {
-          autoClose: 5000,
+          autoClose: 2000,
           hideProgressBar: false,
         });
       }
@@ -111,7 +111,7 @@ export default function Dashboard() {
     } catch (error) {
       console.error('Failed to add product:', error);
       toast.error('Failed to add product.', {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
     }
@@ -123,13 +123,13 @@ export default function Dashboard() {
       await axios.delete(API_BASE_URL + `/api/product/${id}`);
       setProducts(products.filter((product) => product._id !== id));
       toast.success('Product deleted successfully', {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
     } catch (error) {
       console.error('Failed to delete product:', error);
       toast.error('Failed to delete product.', {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
     }
@@ -217,7 +217,7 @@ export default function Dashboard() {
         {activeTab === 'revenueManagement' && <RevenueManagement products={products} />}
         {activeTab === 'logout' && handleLogout()}
       </main>
-      <ToastContainer />
+ 
     </div>
   );
 }

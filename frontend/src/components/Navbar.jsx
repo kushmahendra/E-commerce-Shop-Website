@@ -4,42 +4,40 @@ import { useDispatch, useSelector } from 'react-redux'
 import CartModal from '../pages/shop/productDetails/CartModal';
 import avatarImg from '../assets/avatar.png'
 import { logout } from '../redux/features/auth/authSlice';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Truck, FileText, Store, Mail, HelpCircle, User, Heart, Package } from 'lucide-react';
 import { useGetSingleCartQuery } from '../redux/features/cart/cartApi';
+import { setProducts } from '../redux/features/cart/cartSlice';
 
 
 const Navbar = () => {
   const user22 = JSON.parse(localStorage.getItem("user"));
-  console.log('user Id',user22._id);
-  // const products = useSelector((state) => state.cart.products);
+
 
    // Fetch cart data using the user's ID
-  const { data: cartData, isLoading, isError } = useGetSingleCartQuery(user22._id);
-  console.log('cccdd',cartData);
+  const { data: cartData, isLoading, isError } = useGetSingleCartQuery(user22?._id);
+  const dispatch = useDispatch();
   
   // Define items after fetching cartData
   const items = cartData?.items || [];
 
+
+
   // Log the data to see the structure of the response
   useEffect(() => {
-    if (cartData) {
-      console.log('Fetched cart data:', cartData);
-    }
-  }, [cartData]);
-  
-//  const items = cartData?.items
-//   console.log('cartItems',items);
+    if (items) {
+      dispatch(setProducts(items))
 
+    }
+  }, [items]);
+  
 
   const user = useSelector((state) => state.auth.user);
-  console.log('userrrr', user);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
   const [isPagesDropDownOpen, setIsPagesDropDownOpen] = useState(false);
 
-  const dispatch = useDispatch();
+ 
   const navigate = useNavigate();
 
   const handleCartToggle = () => {
@@ -80,7 +78,8 @@ const Navbar = () => {
     }
   }
   return (
-    <> <ToastContainer />
+    <>
+    
       {/* <header className='fixed-nav-bar z-50  w-nav'></header> */}
       <header className='fixed top-0 left-0 w-full z-50  w-nav'>
         <nav className='max-w-full bg-white  flex justify-between items-center py-4'>
@@ -92,7 +91,7 @@ const Navbar = () => {
           <ul className="flex flex-1 bg-text-blue-700  items-center space-x-8 list-none">
             <li><Link to="/"><span className='hover:text-green-700'>Home</span></Link></li>
             <li><Link to="/shop"><span className='hover:text-green-700'>Products</span></Link></li>
-            <li><Link to="/test"><span className='hover:text-green-700'>Test</span></Link></li>
+            {/* <li><Link to="/test"><span className='hover:text-green-700'>Test</span></Link></li> */}
             {/* <li><Link to="/pages"><span className='hover:text-green-700'>Pages</span></Link></li> */}
 
 

@@ -57,7 +57,7 @@ const banners = [
     link: "/categories/dress",
   },
   {
-    id: 3,
+    id: 4,
     title: "Up To 25% Discount",
     heading: "Jewellery ",
     description:"Step into a world where style meets personality, and every outfit tells a story. From playful patterns to timeless classics, girls' fashion is not just about clothes—it's about confidence, charm, and creativity. Whether it’s a twirl-worthy dress for a sunny afternoon, cozy chic layers for crisp evenings, or bold accessories to make a statement, every detail matters.",
@@ -66,7 +66,7 @@ const banners = [
     link: "/categories/jewellery",
   },
   {
-    id: 3,
+    id: 5,
     title: "Up To 25% Discount",
     heading: "Cosmetics ",
     description:"Step into a world where style meets personality, and every outfit tells a story. From playful patterns to timeless classics, girls' fashion is not just about clothes—it's about confidence, charm, and creativity. Whether it’s a twirl-worthy dress for a sunny afternoon, cozy chic layers for crisp evenings, or bold accessories to make a statement, every detail matters.",

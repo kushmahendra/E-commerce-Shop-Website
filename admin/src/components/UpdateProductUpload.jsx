@@ -4,7 +4,7 @@
 // import axios from 'axios';
 // import { uploadProfileImage } from '../services/services';
 // import { API_BASE_URL } from '../../constants/constant'
-// import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
+// import { toast} from 'react-toastify'; 
 // import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
 // export default function UpdateProductUpload({ productId }) {
@@ -297,7 +297,7 @@
 //           </button>
 //         </form>
 //       </div>
-//       <ToastContainer />
+//      
 //     </div>
 //   );
 
@@ -309,7 +309,7 @@ import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { uploadProfileImage } from '../services/services';
 import { API_BASE_URL } from '../../constants/constant';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function UpdateProductUpload({ productId }) {
@@ -578,7 +578,7 @@ export default function UpdateProductUpload({ productId }) {
           </div>
         </form>
       </div>
-      <ToastContainer />
+   
     </div>
   );
 }

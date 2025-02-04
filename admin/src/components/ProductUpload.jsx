@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Upload } from 'lucide-react';
 import axios from 'axios';
 import { uploadProfileImage } from '../services/services';
-import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Import styles for toast notifications
+import { toast} from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 
 export default function ProductUpload({ onAddProduct }) {
   const [formData, setFormData] = useState({
@@ -85,13 +85,13 @@ export default function ProductUpload({ onAddProduct }) {
       setImagePreviews((prevPreviews) => [...prevPreviews, ...uploadedImages]);
 
       toast.success('Images uploaded successfully!', {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
     } catch (error) {
       console.error('Error uploading images:', error);
       toast.error('Failed to upload images', {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
     } finally {
@@ -138,14 +138,14 @@ export default function ProductUpload({ onAddProduct }) {
     e.preventDefault();
     if (!formData.name || !formData.price || formData.images.length === 0 || !formData.stock) {
       toast.error('Please fill out all required fields and upload at least one image.', {
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
       });
       return;
     }
     onAddProduct(formData);
     toast.success('Product uploaded successfully!', {
-      autoClose: 5000,
+      autoClose: 2000,
       hideProgressBar: false,
     });
 
@@ -432,7 +432,7 @@ export default function ProductUpload({ onAddProduct }) {
           + Add Product
         </button>
       </form>
-      <ToastContainer />
+  
     </div>
   );
 

@@ -11,7 +11,7 @@ import { uploadProfileImage } from '../services/services';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAddress } from "../redux/features/auth/authSlice";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -183,9 +183,9 @@ export default function UserProfile() {
   }
 
   return (<>
-    <ToastContainer />
+ 
   
-    <div className="flex flex-col py-6 justify-center items-center text-center px-6">
+    <div className="flex flex-col py-6 justify-center items-center mt-20 text-center px-6">
       {/* Welcome Text with Flower Icon */}
       <h1 className="text-xl font-extrabold mb-4 animate-scaleContinuous flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white shadow-lg">
         
@@ -198,7 +198,7 @@ export default function UserProfile() {
       </p>
     </div>
 
-    <div className=" bg-gradient-to-r from-green-100 via-orange-100 to-pink-100">
+    <div className=" bg-gradient-to-r from-blue-100 via-blue-100 to-blue-100">
       <div className="max-w-full mx-auto  px-4 py-">
         <div className="flex flex-col md:flex-row gap-8 py-12">
 

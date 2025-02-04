@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useResetUserPasswordMutation } from '../redux/features/auth/resetPasswordApi';
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const OtpWithNewPassword = () => {
@@ -47,7 +47,7 @@ const OtpWithNewPassword = () => {
 
     return (
         <>
-            <ToastContainer />
+            
             <section className='h-screen flex items-center justify-center'>
                 <div className='max-w-sm border shadow bg-white mx-auto p-8'>
                     <h2 className='text-2xl font-semibold pt-5'>Reset Your Password</h2>

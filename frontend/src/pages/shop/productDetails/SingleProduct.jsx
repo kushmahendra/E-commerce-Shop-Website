@@ -5,7 +5,7 @@
 // import { useFetchProductByIdQuery } from '../../../redux/features/products/productsApi';
 // import { addToCart } from '../../../redux/features/cart/cartSlice';
 // import ReviewsCard from '../reviews/ReviewsCard';
-// import { ToastContainer, toast } from "react-toastify";
+// import { toast } from "react-toastify";
 // import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -47,7 +47,7 @@
 
 //   return (
 //     <>
-//       <ToastContainer />
+//   
 //       <section className='section__container bg-primary-light'>
 //         <h2 className='section__header capitalize' >Single Product Page</h2>
 //         <div className='section__subheader space-x-2'>
@@ -110,7 +110,7 @@ import { useParams, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useFetchProductByIdQuery } from "../../../redux/features/products/productsApi";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReviewsCard from "../reviews/ReviewsCard";
 import RatingStars from "../../../components/RatingStars";
@@ -184,8 +184,12 @@ const SingleProduct = () => {
       const response = await addsToCart(cartProduct).unwrap();
       console.log('rrrrss1', response);
       
-      dispatch( response);
-      dispatch(addToCart( response));
+  const response2=response?.cart
+  console.log('rrrrss2', response2);
+        // dispatch(setProducts(response))
+      // dispatch( response);
+      dispatch(addToCart( response2));
+
 
       toast.success("Product added to cart successfully", { position: "top-right", autoClose: 3000 });
     } catch (error) {
@@ -203,7 +207,7 @@ const SingleProduct = () => {
 
   return (
     <>
-      <ToastContainer />
+    
       <div className='mt-20'>
         <section className='section__container bg-primary-light'>
           <h2 className='section__header capitalize' >Product Page</h2>

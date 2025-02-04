@@ -12,7 +12,6 @@ const loadUserFromLocalStorage=() => {
  }
 }
 const initialState= loadUserFromLocalStorage();
-console.log('fdffjdhfjdhgjhdjg',initialState)
 const authSlice=createSlice({
     name:'auth',
     initialState:{

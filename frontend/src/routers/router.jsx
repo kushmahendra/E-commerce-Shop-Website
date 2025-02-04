@@ -45,6 +45,18 @@ const router = createBrowserRouter([
         {path:"/stores",element:<Stores/>},
         {path:"faqs", element:<Faqs/>},
         {path:"/test", element:<Test/>},
+
+        {path:'/profile', element:(
+          <ProtectedRoute>
+            <UserProfile />
+          </ProtectedRoute>
+        ),},
+        {path:"/wishlist", element:<WishList/>},
+        {path:'/checkout',element:<Checkout/>},
+        {path:'/ordered', element:<Ordered/>},
+
+        {path:"/dashboard/orders" , element:<Orders/>},
+
              ] 
     },
     
@@ -54,18 +66,13 @@ const router = createBrowserRouter([
     {path:'/Otp', element:<OtpWithNewPassword/>},
     
 
-    {path:'/profile', element:(
-      <ProtectedRoute>
-        <UserProfile />
-      </ProtectedRoute>
-    ),},
-    {path:'/checkout',element:<Checkout/>},
-    {path:'/ordered', element:<Ordered/>},
+ 
+   
     {path:'/', element:<CartModal/>},
  
     // {path:"/dashboard/payments" , element:<PaymentPage/>},
-    {path:"/dashboard/orders" , element:<Orders/>},
-    {path:"/wishlist", element:<WishList/>},
+  
+   
     {path:"/pages", element:<SinglePageProduct/>},
   
   ]);

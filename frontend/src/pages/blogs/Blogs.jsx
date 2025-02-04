@@ -3,7 +3,6 @@ import React from 'react'
 import blogsData from '../../data/blogs.json'
 
 const Blogs = () => {
-    console.log('sss',blogsData)
   return (
     <section className='section__container blog__container'>
     <h2 className='section__header'>Latest From Blog</h2>

@@ -4,15 +4,17 @@ import { createDispatchHook, useDispatch, useSelector } from 'react-redux';
 // import { updateQuantity, removeFromCart, addToCart, cartFetch, setProducts, setCartId } from '../../../redux/features/cart/cartSlice';
 import { updateQuantity, removeFromCart, addToCart, setProducts, setCartId } from '../../../redux/features/cart/cartSlice';
 import { useGetSingleCartQuery, useUpdateCartMutation, useRemoveCartItemMutation } from '../../../redux/features/cart/cartApi';
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const CartModal = ({products, isOpen, onClose }) => {
   const dispatch = useDispatch();
   const teno = JSON.parse(localStorage.getItem("user"))
 
-  // const products = useSelector((state) => state.cart.products)
+  const cart3=useSelector((state) => state?.cart)
+  console.log('cart value',cart3)
   
+
   const { data: cart, isLoading, isError } = useGetSingleCartQuery(teno._id);
 
   const [updateCart] = useUpdateCartMutation();
@@ -130,7 +132,7 @@ const CartModal = ({products, isOpen, onClose }) => {
   // console.log('\safhasjkfhsajkfhk', products[0]?.product?.images[0])
   return (
     <>
-      <ToastContainer />
+ 
       <div
         className={`fixed z-[1000] inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
@@ -225,7 +227,7 @@ export default CartModal
 // import { createDispatchHook, useDispatch, useSelector } from 'react-redux';
 // import { updateQuantity, removeFromCart, addToCart, cartFetch, setProducts, setCartId } from '../../../redux/features/cart/cartSlice';
 // import { useGetSingleCartQuery, useUpdateCartMutation, useRemoveCartItemMutation } from '../../../redux/features/cart/cartApi';
-// import { ToastContainer, toast } from "react-toastify";
+// import {  toast } from "react-toastify";
 // import 'react-toastify/dist/ReactToastify.css';
 
 // const CartModal = ({ isOpen, onClose }) => {
@@ -344,7 +346,7 @@ export default CartModal
 //   // console.log('kuch to hua h',cart)
 //   return (
 //     <>
-//       <ToastContainer />
+//   
 //       <div
 //         className={`fixed z-[1000] inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
 //           }`}

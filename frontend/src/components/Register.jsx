@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "../redux/features/auth/authApi";
-import { ToastContainer, toast } from "react-toastify";
+import {toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
@@ -57,7 +57,7 @@ const Register = () => {
   };
 
   return (<>
-    <ToastContainer />
+
     <section className="h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md border shadow bg-white rounded-lg p-8">
         <h2 className="text-2xl font-semibold text-center">Create an Account</h2>

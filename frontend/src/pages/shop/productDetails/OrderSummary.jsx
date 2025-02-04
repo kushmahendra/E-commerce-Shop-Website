@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 // import { clearCart } from '../../../redux/features/cart/cartSlice';
 import { useClearCartMutation, useGetSingleCartQuery } from '../../../redux/features/cart/cartApi';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -103,7 +103,7 @@ console.log('values', selectedItems, totalPrice, tax, taxRate, grandTotal);
 
   return (
     <>
-      <ToastContainer />
+   
       <div className='bg-primary-light mt-5 rounded text-base'>
         <div className='px-6 py-4 space-y-5'>
           <h2 className='text-xl text-text-dark '>Order Summary</h2>

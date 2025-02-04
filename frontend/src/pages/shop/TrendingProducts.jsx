@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ProductCards from './ProductCards'
 // import products  from '../../data/products.json'
 import { getBaseUrl } from '../../utils/baseURL'
-import { ToastContainer } from 'react-toastify'
+
 
 
 const TrendingProducts = () => {
@@ -23,7 +23,6 @@ const TrendingProducts = () => {
         });
         const data = await response.json();
         if(response.ok){
-          console.log('products data',data);
           setProducts(data.products );
         }
         else{
@@ -40,7 +39,8 @@ const TrendingProducts = () => {
     }
     
   return (
-   <> <ToastContainer/>
+   <>
+ 
    <section className='section__container product__container'>
     <h2 className='section__header'>Trending Products</h2>
     {/* <p className='section__subheader mb-12'>

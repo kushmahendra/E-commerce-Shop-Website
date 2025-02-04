@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAddsToCartMutation } from "../redux/features/cart/cartApi";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { addToCart } from "../redux/features/cart/cartSlice";
 import { useGetAllWishlistItemsApiQuery, useRemoveFromWishlistApiMutation } from "../redux/features/wishlist/wishlistApi";
@@ -152,17 +152,15 @@ console.log('www',wishlistItems);
 
 
   return (
-    <>
-      <ToastContainer />
- 
-    <div>
+    <> 
+    <div className="mt-20">
       <button
         onClick={handleBack}
         className="px-4 py-1 mt-1 mr-1 border hover:bg-green-700 text-black rounded-lg hover:text-white "
       >
         <i className="ri-arrow-left-line"></i> Back
       </button>
-      <div className="flex-1 bg-white rounded-lg shadow-sm p-6">
+      <div className="flex-1 bg-white rounded-lg shadow-sm  p-6">
         <div className="max-w-full mx-auto">
           <h1 className="text-2xl font-semibold mb-6">My Wishlist</h1>
           {wishlistItems?.length === 0 ? (
@@ -174,7 +172,9 @@ console.log('www',wishlistItems);
               {wishlistItems?.map((item) => (
                 <div
                   key={item?.product?._id}
-                  className="bg-white rounded-lg shadow-sm overflow-hidden"
+                  // className="bg-white rounded-lg shadow-sm overflow-hidden"
+                  className={`relative bg-gradient-to-r from-red-100 via-gray-200 to-red-100 text-white rounded-xl shadow-lg 
+                    overflow-hidden hover:scale-105 transition-transform duration-300 `}
                 >
                   <div className="aspect-square relative">
                     <img
@@ -183,40 +183,42 @@ console.log('www',wishlistItems);
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-medium mb-2">{item?.product?.name}</h3>
-                    <p className="text-lg font-semibold mb-2">
+                  <div className="p-4 space-y-3 ">
+                    <h3 className="text-gray-600 text-xl font-semibold">{item?.product?.name}</h3>
+                    <p className="text-lg text-green-600">
                       ${item?.product?.price?.toFixed(2)}
                     </p>
-                    <p
+                    {/* <p
                       className={`text-sm mb-4 ${
                         item?.product?.stock ? "text-green-600" : "text-red-600"
                       }`}
                     >
                       {item?.product?.stock ? "In Stock" : "Out of Stock"}
-                    </p>
-                    <div className="space-y-2">
+                    </p> */}
+                    <div className="flex flex-row justify-between items-center gap-2">
                  
                        <button
-                        className={`w-full py-2 px-4 rounded-md ${
-                          item?.product?.stock
-                            ? "bg-blue-600 text-white hover:bg-blue-700"
-                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        }`}
-                        disabled={!item?.product?.stock || isLoading}
+                        // className={`w-full py-2 px-4 rounded-md ${
+                        //   item?.product?.stock
+                        //     ? "bg-blue-600 text-white hover:bg-blue-700"
+                        //     : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        // }`}
+                        // disabled={!item?.product?.stock || isLoading}
                         onClick={() =>
                           handleAddToCart(item)
+                          
                           //  handleAddToCart(item.product._id,item.product.sizes[0],item.product.images[0],item.product.color)
                           }
+                          className=" w-full py-1 px-1 rounded-md bg-orange-600 hover:bg-red-600 text-white"
                       >
-                        {isLoading ? "Adding..." : "Add to Cart"}
+                        {isLoading ? "Adding..." :<i className="ri-shopping-cart-2-line"></i> }
                       </button>
                       <button
                         // onClick={() => dispatch(removeFromWishlist(item._id))}
                          onClick={() => handleRemoveFromWishlist(item)}
-                        className="w-full py-2 px-4 border border-gray-300 rounded-md bg-red-500 hover:bg-red-600 text-white"
+                        className="w-full py-1 px-1 rounded-md bg-black hover:bg-green-600 text-white"
                       >
-                        Remove
+                    <i className="ri-delete-bin-6-line"></i>
                       </button>
                     </div>
                   </div>
