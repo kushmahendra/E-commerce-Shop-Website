@@ -38,22 +38,23 @@ The E-Commerce Shopping Website is a full-featured online store that enables use
 1. Clone the repository:
 
    git clone https://github.com/kushmahendra/ecommerce-website.git
+   
    cd ecommerce-website
    ```
 
-2. Install dependencies for frontend:
+3. Install dependencies for frontend:
 
    cd frontend
    npm install
    ```
 
-3. Install dependencies for backend:
+4. Install dependencies for backend:
 
    cd backend
    npm install
    ```
 
-4. Set up environment variables:
+5. Set up environment variables:
    - Create a `.env` file in the backend directory and configure the following:
      ```env
      PORT=your_port
@@ -79,12 +80,12 @@ The E-Commerce Shopping Website is a full-featured online store that enables use
      VITE_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
      ```
 
-5. Run the backend server:
+6. Run the backend server:
  
    npm start
    ```
 
-6. Run the frontend development server:
+7. Run the frontend development server:
 
    npm run dev
    ```
@@ -99,7 +100,7 @@ For production deployment, you can use:
 - Register or log in as a user.
 - Browse products by categories or search.
 - Add products to the shopping cart and proceed to checkout.
-- Make secure payments using Razorpay.
+- Make secure payments using Razorpay or cash on delivery.
 - Track orders and view order history.
 - Admin can manage products, orders, and users from the dashboard.
 
