@@ -45,16 +45,18 @@ The E-Commerce Shopping Website is a full-featured online store that enables use
 3. Install dependencies for frontend:
 
    cd frontend
+   
    npm install
    ```
 
-4. Install dependencies for backend:
+5. Install dependencies for backend:
 
    cd backend
+   
    npm install
    ```
 
-5. Set up environment variables:
+7. Set up environment variables:
    - Create a `.env` file in the backend directory and configure the following:
      ```env
      PORT=your_port
@@ -80,12 +82,12 @@ The E-Commerce Shopping Website is a full-featured online store that enables use
      VITE_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
      ```
 
-6. Run the backend server:
+8. Run the backend server:
  
    npm start
    ```
 
-7. Run the frontend development server:
+9. Run the frontend development server:
 
    npm run dev
    ```
