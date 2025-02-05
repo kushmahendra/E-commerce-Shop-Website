@@ -36,6 +36,15 @@ const cartApi = createApi({
             }),
             invalidatesTags: (result, error, { id }) => [{ type: 'Cart', id }],
         }),
+
+        updateCartItem: builder.mutation({
+            query: (updatedCartItemdetail) => ({
+                url: '/update-cart-item',
+                method: 'PUT',
+                body: updatedCartItemdetail,
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: 'Cart', id }],
+        }),
         removeCartItem: builder.mutation({
             query: (cartItemId) => ({
                 url: '/remove-cart',
@@ -54,13 +63,13 @@ const cartApi = createApi({
     }),
 });
 
-
 export const {
     useAddsToCartMutation,
     useGetSingleCartQuery,
     useUpdateCartMutation,
     useRemoveCartItemMutation,
     useClearCartMutation,
+    useUpdateCartItemMutation,
 } = cartApi;
 
 export default cartApi;

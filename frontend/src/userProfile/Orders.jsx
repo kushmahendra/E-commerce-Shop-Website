@@ -137,7 +137,7 @@ export default function Orders() {
 
 
       {isDialogOpen && selectedOrder && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-70 flex justify-center items-center">
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-70 flex mt-20 justify-center items-center">
           <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-2xl max-w-2xl w-full p-8 border border-gray-300">
 
             {/* Header */}

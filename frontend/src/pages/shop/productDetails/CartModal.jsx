@@ -11,24 +11,25 @@ const CartModal = ({products, isOpen, onClose }) => {
   const dispatch = useDispatch();
   const teno = JSON.parse(localStorage.getItem("user"))
 
-  const cart3=useSelector((state) => state?.cart)
+  const cart3=useSelector((state) => state?.cart?.cart?.items)
   console.log('cart value',cart3)
   
 
-  const { data: cart, isLoading, isError } = useGetSingleCartQuery(teno._id);
+  const { data: cart, isLoading, isError } = useGetSingleCartQuery(teno?._id);
 
   const [updateCart] = useUpdateCartMutation();
   const [removeCartItem] = useRemoveCartItemMutation();
   
 
+  
   // useEffect(() => {
   //   if (cart) {
   //     dispatch(setProducts(cart.items))
   //     dispatch(setCartId(cart._id)); // Store cartId in Redux
   //   }
   // }, [cart])
-  console.log('ccartttt', products)
-  console.log('bbbbbb', cart)
+  // console.log('ccartttt', products)
+  console.log('cart Modal value', cart)
 
   const handleQuantity = async (type, id, quan) => {
     const payload = { type, id }

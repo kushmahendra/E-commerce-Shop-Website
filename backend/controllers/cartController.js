@@ -144,6 +144,63 @@ const handleGetSingleCart=async (req, res) => {
   }
 };
 
+//update Item
+const handleUpdateCartItem = async (req, res) => {
+  try {
+      const { userId, itemId, quantity, size, color, image } = req.body;
+
+      console.log('Updating Cart Item');
+      console.log('User ID:', userId);
+      console.log('Item ID:', itemId);
+      console.log('Quantity:', quantity);
+      console.log('Size:', size);
+      console.log('Color:', color);
+      console.log('Image:', image);
+
+      if (!userId || !itemId) {
+        return res.status(400).json({ message: 'Invalid input data' });
+    }
+
+    // Find the cart by user ID
+    const cart = await Cart.findOne({ user: userId });
+
+    if (!cart) {
+        return res.status(404).json({ message: 'Cart not found' });
+    }
+
+    // Find the index of the cart item using `itemId`
+    const itemIndex = cart.items.findIndex((item) => item._id.toString() === itemId);
+
+    if (itemIndex === -1) {
+        return res.status(404).json({ message: 'Cart item not found' });
+    }
+
+    // Update the item details if provided
+    if (quantity >= 0) cart.items[itemIndex].quantity = quantity;  // Ensure valid quantity
+    if (size) cart.items[itemIndex].product.sizes = [size];  // Assuming size array to be updated
+    if (color) cart.items[itemIndex].product.color = color;
+    if (image) cart.items[itemIndex].product.images = [image];  // Update with the first image
+
+    // Update the total price of the item
+    const productPrice = cart.items[itemIndex].product.price;
+    cart.items[itemIndex].totalPrice = cart.items[itemIndex].quantity * productPrice;
+
+    // Recalculate the total cart price
+    cart.totalCartPrice = cart.items.reduce(
+        (sum, item) => sum + item.totalPrice,
+        0
+    );
+
+    // Save the updated cart details
+    await cart.save();
+
+    return res.status(200).json({ message: 'Cart item updated', updatedItem: cart.items[itemIndex] });
+} catch (error) {
+    return res.status(500).json({ message: 'Internal Server Error', error: error.message });
+}
+};
+
+
 
 //handle update
 const handleUpdateCart = async (req, res) => {
@@ -262,4 +319,4 @@ const handleClearCart = async (req, res) => {
   }
 };
 
-export {handleAddCart,handleGetSingleCart,handleUpdateCart,handleRemoveCart ,handleClearCart }
+export {handleAddCart,handleGetSingleCart,handleUpdateCart,handleUpdateCartItem ,handleRemoveCart ,handleClearCart }

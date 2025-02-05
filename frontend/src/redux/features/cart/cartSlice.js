@@ -214,8 +214,6 @@ const cartSlice = createSlice({
 
             console.log('kushi', current(state.cart)); 
 
-
-        
             // Find existing item in the cart based on product ID, color, and size
             const existingItemIndex = state.cart.items.findIndex(
                 (item) =>
@@ -224,7 +222,7 @@ const cartSlice = createSlice({
                     (item.product.sizes[0]) === newItemSize[0]
             );
 
-            console.log('existingItemIndex',existingItemIndex);
+            console.log('existingItemIndex in cartSlice',existingItemIndex);
             
             if (existingItemIndex >= 0) {
                 // Update quantity and total price if the product already exists in the cart

@@ -8,22 +8,22 @@ const Search = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   // List of categories for dynamic placeholder
-  const placeholders = ['...', 'accessories', 'dress', 'jewellery', 'cosmetics'];
+  const placeholders = [ 'accessories', 'dress', 'jewellery', 'cosmetics'];
   const [currentPlaceholder, setCurrentPlaceholder] = useState(placeholders[0]);
 
   useEffect(() => {
     // Fetch all products on component mount
     fetchAllProducts();
     // Rotate the placeholder text every 2 seconds
-    // const interval = setInterval(() => {
-    //   setCurrentPlaceholder((prev) => {
-    //     const currentIndex = placeholders.indexOf(prev);
-    //     const nextIndex = (currentIndex + 1) % placeholders.length;
-    //     return placeholders[nextIndex];
-    //   });
-    // }, 2000);
+    const interval = setInterval(() => {
+      setCurrentPlaceholder((prev) => {
+        const currentIndex = placeholders.indexOf(prev);
+        const nextIndex = (currentIndex + 1) % placeholders.length;
+        return placeholders[nextIndex];
+      });
+    }, 2000);
 
-    // return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchAllProducts = async () => {

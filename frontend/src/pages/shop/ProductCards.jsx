@@ -21,15 +21,14 @@ const ProductCards = ({ products }) => {
 
   const handleAddToCart = async (product,size = 'M',image = '',color) => {
     try {
-     
-      
+       
       const response = await addsToCart({ productId: product._id, userId: user._id,size,image ,color:color}).unwrap();
     
-      console.log('new Response:', response);
+      console.log('new product Response:', response);
 
            // Extract cart items from the response
-           const cart = response.cart;
-           console.log('updatedItems',cart);
+           const cart = response?.cart;
+           console.log(' product updatedItems',cart);
            
            // Dispatch action with the updated cart items
            dispatch(addToCart({

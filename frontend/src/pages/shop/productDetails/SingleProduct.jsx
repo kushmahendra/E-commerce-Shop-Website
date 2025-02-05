@@ -114,7 +114,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReviewsCard from "../reviews/ReviewsCard";
 import RatingStars from "../../../components/RatingStars";
-import { useAddsToCartMutation, useUpdateCartMutation } from "../../../redux/features/cart/cartApi";
+import { useAddsToCartMutation, useUpdateCartItemMutation, useUpdateCartMutation } from "../../../redux/features/cart/cartApi";
 
 const SingleProduct = () => {
 
@@ -124,8 +124,7 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const { data, error, isLoading } = useFetchProductByIdQuery(id);
   const [addsToCart] = useAddsToCartMutation();
-  const [ updateCart]=useUpdateCartMutation();
- 
+  const [ updateCartItem]=useUpdateCartItemMutation();
  
 
   const product = data?.product || {};
@@ -173,23 +172,55 @@ const SingleProduct = () => {
         userId: user?._id, productId:product._id,quantity, image: images[selectedImage] || images[0], size: selectedSize || "M",
           color:selectedColor || "black",
       };
-      const cartProduct22={
-        userId: user?._id,productId:product._id,quantity, image: images[selectedImage] || images[0], size: selectedSize || "M",
-          color: selectedColor || "black",
-      };
+      // const cartProduct22={
+      //   userId: user?._id,productId:product._id,quantity, image: images[selectedImage] || images[0], size: selectedSize || "M",
+      //     color: selectedColor || "black",
+      // };
       // const cartProduct = { ...product,selectedImage: images[selectedImage]};
       // const cartProduct = { userId: user._id, ...product, image:selectedImage ||'image[0]',size: selectedSize || 'M',color:selectedColor ||'black' };
       console.log('ddd', cartProduct)
     
       const response = await addsToCart(cartProduct).unwrap();
-      console.log('rrrrss1', response);
+      console.log('single product response', response);
       
   const response2=response?.cart
-  console.log('rrrrss2', response2);
+  console.log('single product rrrrss2', response2);
         // dispatch(setProducts(response))
       // dispatch( response);
-      dispatch(addToCart( response2));
+    
+//       const userId = response2.user;
 
+// const cartItems = response2.items.map(item => {
+//     const itemId = item._id; // The cart item ID
+//     const quantity = item.quantity;
+//     const size = item.product.sizes[0]; // Assuming first size in the array
+//     const color = item.product.color;
+//     const image = item.product.images[0]; // Assuming first image in the array
+
+//     // Log values
+//     console.log('Item ID:', itemId);
+//     console.log('User ID:', userId);
+//     console.log('Quantity:', quantity);
+//     console.log('Size:', size);
+//     console.log('Color:', color);
+//     console.log('Image:', image);
+
+//     return {
+//         itemId,  // This is now included
+//         userId,
+//         quantity,
+//         size,
+//         color,
+//         image
+//     };
+// });
+
+// // Call updateCart for each item, passing the `itemId`
+// const rr3 = await Promise.all(cartItems.map(item => updateCartItem(item)));
+
+// console.log("Updated Cart Response:", rr3);
+
+      dispatch(addToCart( response2));
 
       toast.success("Product added to cart successfully", { position: "top-right", autoClose: 3000 });
     } catch (error) {
