@@ -164,61 +164,22 @@ const SingleProduct = () => {
     try {
       // const cartProduct = { ...product, quantity };
       console.log('ppp', product);
-      console.log('iimmgg',images[0]);
-      console.log('productId',product._id);
+    
       
       
       const cartProduct = {
         userId: user?._id, productId:product._id,quantity, image: images[selectedImage] || images[0], size: selectedSize || "M",
           color:selectedColor || "black",
       };
-      // const cartProduct22={
-      //   userId: user?._id,productId:product._id,quantity, image: images[selectedImage] || images[0], size: selectedSize || "M",
-      //     color: selectedColor || "black",
-      // };
-      // const cartProduct = { ...product,selectedImage: images[selectedImage]};
-      // const cartProduct = { userId: user._id, ...product, image:selectedImage ||'image[0]',size: selectedSize || 'M',color:selectedColor ||'black' };
-      console.log('ddd', cartProduct)
+
+    console.log('ddd', cartProduct)
     
       const response = await addsToCart(cartProduct).unwrap();
-      console.log('single product response', response);
+     
       
   const response2=response?.cart
   console.log('single product rrrrss2', response2);
-        // dispatch(setProducts(response))
-      // dispatch( response);
-    
-//       const userId = response2.user;
-
-// const cartItems = response2.items.map(item => {
-//     const itemId = item._id; // The cart item ID
-//     const quantity = item.quantity;
-//     const size = item.product.sizes[0]; // Assuming first size in the array
-//     const color = item.product.color;
-//     const image = item.product.images[0]; // Assuming first image in the array
-
-//     // Log values
-//     console.log('Item ID:', itemId);
-//     console.log('User ID:', userId);
-//     console.log('Quantity:', quantity);
-//     console.log('Size:', size);
-//     console.log('Color:', color);
-//     console.log('Image:', image);
-
-//     return {
-//         itemId,  // This is now included
-//         userId,
-//         quantity,
-//         size,
-//         color,
-//         image
-//     };
-// });
-
-// // Call updateCart for each item, passing the `itemId`
-// const rr3 = await Promise.all(cartItems.map(item => updateCartItem(item)));
-
-// console.log("Updated Cart Response:", rr3);
+       
 
       dispatch(addToCart( response2));
 
@@ -385,7 +346,9 @@ const SingleProduct = () => {
                             className={`h-8 w-8 rounded-full border ${selectedColor === color.name ? "border-black" : "border-gray-300"
                               } ${color.class}`}
                             onClick={() => setSelectedColor(color.name)}
-                          ></button>
+                          >
+                            
+                          </button>
                         ))}
                       </div>
                     </div>
@@ -427,6 +390,7 @@ const SingleProduct = () => {
                 </div>
               </div>
             </div>
+            
 
             {/* Reviews Section */}
             <div className="mt-10">

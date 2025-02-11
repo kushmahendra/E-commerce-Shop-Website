@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RatingStars from '../../components/RatingStars';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/features/cart/cartSlice';
@@ -12,6 +12,7 @@ import { useAddToWishlistApiMutation } from '../../redux/features/wishlist/wishl
 
 const ProductCards = ({ products }) => {
   const user = JSON.parse(localStorage.getItem("user"));
+  const navigate=useNavigate();
   
   const dispatch = useDispatch();
 
@@ -19,41 +20,47 @@ const ProductCards = ({ products }) => {
   const [addToWishlistApi, { isLoading: isAddingToWishlist }] = useAddToWishlistApiMutation();
 
 
-  const handleAddToCart = async (product,size = 'M',image = '',color) => {
-    try {
+  // const handleAddToCart = async (product,size = 'M',image = '',color) => {
+  //   try {
        
-      const response = await addsToCart({ productId: product._id, userId: user._id,size,image ,color:color}).unwrap();
+  //     const response = await addsToCart({ productId: product._id, userId: user._id,size,image ,color:color}).unwrap();
     
-      console.log('new product Response:', response);
+  //     console.log('new product Response:', response);
 
-           // Extract cart items from the response
-           const cart = response?.cart;
-           console.log(' product updatedItems',cart);
+  //          // Extract cart items from the response
+  //          const cart = response?.cart;
+  //          console.log(' product updatedItems',cart);
            
-           // Dispatch action with the updated cart items
-           dispatch(addToCart({
-            cart
-           }));
+  //          // Dispatch action with the updated cart items
+  //          dispatch(addToCart({
+  //           cart
+  //          }));
         
-      toast.success("Product added to cart successfully!", {
-        position: "top-right",
-        autoClose: 3000,
-        closeOnClick: true,
-      });
-    } catch (error) {
-      console.error('Error adding product to cart:', error);
-      toast.error("Failed to add product to cart. Please try again.", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
-    }
-  };
+  //     toast.success("Product added to cart successfully!", {
+  //       position: "top-right",
+  //       autoClose: 3000,
+  //       closeOnClick: true,
+  //     });
+  //   } catch (error) {
+  //     console.error('Error adding product to cart:', error);
+  //     toast.error("Failed to add product to cart. Please try again.", {
+  //       position: "top-right",
+  //       autoClose: 3000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "light",
+  //     });
+  //   }
+  // };
 
+    const handleVewToCart = async (productId) => {
+    console.log('pid',productId);
+    
+       navigate(`/shop/${productId}`)
+      
+  };
  
    // Handle adding to wishlist with mutation
    const handleAddToWishlist = async (product) => {
@@ -109,10 +116,9 @@ const ProductCards = ({ products }) => {
         {products && products.map((product, index) => (
           <div
             key={index}
-            className={`relative bg-gradient-to-r from-red-100 via-gray-200 to-red-100 text-white rounded-xl shadow-lg 
+            className={`relative bg-gradient-to-r from-pink-50 via-pink-50 to-pink-50 text-white rounded-xl shadow-lg 
               overflow-hidden hover:scale-105 transition-transform duration-300 `}
               // ${product.stock === 0 ? 'opacity-75' : ''  }`
-            
           >
 
             <div className="relative">
@@ -159,12 +165,13 @@ const ProductCards = ({ products }) => {
                     // onClick={() => handleAddToCart(product)}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleAddToCart( product,product.sizes[0],product.images[0],product.color)
+                      // handleAddToCart( product,product.sizes[0],product.images[0],product.color)
+                      handleVewToCart( product._id)
                   }}
                     disabled={isLoading}
-                    className="text-sm rounded-md bg-orange-500 px- py-2 w-full text-white hover:bg-orange-700"
+                    className="text-sm rounded-md bg-orange-500 px- py-2 w-full text-white hover:bg-orange-600"
                   >
-                    {isLoading ? 'Adding...' : <i className="ri-shopping-cart-2-line"> Add to Cart</i>  }
+                    {isLoading ? 'Adding...' : <i className="ri-shopping-cart-2-line"> View Cart</i>  }
                   </button>
                 
 
@@ -217,6 +224,7 @@ const ProductCards = ({ products }) => {
   //               <p className={product.stock > 0 ? 'text-green-400' : 'text-red-400'}>
   //                 {product.stock > 0 ? `In Stock: ${product.stock}` : 'Out of Stock'}
   //               </p>
+  
   //             </div>
   //             <div className="flex justify-between text-sm">
   //               <p className="text-green-400">${product.price}</p>

@@ -11,8 +11,8 @@ const CartModal = ({products, isOpen, onClose }) => {
   const dispatch = useDispatch();
   const teno = JSON.parse(localStorage.getItem("user"))
 
-  const cart3=useSelector((state) => state?.cart?.cart?.items)
-  console.log('cart value',cart3)
+  // const cart3=useSelector((state) => state?.cart?.cart?.items)
+  // console.log('cart value',cart3)
   
 
   const { data: cart, isLoading, isError } = useGetSingleCartQuery(teno?._id);
@@ -177,9 +177,9 @@ const CartModal = ({products, isOpen, onClose }) => {
                       </div>
 
                       <div className='flex flex-row' >
-                        <h5 className='text-sm font-medium text-gray-800'>Size : <span className='text-gray-500'>{item?.product?.sizes} , </span></h5>
+                        <h5 className='text-sm font-medium text-gray-800'>Size : <span className='text-gray-500'>{item?.product?.sizes[0]} , </span></h5>
                       
-                        <p className='text-gray-800  font-medium  text-sm'> Color : <span className='text-gray-500'>{item?.product?.color}</span></p>
+                        <p className='text-gray-800  font-medium  text-sm'> Color : <span className='text-gray-500'>{item?.product?.color[0]}</span></p>
                       </div>
 
                       <p ><span className='text-gray-600 text-sm'>${Number(item?.product?.price).toFixed(2)}</span></p>
@@ -207,7 +207,7 @@ const CartModal = ({products, isOpen, onClose }) => {
             {/* calculation */}
             {
               // products?.length > 0 && (<OrderSummary />)
-              cart?.items?.length > 0 && (<OrderSummary />)
+              cart?.items?.length > 0 && (<OrderSummary  onClose={onClose} />)
             }
           </div>
         </div>
@@ -218,7 +218,6 @@ const CartModal = ({products, isOpen, onClose }) => {
 }
 
 export default CartModal
-
 
 
 

@@ -36,7 +36,7 @@ export default function SaleOff() {
 //   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12 my-8 relative">
+    <div className="max-w-full mx-auto px-4 py-12 my-8 relative">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold mb-4">SALE OFF</h2>
         <p className="text-gray-600">Mirum est notare quam littera gothica quam nunc putamus parum claram!</p>
@@ -62,7 +62,7 @@ export default function SaleOff() {
             {product.isNew && (
               <span className="absolute top-4 left-4 bg-cyan-400 text-white px-3 py-1 text-sm rounded-full">New</span>
             )}
-            <div className="aspect-square bg-gray-100 mb-4 overflow-hidden">
+            <div className="aspect-square bg-gray-100 mb-4 rounded-2xl overflow-hidden">
               <img
                 src={product.image || "/placeholder.svg"}
                 alt={product.name}

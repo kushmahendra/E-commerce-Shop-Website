@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
-const OrderSummary = () => {
+const OrderSummary = ({onClose}) => {
   // const products=useSelector((store)=> store.cart.products);
   // console.log('prd',products)
 
@@ -52,13 +52,13 @@ const OrderSummary = () => {
   // console.log('Values:', selectedItems, totalPrice, tax, taxRate, grandTotal);
 
   // const dispatch=useDispatch()
-console.log('values', selectedItems, totalPrice, tax, taxRate, grandTotal);
+// console.log('values', selectedItems, totalPrice, tax, taxRate, grandTotal);
 
   
 
   // const teno = JSON.parse(localStorage.getItem("user"))
-  console.log('User:', teno);
-  console.log('ajjj', teno._id)
+  // console.log('User:', teno);
+  // console.log('ajjj', teno._id)
 
   const [clearCart, { isLoading, isError }] = useClearCartMutation();
 
@@ -98,6 +98,7 @@ console.log('values', selectedItems, totalPrice, tax, taxRate, grandTotal);
 
 
   const handleProceedCheckout = () => {
+    onClose();
     navigate('/checkout'); // Replace with your actual checkout route
   };
 

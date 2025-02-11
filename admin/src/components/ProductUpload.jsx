@@ -12,11 +12,11 @@ export default function ProductUpload({ onAddProduct }) {
     category: '',
     price: '',
     oldPrice: '',
-    color: '',
+    color: ['red', 'blue', 'green', 'yellow', 'black', 'white',  'orange', 'purple', 'pink', 'brown', 'golden', 'gray','silver' ],
     // rating: '',
     // image: null,
     images: [], // Updated to handle multiple images
-    sizes: ['M'], // Default size from schema
+    sizes:['S','M', 'L', 'XL', 'XXL'], // Default size from schema
     stock: '',
     author: '6772806c0361a7f113ef0fd1',
   });
@@ -155,10 +155,10 @@ export default function ProductUpload({ onAddProduct }) {
       category: '',
       price: '',
       oldPrice: '',
-      color: '',
+      color: ['red', 'blue', 'green', 'yellow', 'black', 'white',  'orange', 'purple', 'pink', 'brown', 'golden', 'gray','silver' ],
       // rating: '',
       images: [],
-      sizes: ['M'], // Default size from schema
+      sizes:['S','M', 'L', 'XL', 'XXL'], // Default size from schema
       stock: '',
       author: '6772806c0361a7f113ef0fd1',
     });

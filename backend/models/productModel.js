@@ -13,14 +13,14 @@ const productSchema = new mongoose.Schema({
     sizes: { 
       type: [String], 
       enum: ['S', 'M', 'L', 'XL', 'XXL'], 
-      default: ['M']  // Default size set to 'M'
+      default: ['S','M', 'L', 'XL', 'XXL']  // Default size set to 'M'
   },
 
   
     color: {
-        type: String,
+        type: [String],
         enum: ['red', 'blue', 'green', 'yellow', 'black', 'white',  'orange', 'purple', 'pink', 'brown', 'golden', 'gray','silver' ], // Allowed colors
-        default: 'black', // Default color
+        default: ['red', 'blue', 'green', 'yellow', 'black', 'white',  'orange', 'purple', 'pink', 'brown', 'golden', 'gray','silver' ], // Default color
       },
       
    

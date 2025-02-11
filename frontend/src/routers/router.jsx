@@ -25,7 +25,7 @@ import TermsAndConditions from "../components/TermsAndConditions";
 import DeliveryPage from "../components/DeliveryPage";
 import Stores from "../components/Stores";
 import Faqs from "../components/Faqs";
-import Test from "../components/Test";
+
 
 
 const router = createBrowserRouter([
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
         {path:"/delivery", element:<DeliveryPage/>},
         {path:"/stores",element:<Stores/>},
         {path:"faqs", element:<Faqs/>},
-        {path:"/test", element:<Test/>},
+     
 
         {path:'/profile', element:(
           <ProtectedRoute>

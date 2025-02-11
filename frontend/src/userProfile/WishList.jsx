@@ -77,43 +77,52 @@ console.log('www',wishlistItems);
   //     const response = await 
   //     addsToCart({ productId:item.product._id, userId,size:item.product.sizes[0],image:item.product.images[0],color:item.product.color}).unwrap();
   //     console.log("Product added to cart:", response);
-  const handleAddToCart = async (item) => {
-  if (!item?.product) return;
-  try {
-  const { _id, sizes, images, color } = item.product;
-     const response= await addsToCart({
-        productId: _id,
-        userId,
-        size: sizes?.[0] || "M",
-        image: images?.[0] || "",
-        color: color || "black",
-      }).unwrap();
-      console.log("Product added to cart:", response);
+
+
+  // const handleAddToCart = async (item) => {
+  // if (!item?.product) return;
+  // try {
+  // const { _id, sizes, images, color } = item.product;
+  //    const response= await addsToCart({
+  //       productId: _id,
+  //       userId,
+  //       size: sizes?.[0] || "M",
+  //       image: images?.[0] || "",
+  //       color: color || "black",
+  //     }).unwrap();
+  //     console.log("Product added to cart:", response);
   
-      // dispatch(addToCart({ ...item, userId: user._id }));
-      dispatch(addToCart(response));
+  //     // dispatch(addToCart({ ...item, userId: user._id }));
+  //     dispatch(addToCart(response));
   
-      toast.success(`${item?.product?.name} added to cart successfully!`, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
-    } catch (error) {
-      console.error("Error adding product to cart:", error);
-      toast.error(`Failed to add ${item?.product?.name} to cart. Please try again.`, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
-    }
+  //     toast.success(`${item?.product?.name} added to cart successfully!`, {
+  //       position: "top-right",
+  //       autoClose: 3000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "light",
+  //     });
+  //   } catch (error) {
+  //     console.error("Error adding product to cart:", error);
+  //     toast.error(`Failed to add ${item?.product?.name} to cart. Please try again.`, {
+  //       position: "top-right",
+  //       autoClose: 3000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "light",
+  //     });
+  //   }
+  // };
+
+  const handleVewToCart = async (productId) => {
+    console.log('pid',productId);
+    
+       navigate(`/shop/${productId}`)
+      
   };
 
    // Remove from wishlist
@@ -173,7 +182,7 @@ console.log('www',wishlistItems);
                 <div
                   key={item?.product?._id}
                   // className="bg-white rounded-lg shadow-sm overflow-hidden"
-                  className={`relative bg-gradient-to-r from-red-100 via-gray-200 to-red-100 text-white rounded-xl shadow-lg 
+                  className={`relative bg-gradient-to-r from-pink-50 via-pink-50 to-pink-50 text-white rounded-xl shadow-lg 
                     overflow-hidden hover:scale-105 transition-transform duration-300 `}
                 >
                   <div className="aspect-square relative">
@@ -205,13 +214,13 @@ console.log('www',wishlistItems);
                         // }`}
                         // disabled={!item?.product?.stock || isLoading}
                         onClick={() =>
-                          handleAddToCart(item)
+                          handleVewToCart( item?.product?._id)
                           
                           //  handleAddToCart(item.product._id,item.product.sizes[0],item.product.images[0],item.product.color)
                           }
                           className=" w-full py-1 px-1 rounded-md bg-orange-600 hover:bg-red-600 text-white"
                       >
-                        {isLoading ? "Adding..." :<i className="ri-shopping-cart-2-line"></i> }
+                        {isLoading ? "Adding..." :<i className="ri-shopping-cart-2-line">Vew</i> }
                       </button>
                       <button
                         // onClick={() => dispatch(removeFromWishlist(item._id))}

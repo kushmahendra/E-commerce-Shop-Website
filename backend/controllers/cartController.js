@@ -4,18 +4,16 @@ import { Cart } from '../models/cartAndCartItemModel.js';
 
 
 // Add an item to the cart
-const handleAddCart=async (req, res) => {
+const handleAddCart = async (req, res) => {
   try {
-    // const { userId, _id:productId, quantity=1,selectedImageIndex } = req.body;
-    const { userId, productId, quantity=1, size = 'M',color = "black", image  } = req.body;
+    const { userId, productId, quantity = 1, size = 'M', color = "black", image } = req.body;
 
-    console.log('id',userId)
-    console.log('Pid',productId)
-    console.log('q',quantity)
+    console.log('id', userId);
+    console.log('Pid', productId);
+    console.log('q', quantity);
     console.log('Size:', size);
     console.log("Color:", color);
     console.log("Image:", image);
-
 
     if (!userId || !productId || !quantity || quantity <= 0) {
       return res.status(400).json({ message: 'Invalid input data' });
@@ -26,65 +24,43 @@ const handleAddCart=async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-      //first update size and then check
-      
-      //  // Validate if selected size is available for this product
-      //  if (!product.sizes.includes(size)) {
-      //   return res.status(400).json({ 
-      //     message: `Invalid size. Available sizes for this product: ${product.sizes.join(', ')}` 
-      //   });
-      // }
-
-       // Validate if selected color is available
-    // if (!product.color.includes(color)) {
-    //   return res.status(400).json({
-    //     message: `Invalid color. Available colors: ${product.color.join(", ")}`,
-    //   });
-    
-
     let cart = await Cart.findOne({ user: userId }).populate({
-      path: "items.product", // Populate the product field
-      model: "Product", // Reference the Product model
-      select: "name price images category description stock sizes color", // Select only required fields
+      path: "items.product", 
+      model: "Product",
+      select: "name price images category description stock sizes color",
     });
 
-
-    console.log('huhuhuhuhu',cart);
-    
+    console.log('Existing cart product:', cart?.items[0]?.product);
 
     if (!cart) {
       cart = new Cart({ user: userId, items: [] });
     }
 
-    // const existingCartItemIndex = cart.items.findIndex(
-    //   (item) => item.product.toString() === productId
-    // );
-    // console.log('cartitemindex',existingCartItemIndex );
-
- // Check if the product with the same size and color already exists in the cart
- const existingCartItemIndex = cart.items.findIndex(
-  (item) => {
-    
-    
-    console.log('sfjhjhsjfsf',item.product._id.toString()===productId.toString())
-    return item.product._id.toString() === productId.toString() && item.product.sizes[0] === size && item.product.color === color 
-    // item.product._id === productId && item.product.sizes[0] === size && item.product.color === color
-  }
-);
-
+    // Check if the product with the same size and color already exists in the cart
+    const existingCartItemIndex = cart.items.findIndex(item => {
+      return (
+        item.product._id.toString() === productId.toString() &&
+        item.product.sizes.includes(size) && 
+        item.product.color.includes(color)
+      );
+    });
 
     if (existingCartItemIndex > -1) {
+      // Update quantity and total price
       cart.items[existingCartItemIndex].quantity += quantity;
       cart.items[existingCartItemIndex].totalPrice =
-        cart.items[existingCartItemIndex].quantity * product.price;
-    } else {
-      // cart.items.push({
-      //   product: productId,
-      //   quantity,
-      //   totalPrice: product.price * quantity,
-      // });
+      cart.items[existingCartItemIndex].quantity * product.price;
 
-         // Add a new product to the cart
+      // // ✅ Ensure that the size is part of the array without overriding existing sizes
+      // if (!cart.items[existingCartItemIndex].product.sizes.includes(size)) {
+      //   cart.items[existingCartItemIndex].product.sizes.push(size);
+      // }
+
+      cart.items[existingCartItemIndex].product.images = [image]; // Always replace with a single image
+      cart.items[existingCartItemIndex].product.color = [color];
+      cart.items[existingCartItemIndex].product.sizes = [size];
+    } else {
+      // Add a new product to the cart
       cart.items.push({
         product: {
           _id: product._id,
@@ -92,27 +68,22 @@ const handleAddCart=async (req, res) => {
           price: product.price,
           category: product.category,
           description: product.description,
-          images:image, 
-          // images: product.images, 
-        
-          sizes:size,
-          color:color,
+          images: [image],
+          sizes: [size], // ✅ Store sizes as an array
+          color: [color],
           rating: product.rating,
           stock: product.stock,
           oldPrice: product.oldPrice,
         },
-      
         quantity,
         totalPrice: product.price * quantity,
-    
       });
     }
-    console.log('cartItemIndex',existingCartItemIndex);
 
-    cart.totalCartPrice = cart.items.reduce(
-      (sum, item) => sum + item.totalPrice,
-      0
-    );
+    console.log('Added cart item:', cart.items);
+    console.log('Cart Item Index:', existingCartItemIndex);
+
+    cart.totalCartPrice = cart.items.reduce((sum, item) => sum + item.totalPrice, 0);
 
     await cart.save();
     res.status(200).json({ message: 'Cart updated', cart });
@@ -120,6 +91,7 @@ const handleAddCart=async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 };
+
 
 // Get the cart for a user
 const handleGetSingleCart=async (req, res) => {
@@ -199,7 +171,6 @@ const handleUpdateCartItem = async (req, res) => {
     return res.status(500).json({ message: 'Internal Server Error', error: error.message });
 }
 };
-
 
 
 //handle update
