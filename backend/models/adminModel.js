@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+
 const adminSchema = new mongoose.Schema({
     adminName: {
         type: String,
@@ -20,9 +21,16 @@ const adminSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    blogs:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Blog",
+        }
+       
+    ]
 });
 
 
-const Admin = mongoose.model('Admin', adminSchema); // Corrected "Model" to "model"
+const Admin = mongoose.model('Admin', adminSchema); 
 
 export default Admin;

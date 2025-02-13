@@ -16,6 +16,7 @@ import orderRoute from './routes/ordersRoute.js';
 // import cartItemRoute from './routes/cartItemRoute.js';
 import cartRoute from './routes/cartRoute.js';
 import wishlistRoute from './routes/wishlistRoute.js';
+import blogRoute from './routes/blogRoute.js';
 
 
 dotenv.config();
@@ -58,6 +59,7 @@ app.use('/api',orderRoute);
 // app.use('/api',cartItemRoute)
 app.use('/api',cartRoute);
 app.use('/api',wishlistRoute)
+app.use('/api',blogRoute)
 
 const PORT = process.env.PORT
 

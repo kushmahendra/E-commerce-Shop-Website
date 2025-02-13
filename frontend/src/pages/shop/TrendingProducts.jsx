@@ -4,7 +4,6 @@ import ProductCards from './ProductCards'
 import { getBaseUrl } from '../../utils/baseURL'
 
 
-
 const TrendingProducts = () => {
     const [visibleProducts,setVisibleProducts]=useState(8)
     const [products,setProducts] = useState([]);

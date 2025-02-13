@@ -70,6 +70,26 @@ const handleRegister=async(req,res)=>
             res.status(500).json("server internal error")
         }
     };
+
+// Get Admin by ID with Blogs
+const handleGetBlogByID=async (req, res) => {
+    try {
+        const { adminId } = req.params;
+
+        // Fetch admin and populate blogs
+        const admin = await Admin.findById(adminId).populate("blogs");
+
+        if (!admin) {
+            return res.status(404).json({ message: "Admin not found" });
+        }
+
+        return res.status(200).json({ message: "Admin fetched successfully", admin });
+    } catch (error) {
+        console.error("Error fetching admin:", error);
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+};
+
 //update admin details
     const handleAdminUpdate=async(req,res)=>
         {
@@ -93,4 +113,4 @@ const handleRegister=async(req,res)=>
 
 
 
-export {handleLogin,handleRegister,handleAdminUpdate};
+export {handleLogin,handleRegister,handleAdminUpdate,handleGetBlogByID};
