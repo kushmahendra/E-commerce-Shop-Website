@@ -5,10 +5,10 @@ export default function SaleOff() {
 
   const products = [
     { id: 1, name: "Cotton Twill Swetter", price: 29.0, rating: 4, image: "img418.jpg", isNew: true },
-    { id: 2, name: "Crest Design Women's", price: 11.9, rating: 4, image: "img419.jpg", isNew: true },
-    { id: 3, name: "Traditional Saree with Jewelry", price: 11.9, rating: 4, image: "img420.jpg", isNew: true },
-    { id: 4, name: "Elegant Earrings for Women ", price: 11.9, rating: 4, image: "img421.jpg", isNew: true },
-    { id: 5, name: "Necklace Women`s", price: 11.9, rating: 4, image: "img422.jpg", isNew: true },
+    { id: 2, name: "Crest Design Women's", price: 11.0, rating: 4, image: "img419.jpg", isNew: true },
+    { id: 3, name: "Traditional Saree with Jewelry", price: 16.9, rating: 4, image: "img420.jpg", isNew: true },
+    { id: 4, name: "Elegant Earrings for Women ", price: 18.9, rating: 4, image: "img421.jpg", isNew: true },
+    { id: 5, name: "Necklace Women`s", price: 20.9, rating: 4, image: "img422.jpg", isNew: true },
   
   ];
 

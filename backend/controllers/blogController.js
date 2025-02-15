@@ -49,6 +49,7 @@ const handleGetBlog = async (req, res) => {
     }
 };
 
+
 //get all blogs
 const handleGetAllBlog = async (req, res) => {
     try {

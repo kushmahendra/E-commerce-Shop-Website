@@ -3,10 +3,11 @@ import Product from '../models/productModel.js';
 import { Cart } from '../models/cartAndCartItemModel.js';
 
 
+
 // Add an item to the cart
 const handleAddCart = async (req, res) => {
   try {
-    const { userId, productId, quantity = 1, size = 'M', color = "black", image } = req.body;
+    const { userId, productId, quantity = 1, size = 'M', color = "black", image ,volume = "50ml" } = req.body;
 
     console.log('id', userId);
     console.log('Pid', productId);
@@ -59,6 +60,7 @@ const handleAddCart = async (req, res) => {
       cart.items[existingCartItemIndex].product.images = [image]; // Always replace with a single image
       cart.items[existingCartItemIndex].product.color = [color];
       cart.items[existingCartItemIndex].product.sizes = [size];
+      cart.items[existingCartItemIndex].product.volume = [volume];
     } else {
       // Add a new product to the cart
       cart.items.push({
@@ -71,6 +73,7 @@ const handleAddCart = async (req, res) => {
           images: [image],
           sizes: [size], // ✅ Store sizes as an array
           color: [color],
+          volume: [volume],
           rating: product.rating,
           stock: product.stock,
           oldPrice: product.oldPrice,

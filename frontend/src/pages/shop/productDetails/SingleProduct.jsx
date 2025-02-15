@@ -124,8 +124,8 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const { data, error, isLoading } = useFetchProductByIdQuery(id);
   const [addsToCart] = useAddsToCartMutation();
-  const [ updateCartItem]=useUpdateCartItemMutation();
- 
+  const [updateCartItem] = useUpdateCartItemMutation();
+
 
   const product = data?.product || {};
   const productReviews = data?.reviews || [];
@@ -135,6 +135,7 @@ const SingleProduct = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedVolume,setSelectedVolume]=useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   // const images=product?.images
 
@@ -159,29 +160,29 @@ const SingleProduct = () => {
   const increaseQuantity = () => setQuantity(quantity + 1);
   const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
-  const handleAddToCart = async (product,quantity,selectedImage,selectedSize,selectedColor) => {
-  
+  const handleAddToCart = async (product, quantity, selectedImage, selectedSize, selectedColor,selectedVolume ) => {
+
     try {
       // const cartProduct = { ...product, quantity };
       console.log('ppp', product);
-    
-      
-      
+
+
+
       const cartProduct = {
-        userId: user?._id, productId:product._id,quantity, image: images[selectedImage] || images[0], size: selectedSize || "M",
-          color:selectedColor || "black",
+        userId: user?._id, productId: product._id, quantity, image: images[selectedImage] || images[0], size: selectedSize || "M",
+        color: selectedColor || "black",volume:selectedVolume ||"50ml"
       };
 
-    console.log('ddd', cartProduct)
-    
-      const response = await addsToCart(cartProduct).unwrap();
-     
-      
-  const response2=response?.cart
-  console.log('single product rrrrss2', response2);
-       
+      console.log('ddd', cartProduct)
 
-      dispatch(addToCart( response2));
+      const response = await addsToCart(cartProduct).unwrap();
+
+
+      const response2 = response?.cart
+      console.log('single product rrrrss2', response2);
+
+
+      dispatch(addToCart(response2));
 
       toast.success("Product added to cart successfully", { position: "top-right", autoClose: 3000 });
     } catch (error) {
@@ -199,7 +200,7 @@ const SingleProduct = () => {
 
   return (
     <>
-    
+
       <div className='mt-20'>
         <section className='section__container bg-primary-light'>
           <h2 className='section__header capitalize' >Product Page</h2>
@@ -314,20 +315,45 @@ const SingleProduct = () => {
                     </div>
                   </div> */}
                     {/* Sizes Selection */}
-                    <div>
-                      <h4 className="text-gray-700 font-medium">Size</h4>
-                      <div className="flex space-x-2 mt-2">
-                        {['S', 'M', 'L', 'XL','XXL'].map(size => (
-                          <button
-                            key={size}
-                            className={`px-3 py-1 border ${selectedSize === size ? "border-black" : "border-gray-300"} rounded-lg hover:border-black`}
-                            onClick={() => setSelectedSize(size)}
-                          >
-                            {size}
-                          </button>
-                        ))}
+                    {["dress"].includes(product.category) && (
+
+                      <div>
+                        <h4 className="text-gray-700 font-medium">Size</h4>
+                        <div className="flex space-x-2 mt-2">
+                          {['S', 'M', 'L', 'XL', 'XXL'].map(size => (
+                            <button
+                              key={size}
+                              className={`px-3 py-1 border ${selectedSize === size ? "border-black" : "border-gray-300"} rounded-lg hover:border-black`}
+                              onClick={() => setSelectedSize(size)}
+                            >
+                              {size}
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+
+                    )}
+
+                    {/* Volume of cosmetics */}
+
+                    {["cosmetics"].includes(product.category) && (
+                      <div>
+                        <h4 className="text-gray-700 font-medium">Volume</h4>
+                        <div className="flex space-x-2 mt-2">
+                          {['50ml', '100ml', '250ml', '500ml'].map((volume) => (
+                            <button
+                              key={volume}
+                              className={`px-3 py-1 border ${selectedVolume === volume ? "border-black" : "border-gray-300"
+                                } rounded-lg hover:border-black`}
+                              onClick={() => setSelectedVolume(volume)}
+                            >
+                              {volume}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
 
                     {/* Colors */}
                     {/* <div>
@@ -347,7 +373,7 @@ const SingleProduct = () => {
                               } ${color.class}`}
                             onClick={() => setSelectedColor(color.name)}
                           >
-                            
+
                           </button>
                         ))}
                       </div>
@@ -380,7 +406,7 @@ const SingleProduct = () => {
 
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleAddToCart(product,quantity,selectedImage,selectedSize,selectedColor)
+                      handleAddToCart(product, quantity, selectedImage, selectedSize, selectedColor,selectedVolume )
                     }
                     }
                     className="flex-1 bg-orange-500 hover:bg-orange-700  text-white py-2 rounded-lg text-center">
@@ -390,7 +416,7 @@ const SingleProduct = () => {
                 </div>
               </div>
             </div>
-            
+
 
             {/* Reviews Section */}
             <div className="mt-10">

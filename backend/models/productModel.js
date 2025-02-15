@@ -16,7 +16,11 @@ const productSchema = new mongoose.Schema({
       default: ['S','M', 'L', 'XL', 'XXL']  // Default size set to 'M'
   },
 
-  
+  volume: {
+    type: [String],
+    enum: ['50ml', '100ml', '250ml', '500ml', '1000ml'],
+    default: [],
+  },
     color: {
         type: [String],
         enum: ['red', 'blue', 'green', 'yellow', 'black', 'white',  'orange', 'purple', 'pink', 'brown', 'golden', 'gray','silver' ], // Allowed colors
