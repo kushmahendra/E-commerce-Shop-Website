@@ -1,7 +1,7 @@
 import express from 'express'
 import ShopUser from '../models/User.js'
 import bcrypt from 'bcrypt';
-import { generateToken } from '../middlewares/authMiddleWare.js';
+import { generateToken } from '../middlewares/authMiddleware.js';
 
 
 
