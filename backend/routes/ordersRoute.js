@@ -1,6 +1,6 @@
 import express from 'express'
 import { handleCreateOrders,handleGetAllOrders,handleSingleUserOrders,handleUpdateStatus,handleDeleteOrder,handleRazorPay,handleOrders,handleverifyRazorpay } from '../controllers/ordersController.js'
-import { verifyToken } from '../middlewares/authMiddleWare.js';
+import { verifyToken } from '../middlewares/authMiddleware.js';
 // import { adminVerifyToken } from '../middlewares/adminMiddleware.js';
 
 const orderRoute=express.Router();
