@@ -14,8 +14,7 @@ The E-Commerce Shopping Website is a full-featured online store that enables use
 - Reviews and ratings for products
 
 
-![Screenshot](./public/Screenshot-Home1.png)
-
+<img src="./public/Screenshot-Home1.png">
 
 
 ## Technologies Used
