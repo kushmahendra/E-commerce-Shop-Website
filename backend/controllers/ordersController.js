@@ -4,19 +4,19 @@ import Order from '../models/ordersModel.js';
 import ShopUser from '../models/User.js';
 import { Cart, CartItem } from '../models/cartAndCartItemModel.js';
 import mongoose from 'mongoose';
-import Razorpay from 'razorpay';
+// import Razorpay from 'razorpay';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Global Variables
-const currency = 'INR';
-const deliveryCharge = 10;
+// // Global Variables
+// const currency = 'INR';
+// const deliveryCharge = 10;
 
-const razorpayInstance = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+// const razorpayInstance = new Razorpay({
+//   key_id: process.env.RAZORPAY_KEY_ID,
+//   key_secret: process.env.RAZORPAY_KEY_SECRET,
+// });
 
 // 1. Create a New Order
 
@@ -105,80 +105,80 @@ const handleCreateOrders = async (req, res) => {
 };
 
 
-//RazorPay
-const handleRazorPay=async(req,res)=>
-{
-  try {
-    const {userId , items, totalAmount, addressInfo } = req.body;
-    // const userId = req.userId;
+// //RazorPay
+// const handleRazorPay=async(req,res)=>
+// {
+//   try {
+//     const {userId , items, totalAmount, addressInfo } = req.body;
+//     // const userId = req.userId;
 
-    console.log('User ID:', userId);
-    console.log('Items:', items);
-    console.log('Total Amount:', totalAmount);
-    console.log('Addresses:', addressInfo);
+//     console.log('User ID:', userId);
+//     console.log('Items:', items);
+//     console.log('Total Amount:', totalAmount);
+//     console.log('Addresses:', addressInfo);
 
    
-    const cart = await Cart.findOne({ 'user': userId });
+//     const cart = await Cart.findOne({ 'user': userId });
 
-    if (!cart) {
-      return res.status(400).json({ message: 'Cart not found for this user' });
-    }
+//     if (!cart) {
+//       return res.status(400).json({ message: 'Cart not found for this user' });
+//     }
 
-    // Create the new order with validated items
-    const newOrder = await Order.create({
-      userId,
-      items,
-      totalAmount,
-      addressInfo,
-      orderStatus: 'Pending',
-      paymentMethod: 'RazorPay',
-      paymentStatus,
+//     // Create the new order with validated items
+//     const newOrder = await Order.create({
+//       userId,
+//       items,
+//       totalAmount,
+//       addressInfo,
+//       orderStatus: 'Pending',
+//       paymentMethod: 'RazorPay',
+//       paymentStatus,
       
-      orderDate: Date.now(),
-    });
+//       orderDate: Date.now(),
+//     });
 
-    // Razorpay order creation options
-    const options = {
-      amount: totalAmount * 100, // Amount in smallest currency unit (e.g., paise for INR)
-      currency: currency,
-      receipt: newOrder._id.toString(),
-    };
+//     // Razorpay order creation options
+//     const options = {
+//       amount: totalAmount * 100, // Amount in smallest currency unit (e.g., paise for INR)
+//       currency: currency,
+//       receipt: newOrder._id.toString(),
+//     };
 
-    razorpayInstance.orders.create(options, (error, order) => {
-      if (error) {
-        console.error('Razorpay Error:', error);
-        return res.status(400).json({ message: 'Error creating Razorpay order', error });
-      }
-      res.status(200).json({ message: 'Order created successfully', order });
-    });
-  } catch (error) {
-    console.error('Internal Server Error:', error.message);
-    res.status(500).json({ message: 'Internal server error', error: error.message });
-  }
-}
+//     razorpayInstance.orders.create(options, (error, order) => {
+//       if (error) {
+//         console.error('Razorpay Error:', error);
+//         return res.status(400).json({ message: 'Error creating Razorpay order', error });
+//       }
+//       res.status(200).json({ message: 'Order created successfully', order });
+//     });
+//   } catch (error) {
+//     console.error('Internal Server Error:', error.message);
+//     res.status(500).json({ message: 'Internal server error', error: error.message });
+//   }
+// }
 
 //verify Razorpay
-const handleverifyRazorpay=async(req,res)=>
-{
-  try {
-    const {userId,razorpay_order_id}=req.body
-    const orderInfo=await razorpayInstance.orders.fetch(razorpay_order_id)
-    if(orderInfo.status==='paid')
-    {
-      await Order.findByIdAndUpdate(orderInfo.receipt,{paymentStatus:'Completed'})
-      await ShopUser.findByIdAndUpdate(userId, { $set: { cart: [] } },  { new: true }  );
-      res.json({message:"Payment Successful"})
-    }
-    else
-    {
-      res.json({message:"Payment Failed"})
-    }
-    console.log('odinf', orderInfo)
-  } catch (error) {
-    console.error('Internal Server Error:', error.message);
-    res.status(500).json({ message: 'Internal server error', error: error.message });
-  }
-}
+// const handleverifyRazorpay=async(req,res)=>
+// {
+//   try {
+//     const {userId,razorpay_order_id}=req.body
+//     const orderInfo=await razorpayInstance.orders.fetch(razorpay_order_id)
+//     if(orderInfo.status==='paid')
+//     {
+//       await Order.findByIdAndUpdate(orderInfo.receipt,{paymentStatus:'Completed'})
+//       await ShopUser.findByIdAndUpdate(userId, { $set: { cart: [] } },  { new: true }  );
+//       res.json({message:"Payment Successful"})
+//     }
+//     else
+//     {
+//       res.json({message:"Payment Failed"})
+//     }
+//     console.log('odinf', orderInfo)
+//   } catch (error) {
+//     console.error('Internal Server Error:', error.message);
+//     res.status(500).json({ message: 'Internal server error', error: error.message });
+//   }
+// }
 
 //orders
 const handleOrders=async(req,res)=>
@@ -306,9 +306,9 @@ export {
   handleSingleUserOrders,
   handleUpdateStatus,
   handleDeleteOrder,
-  handleRazorPay,
+  // handleRazorPay,
   handleOrders,
-  handleverifyRazorpay
+  // handleverifyRazorpay
 };
 
 
