@@ -57,7 +57,8 @@ const Register = () => {
   };
 
   return (<>
-
+            <main className="bg-[url('https://static.vecteezy.com/system/resources/previews/004/417/423/non_2x/shopping-online-on-phone-with-podium-paper-art-modern-pink-background-gifts-box-illustration-vector.jpg')] bg-cover bg-center h-screen w-full">
+  
     <section className="h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md border shadow bg-white rounded-lg p-8">
         <h2 className="text-2xl font-semibold text-center">Create an Account</h2>
@@ -89,7 +90,7 @@ const Register = () => {
             id="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="Email Address eg. john3@gmail.com"
+            placeholder="Email eg. john3@gmail.com"
             required
             className="w-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 px-5 py-3 rounded-md"
             aria-label="Email Address"
@@ -134,6 +135,7 @@ const Register = () => {
         </p>
       </div>
     </section>
+    </main>
   </>
   );
 };

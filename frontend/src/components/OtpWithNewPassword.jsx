@@ -47,8 +47,11 @@ const OtpWithNewPassword = () => {
 
     return (
         <>
-            
-            <section className='h-screen flex items-center justify-center'>
+
+       <main className='bg-[url("https://plus.unsplash.com/premium_photo-1672883551967-ab11316526b4?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8c2hvcHBpbmd8ZW58MHx8MHx8fDA%3D")] 
+       bg-cover bg-center bg-no-repeat bg-fixed h-screen w-full'>
+   
+           <section className='h-screen flex items-center justify-center'>
                 <div className='max-w-sm border shadow bg-white mx-auto p-8'>
                     <h2 className='text-2xl font-semibold pt-5'>Reset Your Password</h2>
                     <form onSubmit={handleResetPassword} className='space-y-5 pt-8'>
@@ -90,6 +93,7 @@ const OtpWithNewPassword = () => {
                     </form>
                 </div>
             </section>
+            </main>
         </>
     );
 };

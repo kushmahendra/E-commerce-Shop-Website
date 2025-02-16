@@ -62,6 +62,8 @@ const Login = () => {
   return (
 
     <>
+    <div className="bg-[url('https://static.vecteezy.com/system/resources/previews/004/299/830/non_2x/shopping-online-on-phone-with-podium-paper-art-modern-pink-background-gifts-box-illustration-free-vector.jpg')] bg-cover bg-center h-screen w-full">
+     
       <section className='h-screen flex items-center justify-center'>
         <div className='max-w-sm border shadow bg-white mx-auto p-8'>
           <h2 className='text-2xl font-semibold pt-5'>Please Login</h2>
@@ -89,6 +91,7 @@ const Login = () => {
           <p className='my-5 italic text-sm text-center'>Don't have an account ? <Link to='/register' className='text-red-700 px-1 underline'>Register</Link>  here.</p>
         </div>
       </section>
+      </div>
     </>
   )
 }

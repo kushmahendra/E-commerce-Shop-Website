@@ -6,24 +6,24 @@ const AboutUs = () => {
   const teamMembers = [
     {
       name: "Kate",
-      role: "CEO & Founder",
+      role: "Founder & Head of Retail ",
       image:
         "img77.jpeg",
-      bio: "Sed ut perspiciatis unde omnis iste natuser rorsit accusantium doloremque laudan.",
+      bio: "Visionary leader driving the brand's success and innovation.",
     },
     {
       name: "James",
-      role: "CEO & Founder",
+      role: "Chief Marketing Officer",
       image:
         "img78.jpeg",
-      bio: "Sed ut perspiciatis unde omnis iste natuser rorsit accusantium doloremque laudan.",
+      bio: "Manages operations, logistics, and ensures smooth business flow.",
     },
     {
       name: "lovee",
-      role: "CEO & Founder",
+      role: "Chief Operating Officer ",
       image:
         "img79.webp",
-      bio: "Sed ut perspiciatis unde omnis iste natuser rorsit accusantium doloremque laudan.",
+      bio: "Leads marketing strategies and brand promotion initiatives.",
     },
   ]
         return (
@@ -122,8 +122,9 @@ const AboutUs = () => {
       <div className="max-w-full mx-auto text-center">
         <h2 className="text-5xl font-bold mb-6">Our Teams</h2>
         <p className="text-gray-600 max-w-3xl mx-auto mb-16">
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Discover a world of style and convenience with our curated collection.
+         From trendsetting fashion to everyday essentials, we bring you quality and affordability in every purchase.
+         Shop with confidence and enjoy a seamless shopping experience tailored just for you!
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">

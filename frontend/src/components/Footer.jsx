@@ -1,11 +1,13 @@
 import React from 'react'
 
-import instaImg1 from '../assets/instagram-1.jpg'
-import instaImg2 from '../assets/instagram-2.jpg'
-import instaImg3 from '../assets/instagram-3.jpg'
-import instaImg4 from '../assets/instagram-4.jpg'
-import instaImg5 from '../assets/instagram-5.jpg'
-import instaImg6 from '../assets/instagram-6.jpg'
+// import instaImg1 from '../assets/instagram-1.jpg'
+// import instaImg2 from '../assets/instagram-2.jpg'
+// import instaImg3 from '../assets/instagram-3.jpg'
+// import instaImg4 from '../assets/instagram-4.jpg'
+// import instaImg5 from '../assets/instagram-5.jpg'
+// import instaImg6 from '../assets/instagram-6.jpg'
+// import instaImg6 from '../public/instaimg6.jpg';
+
 import { Link } from 'react-router-dom'
 
 const Footer = () => {
@@ -61,12 +63,24 @@ const Footer = () => {
         <div className='footer__col'>
           <h4>INSTAGRAM</h4>
           <div className='instagram__grid'>
-            <img src={instaImg1} alt="" />
+            {/* <img src={instaImg1} alt="" />
             <img src={instaImg2} alt="" />
             <img src={instaImg3} alt="" />
             <img src={instaImg4} alt="" />
             <img src={instaImg5} alt="" />
-            <img src={instaImg6} alt="" />
+            <img src={instaImg6} alt="" /> */}
+
+                 <img src="instaimg5.jpeg" alt="" />
+              
+                 <img src="instaimg3.webp" alt="" />
+                 <img src="instaimg7.jpeg" alt="" />
+                 <img src="instaimg9.webp" alt="" />
+                 <img src="instaimg1.webp" alt="" />
+                 <img src="instaimg8.webp" alt="" />
+                 <img src="instaimg10.webp" alt="" />
+                 <img src="instaimg11.webp" alt="" />
+                 <img src="instaimg12.jpeg" alt="" />
+         
           </div>
 
         </div>
