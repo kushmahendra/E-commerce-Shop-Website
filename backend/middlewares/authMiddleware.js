@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import ShopUser from '../models/User.js';
+
 
 dotenv.config();
 
