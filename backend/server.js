@@ -22,14 +22,26 @@ import blogRoute from './routes/blogRoute.js';
 dotenv.config();
 const app = express()
 
+// app.use(
+//     cors({
+//         origin:[process.env.CLIENT_URL1,process.env.CLIENT_URL2],
+//         methods:["GET","POST","PUT","DELETE"],
+//         allowedHeaders: ['Authorization', 'Content-Type'],
+//         credentials:true
+//     })
+// )
 app.use(
     cors({
-        origin:process.env.CLIENT_URL,
-        methods:["GET","POST","PUT","DELETE"],
-        allowedHeaders: ['Authorization', 'Content-Type'],
-        credentials:true
+      origin: [
+        process.env.CLIENT_URL1,
+        process.env.CLIENT_URL2
+      ].filter(Boolean), // Filters out undefined values
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["Authorization", "Content-Type"],
+      credentials: true,
     })
-)
+  );
+  
 
 // app.use(cors());
 
