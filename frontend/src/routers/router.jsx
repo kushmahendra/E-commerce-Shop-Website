@@ -74,7 +74,6 @@ const router = createBrowserRouter([
       { path: "/stores", element: <Stores /> },
       { path: "faqs", element: <Faqs /> },
 
-s
       {
         path: '/profile', element: (
           <ProtectedRoute>
