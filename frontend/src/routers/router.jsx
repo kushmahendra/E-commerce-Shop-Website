@@ -29,51 +29,115 @@ import Faqs from "../components/Faqs";
 
 
 const router = createBrowserRouter([
- 
-    {path: "/",element:<App/>,
 
-      children:[
-        { path:'/', element:<Home/> },
-        {path:'/categories/:categoryName',element: <CategoryPage/>},
-        {path:'/search',element:<Search/>},
-        {path:"/shop",element:<ShopPage/>},
-        {path:'/shop/:id', element:<SingleProduct/>},
-        {path:"/about-us", element:<AboutUs/>},
-        {path:"/contact", element:<ContactPage/>},
-        {path:"/terms-and-conditions", element:<TermsAndConditions/>},
-        {path:"/delivery", element:<DeliveryPage/>},
-        {path:"/stores",element:<Stores/>},
-        {path:"faqs", element:<Faqs/>},
-     
+  {
+    path: "/", element: <App />,
 
-        {path:'/profile', element:(
+    children: [
+      { path: '/', element: <Home /> },
+      { path: '/categories/:categoryName', element: 
+      
+        (
+          <ProtectedRoute>
+        <CategoryPage />
+          </ProtectedRoute>
+        ),
+    },
+    
+      {
+        path: '/search', element:
+          (
+            <ProtectedRoute>
+              <Search />
+            </ProtectedRoute>
+          ),
+      },
+      { path: "/shop", element: 
+        (
+          <ProtectedRoute>
+             <ShopPage />
+          </ProtectedRoute>
+        ),
+ },
+      {
+        path: '/shop/:id', element:
+          (
+            <ProtectedRoute>
+              <SingleProduct />
+            </ProtectedRoute>
+          ),
+      },
+      { path: "/about-us", element: <AboutUs /> },
+      { path: "/contact", element: <ContactPage /> },
+      { path: "/terms-and-conditions", element: <TermsAndConditions /> },
+      { path: "/delivery", element: <DeliveryPage /> },
+      { path: "/stores", element: <Stores /> },
+      { path: "faqs", element: <Faqs /> },
+
+s
+      {
+        path: '/profile', element: (
           <ProtectedRoute>
             <UserProfile />
           </ProtectedRoute>
-        ),},
-        {path:"/wishlist", element:<WishList/>},
-        {path:'/checkout',element:<Checkout/>},
-        {path:'/ordered', element:<Ordered/>},
+        ),
+      },
+      {
+        path: "/wishlist", element:
+          (
+            <ProtectedRoute>
+              <WishList />
+            </ProtectedRoute>
+          ),
+      },
+      {
+        path: '/checkout', element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/ordered', element: (
+          <ProtectedRoute>
+            <Ordered />
+          </ProtectedRoute>
+        ),
+      },
 
-        {path:"/dashboard/orders" , element:<Orders/>},
+      {
+        path: "/dashboard/orders", element:
 
-             ] 
-    },
-    
-    {path:'/login',element:<Login/>},
-    {path:'/register',element:<Register/> },
-    {path:'/forget', element:<ForgetPassword/>},
-    {path:'/Otp', element:<OtpWithNewPassword/>},
-    
+          (
+            <ProtectedRoute>
+              <Orders />
+            </ProtectedRoute>
+          ),
+      },
 
- 
-   
-    {path:'/', element:<CartModal/>},
- 
-    // {path:"/dashboard/payments" , element:<PaymentPage/>},
-  
-   
-    {path:"/pages", element:<SinglePageProduct/>},
-  
-  ]);
-  export default router
+    ]
+  },
+
+  { path: '/login', element: <Login /> },
+  { path: '/register', element: <Register /> },
+  { path: '/forget', element: <ForgetPassword /> },
+  { path: '/Otp', element: <OtpWithNewPassword /> },
+
+
+
+
+  { path: '/', element: 
+    (
+      <ProtectedRoute>
+        <CartModal /> 
+      </ProtectedRoute>
+    ),
+ },
+
+  // {path:"/dashboard/payments" , element:<PaymentPage/>},
+
+
+  { path: "/pages", element: <SinglePageProduct /> },
+
+]);
+export default router
