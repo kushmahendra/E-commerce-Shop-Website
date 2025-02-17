@@ -25,7 +25,11 @@ const App = () => {
           }
        />
           {/* Nested Route (Removed the leading slash) */}
-          <Route path='/UpdateProduct' element={<UpdateProductUpload />} />
+          <Route path='/UpdateProduct' element={
+            <ProtectedRoute>
+           <UpdateProductUpload />
+          </ProtectedRoute>
+          } />
       
       </Routes>
     </Router>
