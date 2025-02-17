@@ -176,11 +176,11 @@ const CartModal = ({products, isOpen, onClose }) => {
                         {/* <p className='text-gray-600 text-lg'>${Number(item?.product?.price).toFixed(2)}</p> */}
                       </div>
 
-                      <div className='flex flex-row' >
+{/*                       <div className='flex flex-row' >
                         <h5 className='text-sm font-medium text-gray-800'>Size : <span className='text-gray-500'>{item?.product?.sizes[0]} , </span></h5>
                       
                         <p className='text-gray-800  font-medium  text-sm'> Color : <span className='text-gray-500'>{item?.product?.color[0]}</span></p>
-                      </div>
+                      </div> */}
 
                       <p ><span className='text-gray-600 text-sm'>${Number(item?.product?.price).toFixed(2)}</span></p>
                       </div>
