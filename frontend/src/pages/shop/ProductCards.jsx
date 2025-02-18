@@ -64,10 +64,15 @@ const ProductCards = ({ products }) => {
  
    // Handle adding to wishlist with mutation
    const handleAddToWishlist = async (product) => {
+
+    if (!user?._id) {
+      toast.info("Please log in to continue", { position: "top-right", autoClose: 3000 });
+      return; // Stop the function execution if no user is logged in
+    }
     try {
       const newData={
-        productId:product._id,
-        userId: user._id 
+        productId:product?._id,
+        userId: user?._id 
       }
       const response = await addToWishlistApi(newData).unwrap(); // Use the mutation
       console.log('Response:', response);
@@ -171,7 +176,7 @@ const ProductCards = ({ products }) => {
                     disabled={isLoading}
                     className="text-sm rounded-md bg-orange-500 px- py-2 w-full text-white hover:bg-orange-600"
                   >
-                    {isLoading ? 'Adding...' : <i className="ri-shopping-cart-2-line"> View Cart</i>  }
+                    {isLoading ? 'Adding...' : <i className="ri-shopping-cart-2-line"> View Item</i>  }
                   </button>
                 
 

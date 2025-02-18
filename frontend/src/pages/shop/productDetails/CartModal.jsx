@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import OrderSummary from './OrderSummary';
 import { createDispatchHook, useDispatch, useSelector } from 'react-redux';
 // import { updateQuantity, removeFromCart, addToCart, cartFetch, setProducts, setCartId } from '../../../redux/features/cart/cartSlice';
@@ -10,10 +10,12 @@ import 'react-toastify/dist/ReactToastify.css';
 const CartModal = ({products, isOpen, onClose }) => {
   const dispatch = useDispatch();
   const teno = JSON.parse(localStorage.getItem("user"))
+  const [showPopup, setShowPopup] = useState(false);
 
   // const cart3=useSelector((state) => state?.cart?.cart?.items)
   // console.log('cart value',cart3)
   
+   
 
   const { data: cart, isLoading, isError } = useGetSingleCartQuery(teno?._id);
 
@@ -29,7 +31,7 @@ const CartModal = ({products, isOpen, onClose }) => {
   //   }
   // }, [cart])
   // console.log('ccartttt', products)
-  console.log('cart Modal value', cart)
+
 
   const handleQuantity = async (type, id, quan) => {
     const payload = { type, id }
@@ -119,10 +121,16 @@ const CartModal = ({products, isOpen, onClose }) => {
     return <p>Loading cart...</p>;
   }
 
-  if (isError) {
-    // return <p>Error fetching cart: {error?.data?.message || 'Something went wrong!'}</p>;
-    return <p>Error fetching cart: {'Something went wrong!'}</p>;
-  }
+  // if (isError) {
+  //   // return <p>Error fetching cart: {error?.data?.message || 'Something went wrong!'}</p>;
+  //   return <p> {'Something went wrong!'}</p>;
+  // }
+
+  useEffect(() => {
+    if (isError) {
+      setShowPopup(true);
+    }
+  }, [isError]);
 
   // if (!products || products?.items?.length === 0) {
   //   return <p>Your cart is empty.</p>;
@@ -133,7 +141,21 @@ const CartModal = ({products, isOpen, onClose }) => {
   // console.log('\safhasjkfhsajkfhk', products[0]?.product?.images[0])
   return (
     <>
- 
+       {/* Error Popup */}
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+            <h2 className="text-lg font-semibold text-red-600">Error</h2>
+            <p className="mt-2 text-gray-700">Something went wrong!</p>
+            <button
+              className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+              onClick={() => setShowPopup(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
       <div
         className={`fixed z-[1000] inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
@@ -176,11 +198,11 @@ const CartModal = ({products, isOpen, onClose }) => {
                         {/* <p className='text-gray-600 text-lg'>${Number(item?.product?.price).toFixed(2)}</p> */}
                       </div>
 
-                      <div className='flex flex-row' >
+                      {/* <div className='flex flex-row' >
                         <h5 className='text-sm font-medium text-gray-800'>Size : <span className='text-gray-500'>{item?.product?.sizes[0]} , </span></h5>
                       
                         <p className='text-gray-800  font-medium  text-sm'> Color : <span className='text-gray-500'>{item?.product?.color[0]}</span></p>
-                      </div>
+                      </div> */}
 
                       <p ><span className='text-gray-600 text-sm'>${Number(item?.product?.price).toFixed(2)}</span></p>
                       </div>

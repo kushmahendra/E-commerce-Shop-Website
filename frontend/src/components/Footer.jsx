@@ -59,10 +59,9 @@ const Footer = () => {
           <a href="/">Dresses</a>
         </div>
 
-
         <div className='footer__col'>
           <h4>INSTAGRAM</h4>
-          <div className='instagram__grid'>
+          <div className='grid grid-cols-3 gap-4'>
             {/* <img src={instaImg1} alt="" />
             <img src={instaImg2} alt="" />
             <img src={instaImg3} alt="" />
@@ -80,6 +79,9 @@ const Footer = () => {
                  <img src="instaimg10.webp" alt="" />
                  <img src="instaimg11.webp" alt="" />
                  <img src="instaimg12.jpeg" alt="" />
+                 <img src="instagramimg21.jpg" alt="" />
+                 <img src="instagramimg15.webp" alt="" />
+                 <img src="instagraming18.jpg" alt="" />
          
           </div>
 

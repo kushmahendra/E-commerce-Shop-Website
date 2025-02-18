@@ -40,7 +40,7 @@ export default function UserProfile() {
   const userString = localStorage.getItem("user");
   const localUser = userString ? JSON.parse(userString) : null;
   const userId = localUser?._id;
-  console.log("User ID:", userId);
+ 
 
   // Fetch user data on component mount
 
@@ -48,7 +48,7 @@ export default function UserProfile() {
     const fetchUser = async () => {
       try {
         const response = await getUser(userId).unwrap();
-        console.log('response', response);
+      
         setFormData({
           
           firstName: response?.user?.firstName || "",
@@ -78,12 +78,12 @@ export default function UserProfile() {
   }
   // Handle Image Upload
   const handleImageUpload = async (e) => {
-    const file = e.target.files?.[0];
+    const file = e.target?.files?.[0];
     if (file) {
       setUploading(true); // Start upload state
       try {
         const result = await uploadProfileImage(file);
-        console.log('Image uploaded:', result);
+   
 
         setFormData((prevData) => ({
           ...prevData,

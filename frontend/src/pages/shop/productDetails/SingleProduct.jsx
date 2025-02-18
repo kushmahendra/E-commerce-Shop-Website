@@ -115,11 +115,13 @@ import "react-toastify/dist/ReactToastify.css";
 import ReviewsCard from "../reviews/ReviewsCard";
 import RatingStars from "../../../components/RatingStars";
 import { useAddsToCartMutation, useUpdateCartItemMutation, useUpdateCartMutation } from "../../../redux/features/cart/cartApi";
+import { useAddToWishlistApiMutation } from "../../../redux/features/wishlist/wishlistApi";
 
 const SingleProduct = () => {
 
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log('uuiddd', user._id);
+    const [addToWishlistApi, { isLoading: isAddingToWishlist }] = useAddToWishlistApiMutation();
+
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data, error, isLoading } = useFetchProductByIdQuery(id);
@@ -135,7 +137,7 @@ const SingleProduct = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState(null);
-  const [selectedVolume,setSelectedVolume]=useState(null);
+  const [selectedVolume, setSelectedVolume] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   // const images=product?.images
 
@@ -160,26 +162,31 @@ const SingleProduct = () => {
   const increaseQuantity = () => setQuantity(quantity + 1);
   const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
-  const handleAddToCart = async (product, quantity, selectedImage, selectedSize, selectedColor,selectedVolume ) => {
+  const handleAddToCart = async (product, quantity, selectedImage, selectedSize, selectedColor, selectedVolume) => {
+
+    if (!user?._id) {
+      toast.info("Please log in to continue", { position: "top-right", autoClose: 3000 });
+      return; // Stop the function execution if no user is logged in
+    }
 
     try {
       // const cartProduct = { ...product, quantity };
-      console.log('ppp', product);
+
 
 
 
       const cartProduct = {
-        userId: user?._id, productId: product._id, quantity, image: images[selectedImage] || images[0], size: selectedSize || "M",
-        color: selectedColor || "black",volume:selectedVolume ||"50ml"
+        userId: user?._id, productId: product?._id, quantity, image: images[selectedImage] || images[0], size: selectedSize || "M",
+        color: selectedColor || "black", volume: selectedVolume || "50ml"
       };
 
-      console.log('ddd', cartProduct)
+      
 
       const response = await addsToCart(cartProduct).unwrap();
 
 
       const response2 = response?.cart
-      console.log('single product rrrrss2', response2);
+    
 
 
       dispatch(addToCart(response2));
@@ -198,6 +205,61 @@ const SingleProduct = () => {
   if (error) return <p>Error loading product details</p>;
 
 
+  const handleAddToWishlist = async (product) => {
+
+      
+    if (!user?._id) {
+      toast.info("Please log in to continue", { position: "top-right", autoClose: 3000 });
+      return; // Stop the function execution if no user is logged in
+    }
+    try {
+      const newData={
+        productId:product?._id,
+        userId: user?._id 
+      }
+      const response = await addToWishlistApi(newData).unwrap(); // Use the mutation
+     
+      // dispatch(addToWishlist(product));
+      toast.success("Product added to wishlist!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
+    } catch (error) {
+      console.error('Error adding product to wishlist:', error);
+   
+      if (error?.data?.message === "Product is already in wishlist") {
+        // Handle product already in wishlist
+        toast.info("Product is already in your wishlist.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+      } else {
+        // Handle generic error
+        toast.error("Failed to add product to wishlist. Please try again.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+      }
+    }
+  };
+
+
+
   return (
     <>
 
@@ -209,7 +271,7 @@ const SingleProduct = () => {
             <i className="ri-arrow-right-s-line"></i>
             <span className='hover:text-primary'><Link to='/shop'>shop</Link></span>
             <i className="ri-arrow-right-s-line"></i>
-            <span className='hover:text-primary'>{product.name}</span>
+            <span className='hover:text-primary'>{product?.name}</span>
           </div>
         </section>
         {/* <div 
@@ -257,7 +319,9 @@ const SingleProduct = () => {
                   }
                 </div>
               </div>
+               
 
+               <div className="">
               {/* Details Section */}
               <div className="flex flex-col justify-between">
                 <div>
@@ -271,7 +335,7 @@ const SingleProduct = () => {
                     {product.oldPrice && <span className="text-gray-500 line-through">${product.oldPrice}</span>}
                     <span className="text-2xl font-semibold text-red-500">${product.price}</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 mt-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 mt-6">
                     {/* Sizes */}
                     {/* <div>
                     <h4 className="text-gray-700 font-medium">Size</h4>
@@ -315,44 +379,47 @@ const SingleProduct = () => {
                     </div>
                   </div> */}
                     {/* Sizes Selection */}
-                    {["dress"].includes(product.category) && (
+                    <div>
+                      {["dress"].includes(product.category) && (
 
-                      <div>
-                        <h4 className="text-gray-700 font-medium">Size</h4>
-                        <div className="flex space-x-2 mt-2">
-                          {['S', 'M', 'L', 'XL', 'XXL'].map(size => (
-                            <button
-                              key={size}
-                              className={`px-3 py-1 border ${selectedSize === size ? "border-black" : "border-gray-300"} rounded-lg hover:border-black`}
-                              onClick={() => setSelectedSize(size)}
-                            >
-                              {size}
-                            </button>
-                          ))}
+                        <div>
+                          <h4 className="text-gray-700 font-medium">Size</h4>
+                          <div className="flex space-x-2         mt-2">
+                            {['S', 'M', 'L', 'XL', 'XXL'].map(size => (
+                              <button
+                                key={size}
+                                className={`px-2 sm:px-3 md:px-3 lg:px-3 xl:px-3 py-1 border ${selectedSize === size ? "border-black" : "border-gray-300"} rounded-lg hover:border-black`}
+                                onClick={() => setSelectedSize(size)}
+                              >
+                                {size}
+                              </button>
+                            ))}
+                          </div>
                         </div>
-                      </div>
 
-                    )}
+                      )}
+                    </div>
 
                     {/* Volume of cosmetics */}
-
-                    {["cosmetics"].includes(product.category) && (
-                      <div>
-                        <h4 className="text-gray-700 font-medium">Volume</h4>
-                        <div className="flex space-x-2 mt-2">
-                          {['50ml', '100ml', '250ml', '500ml'].map((volume) => (
-                            <button
-                              key={volume}
-                              className={`px-3 py-1 border ${selectedVolume === volume ? "border-black" : "border-gray-300"
-                                } rounded-lg hover:border-black`}
-                              onClick={() => setSelectedVolume(volume)}
-                            >
-                              {volume}
-                            </button>
-                          ))}
+                    <div>
+                      {["cosmetics"].includes(product.category) && (
+                        <div>
+                          <h4 className="text-gray-700 font-medium">Volume</h4>
+                          <div className="flex space-x-2 mt-2">
+                            {['50ml', '100ml', '250ml', '500ml'].map((volume) => (
+                              <button
+                                key={volume}
+                                className={`px-3 py-1 border ${selectedVolume === volume ? "border-black" : "border-gray-300"
+                                  } rounded-lg hover:border-black`}
+                                onClick={() => setSelectedVolume(volume)}
+                              >
+                                {volume}
+                              </button>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
 
 
                     {/* Colors */}
@@ -369,7 +436,7 @@ const SingleProduct = () => {
                         {colors.map((color) => (
                           <button
                             key={color.name}
-                            className={`h-8 w-8 rounded-full border ${selectedColor === color.name ? "border-black" : "border-gray-300"
+                            className={`h-6 w-6 rounded-full border ${selectedColor === color.name ? "border-black" : "border-gray-300"
                               } ${color.class}`}
                             onClick={() => setSelectedColor(color.name)}
                           >
@@ -380,40 +447,50 @@ const SingleProduct = () => {
                     </div>
 
 
-                    <div className="flex flex-row justify-between mt-6">
-
-                      <button className="text-gray-700 hover:text-orange-900">Add to Wishlist <i className="ri-heart-line text-red-600"></i>  </button>
-                      {/* <h1 className="text-gray-700 font-medium">In stock <span className="text-blue-600"> {product.stock}</span> </h1> */}
-                    </div>
                   </div>
                 </div>
-                <div className="flex items-center border border-gray-300 rounded-lg w-1/5">
-                  <button onClick={decreaseQuantity} className="px-3 py-1 text-gray-600 hover:bg-gray-100">
-                    -
-                  </button>
-                  <span className="px-4 py-1">{quantity}</span>
-                  <button onClick={increaseQuantity} className="px-3 py-1 text-gray-600 hover:bg-gray-100">
-                    +
-                  </button>
+
+
+                <div className="flex flex-col pt-8  gap-6">
+                <div className="flex flex-row gap-8">
+                  <div className="flex items-center border border-gray-300 rounded-lg  w-1/2 sm:w-1/5  md:w-1/3 lg:w-1/4 xl:w-1/5">
+                    <button onClick={decreaseQuantity} className="px-3 py-1 text-gray-600 hover:bg-gray-100">
+                      -
+                    </button>
+                    <span className="px-3 py-1">{quantity}</span>
+                    <button onClick={increaseQuantity} className="px-3 py-1 text-gray-600 hover:bg-gray-100">
+                      +
+                    </button>
+                  </div>
+                  <div className="flex flex-row justify-between items-center mt-0 gap-6">
+
+                    <button   onClick={(e) => {
+                        e.stopPropagation();
+                         handleAddToWishlist(product)
+                         }} className="text-gray-700 hover:text-orange-900">Add to Wishlist <i className="ri-heart-line text-red-600"></i>  </button>
+                    {/* <h1 className="text-gray-700 font-medium">In stock <span className="text-blue-600"> {product.stock}</span> </h1> */}
+                  </div>
+                 </div>
+
+                  <div className="flex items-center space-x-4">
+
+                    {/* <div className="flex flex-col"> */}
+                    <button
+                      // onClick={handleAddToCart}
+
+
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddToCart(product, quantity, selectedImage, selectedSize, selectedColor, selectedVolume)
+                      }
+                      }
+                      className="flex-1 bg-orange-500 hover:bg-orange-700  text-white py-2 rounded-lg text-center">
+                      ADD TO CART
+                    </button>
+
+                  </div>
                 </div>
-
-                <div className="flex items-center space-x-4">
-
-                  {/* <div className="flex flex-col"> */}
-                  <button
-                    // onClick={handleAddToCart}
-
-
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddToCart(product, quantity, selectedImage, selectedSize, selectedColor,selectedVolume )
-                    }
-                    }
-                    className="flex-1 bg-orange-500 hover:bg-orange-700  text-white py-2 rounded-lg text-center">
-                    ADD TO CART
-                  </button>
-
-                </div>
+              </div>
               </div>
             </div>
 

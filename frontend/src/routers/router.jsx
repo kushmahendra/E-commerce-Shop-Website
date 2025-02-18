@@ -25,6 +25,7 @@ import TermsAndConditions from "../components/TermsAndConditions";
 import DeliveryPage from "../components/DeliveryPage";
 import Stores from "../components/Stores";
 import Faqs from "../components/Faqs";
+// import Test from "../components/Test";
 
 
 
@@ -38,33 +39,33 @@ const router = createBrowserRouter([
       { path: '/categories/:categoryName', element: 
       
         (
-          <ProtectedRoute>
+          // <ProtectedRoute>
         <CategoryPage />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         ),
     },
     
       {
         path: '/search', element:
           (
-            <ProtectedRoute>
+            // <ProtectedRoute>
               <Search />
-            </ProtectedRoute>
+            // {/* </ProtectedRoute> */}
           ),
       },
       { path: "/shop", element: 
         (
-          <ProtectedRoute>
+          // <ProtectedRoute>
              <ShopPage />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         ),
  },
       {
         path: '/shop/:id', element:
           (
-            <ProtectedRoute>
+            // <ProtectedRoute>
               <SingleProduct />
-            </ProtectedRoute>
+            // </ProtectedRoute>
           ),
       },
       { path: "/about-us", element: <AboutUs /> },
@@ -91,16 +92,16 @@ const router = createBrowserRouter([
       },
       {
         path: '/checkout', element: (
-          <ProtectedRoute>
+          // <ProtectedRoute>
             <Checkout />
-          </ProtectedRoute>
+          // </ProtectedRoute>
         ),
       },
       {
         path: '/ordered', element: (
           <ProtectedRoute>
             <Ordered />
-          </ProtectedRoute>
+         </ProtectedRoute> 
         ),
       },
 
@@ -110,7 +111,7 @@ const router = createBrowserRouter([
           (
             <ProtectedRoute>
               <Orders />
-            </ProtectedRoute>
+           </ProtectedRoute>
           ),
       },
 
@@ -127,13 +128,13 @@ const router = createBrowserRouter([
 
   { path: '/', element: 
     (
-      <ProtectedRoute>
+       <ProtectedRoute>
         <CartModal /> 
       </ProtectedRoute>
     ),
  },
 
-  // {path:"/dashboard/payments" , element:<PaymentPage/>},
+  // {path:"/test" , element:<Test/>},
 
 
   { path: "/pages", element: <SinglePageProduct /> },

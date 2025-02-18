@@ -20,7 +20,7 @@ export default function Orders() {
   const [userData, setUserData] = useState(null);
   const [getUser, { data, isLoading, isError, error }] = useGetUserMutation();
   const { data23:userInfo} = useGetAllUserQuery();
-  console.log('userdetail',userInfo)
+ 
 
   const navigate = useNavigate()
 
@@ -35,8 +35,8 @@ export default function Orders() {
   };
 
   const localUser = JSON.parse(localStorage.getItem('user'));
-  console.log('luu', localUser)
-  const userId = localUser._id
+
+  const userId = localUser?._id
 
 
   useEffect(() => {
@@ -56,8 +56,8 @@ export default function Orders() {
     }
   }, [userId, getUser]);
 
-  const orderDetail = userData?.user.orders || [];
-  console.log('resorderDetail', orderDetail);
+  const orderDetail = userData?.user?.orders || [];
+ 
 
   //back button
   const handleBack = () => {
@@ -75,48 +75,48 @@ export default function Orders() {
 
     <div className="container mx-auto py-6">
 
-      <h1 className="text-3xl font-bold mb-6 text-center align-middle">Order Management</h1>
+      <h1 className="text-lg  sm:text-xl md:text-2xl  lg:text-3xl  xl:text-3xl   font-bold mb-6 text-center align-middle">Order Management</h1>
       <div className="border rounded shadow">
         <div className="p-4 bg-gray-50 border-b">
-          <h2 className="text-xl font-semibold">Orders</h2>
+          <h2 className="text-lg  sm:text-xl md:text-2xl  lg:text-3xl  xl:text-3xl  font-semibold">Orders</h2>
         </div>
         <div className="p-4">
           <table className="table-auto w-full border-collapse border border-gray-300">
             <thead className="bg-gray-100">
-              <tr>
-                <th className="border border-gray-300 px-4 py-2">Order ID</th>
+              <tr className='px-3 sm:px-4  md:px-4 lg:px-4 xl:px-4'>
+                <th className="border border-gray-300  py-2">Order ID</th>
                 {/* <th className="border border-gray-300 px-4 py-2">Customer</th> */}
-                <th className="border border-gray-300 px-4 py-2">Total Amount</th>
-                <th className="border border-gray-300 px-4 py-2">Status</th>
-                <th className="border border-gray-300 px-4 py-2">Date</th>
-                <th className="border border-gray-300 px-4 py-2">Actions</th>
+                <th className="border border-gray-300  py-2">Total Amount</th>
+                <th className="border border-gray-300  py-2">Status</th>
+                <th className="border border-gray-300  py-2">Date</th>
+                <th className="border border-gray-300  py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
               {orderDetail.map((order) => (
-                <tr key={order._id}>
+                <tr key={order?._id}>
                   {/* Display Order ID */}
-                  <td className="border  border-gray-300 px-4 py-2 text-center align-middle">{order._id}</td>
+                  <td className="border  border-gray-300 px-4 py-2 text-center align-middle">{order?._id}</td>
 
                   {/* Display User ID (Replace with actual user name if available in userData) */}
                   {/* <td className="border border-gray-300 px-4 py-2">{order.userId}</td> */}
 
                   {/* Display Total Amount */}
-                  <td className="border border-gray-300 px-4 py-2 text-center align-middle">${order.totalAmount.toFixed(2)}</td>
+                  <td className="border border-gray-300 px-4 py-2 text-center align-middle">${order?.totalAmount?.toFixed(2)}</td>
 
                   {/* Display Order Status */}
                   <td className="border border-gray-300 px-4 py-2 text-center align-middle">
                     <span
-                      className={`px-2 py-1 rounded-2xl text-white ${statusColors[order.orderStatus] || 'bg-gray-500'
+                      className={`px-2 py-1 rounded-2xl text-white ${statusColors[order?.orderStatus] || 'bg-gray-500'
                         }`}
                     >
-                      {order.orderStatus}
+                      {order?.orderStatus}
                     </span>
                   </td>
 
                   {/* Display Order Date */}
                   <td className="border border-gray-300 px-4 py-2 text-center align-middle">
-                    {format(new Date(order.orderDate), 'MMM dd, yyyy')}
+                    {format(new Date(order?.orderDate), 'MMM dd, yyyy')}
                   </td>
 
                   {/* Actions */}
@@ -146,22 +146,22 @@ export default function Orders() {
             {/* Order Information */}
             <div className="space-y-2">
               <p className="text-gray-700">
-                <strong className="text-blue-600">Order ID:   </strong> {selectedOrder._id}
+                <strong className="text-blue-600">Order ID:   </strong> {selectedOrder?._id}
               </p>
               <p className="text-gray-700">
-                <strong className="text-blue-600">Customer ID:    </strong> {selectedOrder.userId}
+                <strong className="text-blue-600">Customer ID:    </strong> {selectedOrder?.userId}
               </p>
               <p className="text-gray-700">
                 <strong className="text-blue-600">Date:   </strong>{' '}
-                {format(new Date(selectedOrder.orderDate), 'MMM dd, yyyy HH:mm')}
+                {format(new Date(selectedOrder?.orderDate), 'MMM dd, yyyy HH:mm')}
               </p>
               <p className="text-gray-700">
                 <strong className="text-blue-600">Status:   </strong>{' '}
                 <span
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[selectedOrder.orderStatus] || 'bg-gray-500 text-white'
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[selectedOrder?.orderStatus] || 'bg-gray-500 text-white'
                     }`}
                 >
-                  {selectedOrder.orderStatus}
+                  {selectedOrder?.orderStatus}
                 </span>
               </p>
             </div>
@@ -184,13 +184,13 @@ export default function Orders() {
                   {/* Replace this section with actual product mapping */}
 
                   {selectedOrder?.items?.map((item, index) => (
-                    <tr key={item._id} className="text-gray-700">
+                    <tr key={item?._id} className="text-gray-700">
                         <td className="border border-gray-300 px-4 py-2 ">
                           <img src={item?.product?.images[0]} alt="" className='border border-green-500' /></td>
                       <td className="border border-gray-300 px-4 py-2">Product{index + 1}</td>
                       <td className="border border-gray-300 px-4 py-2">{item?.product?.name}</td>
-                      <td className="border text-center border-gray-300 px-4 py-2">{item.quantity}</td>
-                      <td className="border border-gray-300 px-4 py-2">${(item?.totalPrice / item.quantity).toFixed(2)}</td>
+                      <td className="border text-center border-gray-300 px-4 py-2">{item?.quantity}</td>
+                      <td className="border border-gray-300 px-4 py-2">${(item?.totalPrice / item?.quantity)?.toFixed(2)}</td>
 
                       <td className="border border-gray-300 px-4 py-2">${item?.totalPrice?.toFixed(2)}</td>
                     </tr>
@@ -201,7 +201,7 @@ export default function Orders() {
 
             {/* Total Amount */}
             <p className="text-xl font-semibold text-blue-800 mt-4">
-              Total: <span className="text-green-600">${selectedOrder.totalAmount.toFixed(2)}</span>
+              Total: <span className="text-green-600">${selectedOrder?.totalAmount?.toFixed(2)}</span>
             </p>
 
             {/* Close Button */}

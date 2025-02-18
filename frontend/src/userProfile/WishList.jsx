@@ -17,7 +17,7 @@ export default function WishList() {
   const [addsToCart, { isLoading }] = useAddsToCartMutation();
   const user = JSON.parse(localStorage.getItem("user")); 
   const userId=user?._id
-  console.log('uuuid',userId);
+ 
   
   const [wishlistItems, setWishlistItems] = useState([]);
   const {
@@ -41,7 +41,7 @@ export default function WishList() {
 // Sync local wishlistItems state with fetched data
 useEffect(() => {
   if (wishlistProductItems?.wishlist?.items) {
-    setWishlistItems(wishlistProductItems.wishlist.items);
+    setWishlistItems(wishlistProductItems?.wishlist?.items);
     
   }
 }, [wishlistProductItems]);
@@ -60,7 +60,7 @@ useEffect(() => {
 
 // const wishlistItems=wishlistProductItems.wishlist ||[];
 // const wishlistItems = wishlistProductItems?.wishlist?.items || []; 
-console.log('www',wishlistItems);
+
 // refetch(); // Refetch wishlist data to update the UI
 
 //userId, productId, quantity=1, size = 'M',color = "black", image 
@@ -119,7 +119,7 @@ console.log('www',wishlistItems);
   // };
 
   const handleVewToCart = async (productId) => {
-    console.log('pid',productId);
+
     
        navigate(`/shop/${productId}`)
       
@@ -129,7 +129,7 @@ console.log('www',wishlistItems);
    const handleRemoveFromWishlist = async (item) => {
     try {
       const response = await removeFromWishlist({ productId: item?.product?._id, userId }).unwrap();
-      console.log("Product removed from wishlist:", response);
+ 
       
       toast.success(`${item?.product?.name} removed from wishlist`, {
         position: "top-right",
