@@ -174,13 +174,15 @@ The E-Commerce Shopping Website is a full-featured online store that enables use
 
 8. Run the backend server:
  
-   npm start
+
    ```
+   npm start
 
 9. Run the frontend development server:
 
-   npm run dev
+
    ```
+   npm run dev
 
 ## Deployment
 For production deployment, you can use:
