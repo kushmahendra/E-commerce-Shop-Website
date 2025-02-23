@@ -16,8 +16,29 @@ The E-Commerce Shopping Website is a full-featured online store that enables use
 
 
 
-<img src="./screenshotsImages/Screenshot-Home21.png" alt="Screenshot" width="600"/>
-
+<img src="./screenshotsImages/Screenshot-Home2.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-Home21.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-Home25.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-Home23.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-Home24.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-login.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-register.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-Home1.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-product1.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-product2.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-product3.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-product31.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-search.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-profile.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-page menue.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-contact.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-addcard.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-addcard2.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-cartp.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-checkout.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-checkout4.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-Blogs.png" alt="Screenshot" width="400"/>
+<img src="./screenshotsImages/Screenshot-Footer.png" alt="Screenshot" width="400"/>
 
 
 
@@ -46,22 +67,26 @@ The E-Commerce Shopping Website is a full-featured online store that enables use
 
    git clone https://github.com/kushmahendra/ecommerce-website.git
    
-   cd ecommerce-website
    ```
+      cd ecommerce-website
 
 3. Install dependencies for frontend:
 
+ 
+   ```
    cd frontend
    
    npm install
-   ```
+
 
 5. Install dependencies for backend:
 
+
+   ```
    cd backend
    
    npm install
-   ```
+
 
 7. Set up environment variables:
    - Create a `.env` file in the backend directory and configure the following:
