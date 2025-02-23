@@ -15,30 +15,88 @@ The E-Commerce Shopping Website is a full-featured online store that enables use
 
 
 
-
+<div style="display: flex; justify-content: center; gap: 20px;">
+<div style="border: 2px solid #ddd; padding: 10px; border-radius: 10px; text-align: center;">
 <img src="./screenshotsImages/Screenshot-Home2.png" alt="Screenshot" width="400"/>
 <img src="./screenshotsImages/Screenshot-Home21.png" alt="Screenshot" width="400"/>
+</div>
+</div>
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+<div style="border: 2px solid #ddd; padding: 10px; border-radius: 10px; text-align: center;">
 <img src="./screenshotsImages/Screenshot-Home25.png" alt="Screenshot" width="400"/>
 <img src="./screenshotsImages/Screenshot-Home23.png" alt="Screenshot" width="400"/>
+</div>
+</div>
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+<div style="border: 2px solid #ddd; padding: 10px; border-radius: 10px; text-align: center;">
 <img src="./screenshotsImages/Screenshot-Home24.png" alt="Screenshot" width="400"/>
 <img src="./screenshotsImages/Screenshot-login.png" alt="Screenshot" width="400"/>
+</div>
+</div>
+
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+<div style="border: 2px solid #ddd; padding: 10px; border-radius: 10px; text-align: center;">
 <img src="./screenshotsImages/Screenshot-register.png" alt="Screenshot" width="400"/>
 <img src="./screenshotsImages/Screenshot-Home1.png" alt="Screenshot" width="400"/>
+</div>
+</div>
+
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+<div style="border: 2px solid #ddd; padding: 10px; border-radius: 10px; text-align: center;">
 <img src="./screenshotsImages/Screenshot-product1.png" alt="Screenshot" width="400"/>
 <img src="./screenshotsImages/Screenshot-product2.png" alt="Screenshot" width="400"/>
+</div>
+</div>
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+<div style="border: 2px solid #ddd; padding: 10px; border-radius: 10px; text-align: center;">
 <img src="./screenshotsImages/Screenshot-product3.png" alt="Screenshot" width="400"/>
 <img src="./screenshotsImages/Screenshot-product31.png" alt="Screenshot" width="400"/>
+</div>
+</div>
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+<div style="border: 2px solid #ddd; padding: 10px; border-radius: 10px; text-align: center;">
 <img src="./screenshotsImages/Screenshot-search.png" alt="Screenshot" width="400"/>
 <img src="./screenshotsImages/Screenshot-profile.png" alt="Screenshot" width="400"/>
+</div>
+</div>
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+<div style="border: 2px solid #ddd; padding: 10px; border-radius: 10px; text-align: center;">
 <img src="./screenshotsImages/Screenshot-page menue.png" alt="Screenshot" width="400"/>
 <img src="./screenshotsImages/Screenshot-contact.png" alt="Screenshot" width="400"/>
+</div>
+</div>
+
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+<div style="border: 2px solid #ddd; padding: 10px; border-radius: 10px; text-align: center;">
 <img src="./screenshotsImages/Screenshot-addcard.png" alt="Screenshot" width="400"/>
 <img src="./screenshotsImages/Screenshot-addcard2.png" alt="Screenshot" width="400"/>
+</div>
+</div>
+
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+<div style="border: 2px solid #ddd; padding: 10px; border-radius: 10px; text-align: center;">
 <img src="./screenshotsImages/Screenshot-cartp.png" alt="Screenshot" width="400"/>
 <img src="./screenshotsImages/Screenshot-checkout.png" alt="Screenshot" width="400"/>
+</div>
+</div>
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+<div style="border: 2px solid #ddd; padding: 10px; border-radius: 10px; text-align: center;">
 <img src="./screenshotsImages/Screenshot-checkout4.png" alt="Screenshot" width="400"/>
 <img src="./screenshotsImages/Screenshot-Blogs.png" alt="Screenshot" width="400"/>
-<img src="./screenshotsImages/Screenshot-Footer.png" alt="Screenshot" width="400"/>
+</div>
+</div>
+
+<img src="./screenshotsImages/Screenshot-Footer.png" alt="Screenshot" width="800"/>
 
 
 
